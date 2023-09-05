@@ -6,9 +6,6 @@
 
 <div class="container">
 
-
-    {{ env('LINE_CLIENT_ID') }} <br>
-
     <div class="d-flex justify-content-end">
         <a href="{{ route('patients.create') }}" class="btn btn-primary">{{ __('Refer the patient') }} <i class="bi bi-person-badge-fill"></i></a>
     </div>
