@@ -97,7 +97,7 @@
                             <div class="col-md-6">
                                 <div class="input-group mb-3">
                                     <input type="number" class="form-control form-control-sm" id="height" name="height">
-                                    <span class="input-group-text" id="weight_label">{{ __('kg') }}.</span>
+                                    <span class="input-group-text" id="weight_label">{{ __('cm') }}.</span>
                                 </div>
                             </div>
                         </div>
