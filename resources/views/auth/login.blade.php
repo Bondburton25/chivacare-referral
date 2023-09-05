@@ -24,7 +24,11 @@
 
 <div class="container">
 
-    {{url()->current()}}
+    {{-- {{url()->current()}} <br> --}}
+
+    {{ env('LINE_CLIENT_ID') }} <br>
+
+    {{-- {{ env('DB_HOST') }} --}}
 
     <div class="row row-cols-1 row-cols-md-2 g-4 justify-content-center">
         <div class="col-12 col-sm-5 col-lg-3">
