@@ -1,11 +1,13 @@
 @extends('layouts.app')
 
+@section('pageTitle', __('Homepage'))
+
 @section('content')
 
 <div class="container">
 
     <div class="d-flex justify-content-end">
-        <a href="{{ route('patients.create') }}" class="btn btn-primary">Refer the patient <i class="bi bi-person-badge-fill"></i></a>
+        <a href="{{ route('patients.create') }}" class="btn btn-primary">{{ __('Refer the patient') }} <i class="bi bi-person-badge-fill"></i></a>
     </div>
 
     {{-- <div class="row justify-content-center">
