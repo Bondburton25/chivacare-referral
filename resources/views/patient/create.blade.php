@@ -13,14 +13,26 @@
                 <img src="{{ asset('images/close-up-male-hands-using-smartphone.jpg') }}" class="border-0 link-opacity-10-hover" alt="">
                 <div class="card-body py-4">
 
-                    <form method="POST" action="{{ route('patients.store') }}">
+                    <form method="POST" action="{{ route('patients.store') }}" file="true" enctype="multipart/form-data">
                     @csrf
 
                         <span class="fw-bold">{{ __('Patient information') }}</span>
 
                         <div class="row">
+                            <label for="avatar" class="col-md-4 col-form-label text-md-end">{{ __('Upload image') }} <span class="text-danger">*</span></label>
+                            <div class="col-md-8">
+                                <input id="avatar" type="file" class="form-control form-control-sm @error('avatar') is-invalid @enderror" name="avatar" value="{{ old('avatar') }}" autocomplete="avatar" autofocus>
+                                @error('avatar')
+                                    <span class="invalid-feedback d-block" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row">
                             <label for="first_name" class="col-md-4 col-form-label text-md-end">{{ __('First Name') }} <span class="text-danger">*</span></label>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <input id="first_name" type="text" class="form-control form-control-sm @error('first_name') is-invalid @enderror" name="first_name" value="{{ old('first_name') }}" autocomplete="first_name" autofocus>
                                 @error('first_name')
                                     <span class="invalid-feedback d-block" role="alert">
@@ -32,7 +44,7 @@
 
                         <div class="row">
                             <label for="last_name" class="col-md-4 col-form-label text-md-end">{{ __('Last Name') }} <span class="text-danger">*</span></label>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <input id="last_name" type="text" class="form-control form-control-sm @error('last_name') is-invalid @enderror" name="last_name" value="{{ old('last_name') }}" autocomplete="last_name" autofocus>
                                 @error('last_name')
                                     <span class="invalid-feedback d-block" role="alert">
@@ -44,7 +56,7 @@
 
                         <div class="row">
                             <label for="phone_number" class="col-md-4 col-form-label text-md-end">{{ __('Phone number') }} <span class="text-danger">*</span></label>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <input id="phone_number" type="text" class="form-control form-control-sm @error('phone_number') is-invalid @enderror" name="phone_number" value="{{ old('phone_number') }}" required autocomplete="phone_number" autofocus>
                                 @error('phone_number')
                                     <span class="invalid-feedback d-block" role="alert">
@@ -56,7 +68,7 @@
 
                         <div class="row">
                             <label for="birth_date" class="col-md-4 col-form-label text-md-end">{{ __('Birth date') }} <span class="text-danger">*</span></label>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <input id="birth_date" type="date" class="form-control form-control-sm @error('birth_date') is-invalid @enderror" name="birth_date" value="{{ old('birth_date') }}" required autocomplete="birth_date" autofocus>
                                 @error('birth_date')
                                     <span class="invalid-feedback d-block" role="alert">
@@ -68,7 +80,7 @@
 
                         <div class="row">
                             <label for="gender" class="col-md-4 col-form-label text-md-end">{{ __('Gender') }} <span class="text-danger">*</span></label>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <select name="gender" id="gender" class="form-control form-control-sm @error('gender') is-invalid @enderror">
                                     <option value="" selected>{{ __('Please select') }}</option>
                                     <option value="male">{{ __('Male') }}</option>
@@ -84,7 +96,7 @@
 
                         <div class="row">
                             <label for="weight" class="col-md-4 col-form-label text-md-end">{{ __('Weight') }}</label>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <div class="input-group mb-3">
                                     <input type="number" class="form-control form-control-sm" id="weight" name="weight">
                                     <span class="input-group-text" id="weight_label">{{ __('kg') }}.</span>
@@ -94,7 +106,7 @@
 
                         <div class="row">
                             <label for="height" class="col-md-4 col-form-label text-md-end">{{ __('Height') }}</label>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <div class="input-group mb-3">
                                     <input type="number" class="form-control form-control-sm" id="height" name="height">
                                     <span class="input-group-text" id="weight_label">{{ __('cm') }}.</span>
@@ -104,7 +116,7 @@
 
                         <div class="row">
                             <label for="congenital_disease" class="col-md-4 col-form-label text-md-end">{{ __('โรคประจำตัว') }}</label>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <div class="input-group mb-3">
                                     <input type="text" class="form-control form-control-sm" id="congenital_disease" name="congenital_disease">
                                 </div>
@@ -115,7 +127,7 @@
 
                         <div class="row">
                             <label for="current_symptoms" class="col-md-4 col-form-label text-md-end">{{ __('อาการปัจจุปัน') }}</label>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <div class="input-group mb-3">
                                     <input type="text" class="form-control form-control-sm" id="current_symptoms" name="current_symptoms">
                                 </div>
@@ -124,7 +136,7 @@
 
                         <div class="row">
                             <label for="food" class="col-md-4 col-form-label text-md-end">{{ __('อาหารที่รับประทาน') }}</label>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <div class="input-group mb-3">
                                     <input type="text" class="form-control form-control-sm" id="food" name="food">
                                 </div>
@@ -133,7 +145,7 @@
 
                         <div class="row">
                             <label for="excretory_system" class="col-md-4 col-form-label text-md-end">{{ __('ระบบขับถ่าย') }}</label>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <div class="input-group mb-3">
                                     <input type="text" class="form-control form-control-sm" id="excretory_system" name="excretory_system">
                                 </div>
@@ -142,7 +154,7 @@
 
                         <div class="row">
                             <label for="expectations" class="col-md-4 col-form-label text-md-end">{{ __('ความคาดหวังญาติ') }}</label>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <div class="input-group mb-3">
                                     <input type="text" class="form-control form-control-sm" id="expectations" name="expectations">
                                 </div>
@@ -151,7 +163,7 @@
 
                         <div class="row">
                             <label for="contact_person" class="col-md-4 col-form-label text-md-end">{{ __('ญาติผู้ติดต่อ') }}</label>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <div class="input-group mb-3">
                                     <input type="text" class="form-control form-control-sm" id="contact_person" name="contact_person">
                                 </div>
@@ -160,7 +172,7 @@
 
                         <div class="row">
                             <label for="contact_person_relationship" class="col-md-4 col-form-label text-md-end">{{ __('ความสัมพันธ์') }}</label>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <div class="input-group mb-3">
                                     <input type="text" class="form-control form-control-sm" id="contact_person_relationship" name="contact_person_relationship">
                                 </div>
@@ -169,7 +181,7 @@
 
                         <div class="row">
                             <label for="phone_number" class="col-md-4 col-form-label text-md-end">{{ __('Phone number') }}</label>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <div class="input-group mb-3">
                                     <input type="text" class="form-control form-control-sm" id="phone_number" name="phone_number">
                                 </div>
@@ -178,7 +190,7 @@
 
                         <div class="row">
                             <label for="arrival_date_time_expectation" class="col-md-4 col-form-label text-md-end">{{ __('วันเวลาคาดการณ์ที่จะเข้าพัก') }}</label>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <div class="input-group mb-3">
                                     <input type="datetime-local" id="arrival_date_time_expectation" class="form-control form-control-sm" name="arrival_date_time_expectation">
                                 </div>
@@ -187,7 +199,7 @@
 
                         <div class="row">
                             <label for="room_type" class="col-md-4 col-form-label text-md-end">{{ __('ประเภทห้อง') }} <span class="text-danger">*</span></label>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <select name="room_type" id="room_type" class="form-control form-control-sm @error('room_type') is-invalid @enderror">
                                     <option value="" selected>{{ __('Please select') }}</option>
                                     <option value="single">{{ __('ห้องเดี่ยว') }}</option>
@@ -203,7 +215,7 @@
 
                         <div class="row">
                             <label for="offer_courses" class="col-md-4 col-form-label text-md-end">{{ __('Courses') }} ที่จะเสนอเพิ่มเติม</label>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <div class="input-group mb-3">
                                     <input type="text" id="offer_courses" class="form-control form-control-sm" name="offer_courses">
                                 </div>

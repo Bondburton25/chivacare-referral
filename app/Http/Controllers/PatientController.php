@@ -37,9 +37,18 @@ class PatientController extends Controller
             'last_name' => 'required',
             'gender' => 'required',
             'birth_date' => 'required',
+            'avatar' => 'required',
         ]);
 
+        if ($request->hasFile('avatar')) {
+            $avatar   = $request->file('avatar');
+            $filename = time() . '.' . $avatar->getClientOriginalExtension();
+            $location = public_path('images/patients/avatars/' . $filename);
+            $request->avatar->move(public_path('images/patients/avatars/'), $filename);
+        }
+
         $patient = Patient::create([
+            'avatar' => $filename,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'gender' => $request->gender,
@@ -59,6 +68,10 @@ class PatientController extends Controller
             'offer_courses' => $request->offer_courses
         ]);
 
+        // "url": "https://09a4-2001-fb1-128-1651-2960-4b09-158f-afda.ngrok-free.app/images/patients/avatars/1693895486.jpg",
+
+        // "url": "'.url('/images/patients/avatars/'.$patient->avatar.'').'"
+
         $flexMessageReferPatientCompact = '{
             "type": "flex",
             "altText": "'.__('Patient information') .' '."$patient->full_name".'",
@@ -75,7 +88,7 @@ class PatientController extends Controller
                             "contents": [
                                 {
                                     "type": "image",
-                                    "url": "https://blog.hubspot.com/hubfs/Pete%20Nicholls%20Avatar%20Circle%20256.png",
+                                    "url": "'.url('/images/patients/avatars/'.$patient->avatar.'').'",
                                     "size": "46px",
                                     "flex": 2
                                 },
@@ -161,7 +174,7 @@ class PatientController extends Controller
                     "contents": [
                         {
                             "type": "image",
-                            "url": "https://blog.hubspot.com/hubfs/Pete%20Nicholls%20Avatar%20Circle%20256.png",
+                            "url": "'.url('/images/patients/avatars/'.$patient->avatar.'').'",
                             "size": "xxl",
                             "aspectRatio": "20:13",
                             "aspectMode": "fit",

@@ -15,6 +15,13 @@
                     {{ __('Patient infomation') }}
                 </div>
                 <div class="card-body">
+
+                    @if($patient->avatar)
+                    <div class="mx-auto w-50 mb-3">
+                        <img src="{{ url('images/patients/avatars/'.$patient->avatar) }}" width="120px" height="120px" class="rounded-circle mx-auto text-center border border-2">
+                    </div>
+                    @endif
+
                     <ul class="list-group">
                         <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
                             {{ __('First Name') }}
