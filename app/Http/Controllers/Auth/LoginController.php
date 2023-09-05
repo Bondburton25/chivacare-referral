@@ -56,7 +56,6 @@ class LoginController extends Controller
 
     public function handleLineCallback()
     {
-        dd('iamhere');
         try {
             $user     = Socialite::driver('line')->user();
             $findUser = AuthProvider::where('provider', 'line')->where('provider_id', $user->id)->first();
@@ -79,12 +78,8 @@ class LoginController extends Controller
                 $line_msg["messages"][0] = $message;
                 $line_msg["to"] = $user->id;
                 $this->pushMessage($line_msg,'push');
-
-                // Sending Line Notify
-                // $messageToNotify = $user->name .' '.__('has registered user').'';
-                // $this->sendLineNotify($messageToNotify);
-                return redirect('/home');
-                // return redirect()->intended();
+                // return redirect('/home');
+                return redirect()->intended();
             }
         }
 
