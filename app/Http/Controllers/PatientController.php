@@ -618,7 +618,7 @@ class PatientController extends Controller
         $encodeJsonPatientCompact = json_encode($messages);
         $this->pushFlexMessage($encodeJsonPatientCompact);
 
-        // Send to doctor
+        // Send to admin
         $admin = User::where('role', 'admin')->first();
 
         if($admin) {
