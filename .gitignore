@@ -1,4 +1,4 @@
-config/livewire.php
+/config/livewire.php
 /.phpunit.cache
 /node_modules
 /public/hot
@@ -6,7 +6,7 @@ config/livewire.php
 public/images/patients
 /storage/*.key
 /vendor
-.env
+/.env
 .env.backup
 .env.production
 .phpunit.result.cache
