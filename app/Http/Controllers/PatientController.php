@@ -36,19 +36,10 @@ class PatientController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'gender' => 'required',
-            'birth_date' => 'required',
-            'avatar' => 'required',
+            'birth_date' => 'required'
         ]);
 
-        if ($request->hasFile('avatar')) {
-            $avatar   = $request->file('avatar');
-            $filename = time() . '.' . $avatar->getClientOriginalExtension();
-            $location = public_path('images/patients/avatars/' . $filename);
-            $request->avatar->move(public_path('images/patients/avatars/'), $filename);
-        }
-
         $patient = Patient::create([
-            'avatar' => $filename,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'gender' => $request->gender,
@@ -68,13 +59,9 @@ class PatientController extends Controller
             'offer_courses' => $request->offer_courses
         ]);
 
-        // "url": "https://09a4-2001-fb1-128-1651-2960-4b09-158f-afda.ngrok-free.app/images/patients/avatars/1693895486.jpg",
-
-        // "url": "'.url('/images/patients/avatars/'.$patient->avatar.'').'"
-
         $flexMessageReferPatientCompact = '{
             "type": "flex",
-            "altText": "'.__('Patient information') .' '."$patient->full_name".'",
+            "altText": "'.__('You have successfully referred patient information').'",
             "contents": {
                 "type": "bubble",
                 "size": "mega",
@@ -87,19 +74,13 @@ class PatientController extends Controller
                             "layout": "horizontal",
                             "contents": [
                                 {
-                                    "type": "image",
-                                    "url": "'.url('/images/patients/avatars/'.$patient->avatar.'').'",
-                                    "size": "46px",
-                                    "flex": 2
-                                },
-                                {
                                     "type": "box",
                                     "layout": "vertical",
                                     "contents": [
                                         {
                                             "type": "text",
-                                            "text": "'.__('Patient information').'",
-                                            "color": "#cccccc"
+                                            "text": "'.__('Patient referral information').'",
+                                            "color": "#FFFFFF"
                                         },
                                         {
                                             "type": "text",
@@ -128,14 +109,14 @@ class PatientController extends Controller
                     "contents": [
                         {
                             "type": "text",
-                            "text": "'.__('Current status').'",
+                            "text": "'.__('Current stage').'",
                             "color": "#b7b7b7",
                             "size": "xs",
                             "flex": 1
                         },
                         {
                             "type": "text",
-                            "text": "ส่งข้อมูลคนไข้สำเร็จ รอ CVC ติดต่อคนไข้",
+                            "text": "'.__('You has been successfully sent patient information Wait for CVC to contact the patient').'",
                             "flex": 2,
                             "wrap": true,
                             "size": "sm"
@@ -145,17 +126,24 @@ class PatientController extends Controller
                 "footer": {
                     "type": "box",
                     "layout": "vertical",
-                    "spacing": "xs",
+                    "spacing": "sm",
                     "contents": [
                         {
                             "type": "button",
                             "style": "primary",
+                            "height": "sm",
                             "action": {
                                 "type": "uri",
-                                "label": "ดูข้อมูลคนไข้",
+                                "label": "'.__('View patient information').'",
                                 "uri": "'.url('/patients/'.$patient->id.'').'"
                             },
-                            "height": "sm"
+                            "color": "#E7A109"
+                        },
+                        {
+                            "type": "box",
+                            "layout": "vertical",
+                            "contents": [],
+                            "margin": "sm"
                         }
                     ],
                     "flex": 0
@@ -165,33 +153,44 @@ class PatientController extends Controller
 
         $flexMessageDataJson = '{
             "type": "flex",
-            "altText": "'.__('Patient information') .' '."$patient->full_name".'",
+            "altText": "'.__('You have received patient referred information') .' '."$patient->full_name".'",
             "contents": {
                 "type": "bubble",
-                "body": {
+                "header": {
                     "type": "box",
                     "layout": "vertical",
                     "contents": [
                         {
-                            "type": "image",
-                            "url": "'.url('/images/patients/avatars/'.$patient->avatar.'').'",
-                            "size": "xxl",
-                            "aspectRatio": "20:13",
-                            "aspectMode": "fit",
-                            "action": {
-                                "type": "uri",
-                                "uri": "'.url('/patients/'.$patient->id.'').'"
-                            },
-                            "align": "center"
-                        },
-                        {
-                            "type": "text",
-                            "text": "'.$patient->full_name.'",
-                            "weight": "bold",
-                            "size": "md",
-                            "align": "center",
-                            "margin": "md"
-                        },
+                            "type": "box",
+                            "layout": "horizontal",
+                            "contents": [
+                                {
+                                    "type": "box",
+                                    "layout": "vertical",
+                                    "contents": [
+                                        {
+                                            "type": "text",
+                                            "text": "'.__('Patient referral information').'",
+                                            "color": "#FFFFFF"
+                                        }
+                                    ],
+                                    "flex": 6,
+                                    "alignItems": "flex-start",
+                                    "justifyContent": "space-between",
+                                    "margin": "none"
+                                }
+                            ]
+                        }
+                    ],
+                    "paddingAll": "20px",
+                    "backgroundColor": "#198754",
+                    "spacing": "md",
+                    "paddingTop": "22px"
+                },
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
                         {
                             "type": "text",
                             "text": "ข้อมูลคนไข้:",
@@ -205,6 +204,29 @@ class PatientController extends Controller
                             "margin": "lg",
                             "spacing": "sm",
                             "contents": [
+                                {
+                                    "type": "box",
+                                    "layout": "baseline",
+                                    "spacing": "sm",
+                                    "contents": [
+                                        {
+                                            "type": "text",
+                                            "text": "ชื่อ-สกุล",
+                                            "color": "#aaaaaa",
+                                            "size": "sm",
+                                            "flex": 3,
+                                            "weight": "regular"
+                                        },
+                                        {
+                                            "type": "text",
+                                            "text": "'.$patient->full_name.'",
+                                            "wrap": true,
+                                            "color": "#000000",
+                                            "size": "sm",
+                                            "flex": 5
+                                        }
+                                    ]
+                                },
                                 {
                                     "type": "box",
                                     "layout": "baseline",
@@ -574,9 +596,10 @@ class PatientController extends Controller
                         {
                             "type": "button",
                             "style": "primary",
+                            "color": "#E7A109",
                             "action": {
                                 "type": "uri",
-                                "label": "ดูข้อมูลคนไข้",
+                                "label": "'.__('View patient information').'",
                                 "uri": "'.url('/patients/'.$patient->id.'').'"
                             },
                             "height": "sm"
@@ -589,22 +612,22 @@ class PatientController extends Controller
 
         // Send to creater
         $flexDataJsonPatientCompactCode = json_decode($flexMessageReferPatientCompact,true);
-        $datas['url'] = "https://api.line.me/v2/bot/message/push";
+
         $messages['to'] = auth()->user()->auth_provider->provider_id;
         $messages['messages'][] = $flexDataJsonPatientCompactCode;
-        $encodeJson = json_encode($messages);
-        $this->pushFlexMessage($encodeJson,$datas);
+        $encodeJsonPatientCompact = json_encode($messages);
+        $this->pushFlexMessage($encodeJsonPatientCompact);
 
         // Send to doctor
-        $flexDataJsonPatientCode  = json_decode($flexMessageDataJson,true);
+        $admin = User::where('role', 'admin')->first();
 
-        $doctor = User::where('role', 'doctor')->first();
-
-        $datas['url'] = "https://api.line.me/v2/bot/message/push";
-        $messages['to'] = $doctor->auth_provider->provider_id;
-        $messages['messages'][] = $flexDataJsonPatientCode;
-        $encodeJson = json_encode($messages);
-        $this->pushFlexMessage($encodeJson,$datas);
+        if($admin) {
+            $flexDataJsonPatientCode   = json_decode($flexMessageDataJson,true);
+            $messagesPatientInfo['to'] = $admin->auth_provider->provider_id;
+            $messagesPatientInfo['messages'][] = $flexDataJsonPatientCode;
+            $encodeJson = json_encode($messagesPatientInfo);
+            $this->pushFlexMessage($encodeJson);
+        }
         return redirect()->route('patients.show', $patient->id);
     }
 

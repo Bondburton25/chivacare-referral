@@ -5,26 +5,11 @@
 @section('content')
 
 <div class="container">
-
-    <div class="d-flex justify-content-end">
-        <a href="{{ route('patients.create') }}" class="btn btn-primary">{{ __('Refer the patient') }} <i class="bi bi-person-badge-fill"></i></a>
+    <div class="d-flex justify-content-between mb-3">
+        <div class="page-title h5 text-success mb-0 align-self-center"><i class="bi bi-people-fill"></i> {{ __('List of all referred patients') }}</div>
+        <div class="button-action"><a href="{{ route('patients.create') }}" class="btn btn-sm btn-primary">{{ __('Refer the patient') }} <i class="bi bi-person-badge-fill"></i></a></div>
     </div>
-
-    {{-- <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-                    {{ __('You are logged in!') }}
-                </div>
-            </div>
-        </div>
-    </div> --}}
+    @livewire('patient.index')
 </div>
+
 @endsection

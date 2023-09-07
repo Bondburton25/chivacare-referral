@@ -31,6 +31,7 @@ class Patient extends Model
         'room_type',
         'offer_courses',
         'referred_by_id',
+        'stage_id',
         'user_id',
         'created_at',
         'updated_at'
@@ -64,10 +65,22 @@ class Patient extends Model
     	return $this->belongsTo(User::class, 'referred_by_id');
     }
 
+    public function stage()
+    {
+        return $this->belongsTo(Stage::class);
+    }
+
+    public function scopeIdDescending($query)
+    {
+        return $query->orderBy('created_at', 'desc');
+    }
+
     protected static function boot()
     {
         parent::boot();
         self::creating(function($model) {
+            $first_stage = Stage::where('step', 1)->first();
+            $model->stage_id = $first_stage->id;
             $model->number = 'HN'.sprintf('%05d', Patient::count()+1);
             if(auth()->check()) {
                 $model->referred_by_id = auth()->id();

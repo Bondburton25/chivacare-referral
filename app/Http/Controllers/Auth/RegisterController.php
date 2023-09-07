@@ -102,21 +102,28 @@ class RegisterController extends Controller
 
         // Send message to LINE
         $message["type"] = "text";
-        $message["text"] = __('You have already registered');
+        $message["text"] = __('You have successfully registered');
         $lineMessage["messages"][0] = $message;
         $lineMessage["to"] = $request->provider_id;
         $this->pushMessage($lineMessage,'push');
 
         // Send message to LINE Notify
-
         $messageToNotify = $user->name .' '.__('has registered as a').' '.__($request->role).'';
+        $token = 'O4Y2v1Zw49FL9A40IuLXu35XRKyK1710p6wEf6C07C9';
+        $this->lineNotify($messageToNotify, $token);
 
-        // Notify to admin group
-        // $token = '53Nv720v0saoYiLH1BTKqIZbe5BsUV73iPhLcAV9QqJ';
+        $welcomeStickerJson = '{
+            "type": "sticker",
+            "packageId": "11537",
+            "stickerId": "52002734"
+        }';
 
-        // Notify the developer only
-        // $token = 'l7FZJMWefy8FGVRKMhvrauRDHukwtINeG1bnW0T4H5c';
-        // $this->lineNotify($messageToNotify, $token);
+        $welcomeStickerJsonCode = json_decode($welcomeStickerJson,true);
+        $datas['url']   = "https://api.line.me/v2/bot/message/push";
+        $messages['to'] = $request->provider_id;
+        $messages['messages'][] = $welcomeStickerJsonCode;
+        $encodeJson = json_encode($messages);
+        $this->pushFlexMessage($encodeJson, $datas);
 
         // Login and redirect to homepage
         Auth::login($user);

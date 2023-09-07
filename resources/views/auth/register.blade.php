@@ -27,7 +27,7 @@
             <div class="card border-0 shadow-sm">
                 <img src="{{ asset('images/close-up-male-hands-using-smartphone.jpg') }}" class="border-0 link-opacity-10-hover" alt="">
                 <div class="card-body py-4">
-                    <img src="" alt="" id="user-image" class="rounded mx-auto d-block rounded-circle mb-5">
+                    <img src="" alt="user-line" id="user-image" class="rounded mx-auto d-block rounded-circle mb-2">
                     @error('provider_id')
                         <div class="alert alert-danger border-0 text-center" role="alert">
                             <div class="d-block">{{ __('Your LINE account has already been registered with us') }} </div>
@@ -90,7 +90,7 @@
                             <div class="col-md-6">
                                 <select name="role" id="role" class="form-control">
                                     <option value="" selected>{{ __('Please select') }}</option>
-                                    <option value="admin">Admin</option>
+                                    <option value="admin">{{ __('Admin') }}</option>
                                     <option value="doctor">{{ __('Doctor') }}</option>
                                     <option value="nurse">{{ __('Nurse') }}</option>
                                     <option value="general_user">{{ __('General user') }}</option>
@@ -146,7 +146,8 @@
             document.getElementById("user-image").src = profile.pictureUrl;
         }).catch(err => console.error(err));
     }
-    liff.init({ liffId: "2000626016-NL7a4wJ6" }, () => {
+    // liff.init({ liffId: "2000626016-NL7a4wJ6" }, () => {
+    liff.init({ liffId: "2000588475-zveQ08Zq" }, () => {
         if (liff.isLoggedIn()) {
           runApp();
         } else {

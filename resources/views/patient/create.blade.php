@@ -10,25 +10,11 @@
         <div class="col-md-4 col-12">
             <div class="card border-0 shadow-sm">
                 <div class="card-header fw-bold border-0">{{ __('Refer the patient') }}</div>
-                <img src="{{ asset('images/close-up-male-hands-using-smartphone.jpg') }}" class="border-0 link-opacity-10-hover" alt="">
+                <img src="{{ asset('images/doctor-using-smarthone-office.jpg') }}" class="border-0 link-opacity-10-hover" alt="">
                 <div class="card-body py-4">
-
                     <form method="POST" action="{{ route('patients.store') }}" file="true" enctype="multipart/form-data">
                     @csrf
-
                         <span class="fw-bold">{{ __('Patient information') }}</span>
-
-                        <div class="row">
-                            <label for="avatar" class="col-md-4 col-form-label text-md-end">{{ __('Upload image') }} <span class="text-danger">*</span></label>
-                            <div class="col-md-8">
-                                <input id="avatar" type="file" class="form-control form-control-sm @error('avatar') is-invalid @enderror" name="avatar" value="{{ old('avatar') }}" autocomplete="avatar" autofocus>
-                                @error('avatar')
-                                    <span class="invalid-feedback d-block" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
 
                         <div class="row">
                             <label for="first_name" class="col-md-4 col-form-label text-md-end">{{ __('First Name') }} <span class="text-danger">*</span></label>
