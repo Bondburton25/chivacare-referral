@@ -158,18 +158,24 @@
                         <div class="row mb-2">
                             <label for="contact_person_relationship" class="col-md-4 col-form-label text-md-end">{{ __('Relationship') }} <span class="text-danger">*</span></label>
                             <div class="col-md-8">
-                                <div class="input-group">
-                                    <input type="text" class="form-control form-control-sm" id="contact_person_relationship" name="contact_person_relationship">
-                                </div>
+                                <input type="text" class="form-control form-control-sm @error('contact_person_relationship') is-invalid @enderror" id="contact_person_relationship" name="contact_person_relationship">
+                                @error('contact_person_relationship')
+                                    <span class="invalid-feedback d-block" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
                             </div>
                         </div>
 
                         <div class="row mb-2">
-                            <label for="phone_number" class="col-md-4 col-form-label text-md-end">{{ __('Phone number') }}</label>
+                            <label for="phone_number" class="col-md-4 col-form-label text-md-end">{{ __('Phone number') }}  <span class="text-danger">*</span></label>
                             <div class="col-md-8">
-                                <div class="input-group">
-                                    <input type="text" class="form-control form-control-sm" id="phone_number" name="phone_number">
-                                </div>
+                                <input type="text" class="form-control form-control-sm @error('phone_number') is-invalid @enderror" id="phone_number" name="phone_number">
+                                @error('phone_number')
+                                    <span class="invalid-feedback d-block" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
                             </div>
                         </div>
 
@@ -238,7 +244,7 @@
                         </div>
 
                         <div class="row">
-                            <label for="room_type" class="col-md-4 col-form-label text-md-end">{{ __('ประเภทห้อง') }} <span class="text-danger">*</span></label>
+                            <label for="room_type" class="col-md-4 col-form-label text-md-end">{{ __('Room type') }}</label>
                             <div class="col-md-8">
                                 <select name="room_type" id="room_type" class="form-control form-control-sm @error('room_type') is-invalid @enderror">
                                     <option value="" selected>{{ __('Please select') }}</option>

@@ -15,7 +15,7 @@
 
     <div class="row mb-3">
         <div class="col h5"><i class="bi bi-user-fill"></i> {{ __('Patient profile') }}</div>
-        <div class="col text-end"><a href="{{ route('patients.create') }}" class="btn btn-sm btn-primary">{{ __('Refer the patient') }} <i class="bi bi-person-badge-fill"></i></a></div>
+        {{-- <div class="col text-end"><a href="{{ route('patients.create') }}" class="btn btn-sm btn-primary">{{ __('Refer the patient') }} <i class="bi bi-person-badge-fill"></i></a></div> --}}
     </div>
 
     <div class="row">

@@ -39,7 +39,10 @@ class PatientController extends Controller
             'birth_date' => 'required',
             'congenital_disease' => 'required',
             'preliminary_symptoms' => 'required',
-            'precautions' => 'required'
+            'precautions' => 'required',
+            'contact_person' => 'required',
+            'contact_person_relationship' => 'required',
+            'phone_number' => 'required',
         ]);
 
         $patient = Patient::create([
