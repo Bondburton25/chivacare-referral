@@ -8,7 +8,7 @@
                 <input type="text" wire:model="search" class="form-control form-control-sm" placeholder="{{ __('Search patients') }} {{ __('By name, HN number, contact person') }}...">
             </div>
         </div>
-        <div class="col-sm-2 col-6">
+        <div class="col-sm-2 col-12">
             <div class="mb-2">
                 <select wire:model="byStage" class="form-control form-control-sm">
                     <option value="" selected>{{ __('Show all stage') }}</option>
@@ -67,7 +67,7 @@
                             {{ $patient->full_name }}
                         </span>
                         <span class="text-muted small">{{ __('sent into the system at') }}</span>
-                        <span class="d-block small">
+                        <span class="small">
                             {{ $patient->created_at->diffForHumans() }}
                         </span>
                     </div>

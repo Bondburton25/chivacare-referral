@@ -36,7 +36,10 @@ class PatientController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'gender' => 'required',
-            'birth_date' => 'required'
+            'birth_date' => 'required',
+            'congenital_disease' => 'required',
+            'preliminary_symptoms' => 'required',
+            'precautions' => 'required'
         ]);
 
         $patient = Patient::create([
@@ -47,17 +50,35 @@ class PatientController extends Controller
             'weight' => $request->weight,
             'height' => $request->height,
             'congenital_disease' => $request->congenital_disease,
-            'current_symptoms' => $request->current_symptoms,
+            'preliminary_symptoms' => $request->preliminary_symptoms,
             'food' => $request->food,
             'excretory_system' => $request->excretory_system,
             'expectations' => $request->expectations,
             'contact_person' => $request->contact_person,
             'contact_person_relationship' => $request->contact_person_relationship,
             'phone_number' => $request->phone_number,
-            'arrival_date_time_expectation' => $request->arrival_date_time_expectation,
+            'expected_arrive' => $request->expected_arrive,
             'room_type' => $request->room_type,
-            'offer_courses' => $request->offer_courses
+            'recommend_service' => $request->recommend_service,
+            'precautions' => $request->precautions,
+            'treatment_history' => $request->treatment_history
         ]);
+
+        // Optional information
+        $patient->weight ? $weightInfo = $patient->weight .' '.__('kg') : $weightInfo = __('No data found');
+        $patient->height ? $heightInfo = $patient->height .' '.__('cm') : $heightInfo = __('No data found');
+        $patient->treatment_history ? $treatmentHistory = $patient->treatment_history : $treatmentHistory = __('No data found');
+        $patient->food ? $food = $patient->food : $food = __('No data found');
+
+        $patient->excretory_system ? $excretorySystem = $patient->excretory_system : $excretorySystem = __('No data found');
+
+        $patient->expectations ? $relativeExpectations = $patient->expectations : $relativeExpectations = __('No data found');
+
+        $patient->expected_arrive ? $expectedArrive = $patient->expected_arrive : $expectedArrive = __('No data found');
+
+        $patient->room_type ? $roomType = $patient->room_type : $roomType = __('No data found');
+
+        $patient->recommend_service ? $recommendService = $patient->recommend_service : $recommendService = __('No data found');
 
         $flexMessageReferPatientCompact = '{
             "type": "flex",
@@ -193,7 +214,7 @@ class PatientController extends Controller
                     "contents": [
                         {
                             "type": "text",
-                            "text": "ข้อมูลคนไข้:",
+                            "text": "'.__('Patient information').'",
                             "weight": "bold",
                             "size": "sm",
                             "margin": "md"
@@ -234,7 +255,7 @@ class PatientController extends Controller
                                     "contents": [
                                         {
                                             "type": "text",
-                                            "text": "เพศ",
+                                            "text": "'.__('Gender').'",
                                             "color": "#aaaaaa",
                                             "size": "sm",
                                             "flex": 3,
@@ -257,7 +278,7 @@ class PatientController extends Controller
                                     "contents": [
                                         {
                                             "type": "text",
-                                            "text": "อายุ",
+                                            "text": "'.__('Age').'",
                                             "color": "#aaaaaa",
                                             "size": "sm",
                                             "flex": 3
@@ -279,14 +300,14 @@ class PatientController extends Controller
                                     "contents": [
                                         {
                                             "type": "text",
-                                            "text": "น้ำหนัก",
+                                            "text": "'.__('Weight').'",
                                             "color": "#aaaaaa",
                                             "size": "sm",
                                             "flex": 3
                                         },
                                         {
                                             "type": "text",
-                                            "text": "'.$patient->weight.' '.__('kg').'",
+                                            "text": "'.$weightInfo.'",
                                             "color": "#666666",
                                             "size": "sm",
                                             "flex": 5,
@@ -301,15 +322,14 @@ class PatientController extends Controller
                                     "contents": [
                                         {
                                             "type": "text",
-                                            "text": "ส่วนสูง",
+                                            "text": "'.__('Height').'",
                                             "color": "#aaaaaa",
                                             "size": "sm",
                                             "flex": 3
                                         },
                                         {
                                             "type": "text",
-                                            "text": "'.$patient->height.' '.__('cm').'",
-                                            "text": "160 ซม",
+                                            "text": "'.$heightInfo.'",
                                             "color": "#666666",
                                             "size": "sm",
                                             "flex": 5,
@@ -324,7 +344,7 @@ class PatientController extends Controller
                                     "contents": [
                                         {
                                             "type": "text",
-                                            "text": "โรคประจำตัว",
+                                            "text": "'.__('Congenital disease').'",
                                             "color": "#aaaaaa",
                                             "size": "sm",
                                             "flex": 3
@@ -332,26 +352,82 @@ class PatientController extends Controller
                                         {
                                             "type": "text",
                                             "text": "'.$patient->congenital_disease.'",
-                                            "wrap": true,
                                             "color": "#666666",
                                             "size": "sm",
-                                            "flex": 5
+                                            "flex": 5,
+                                            "wrap": true
                                         }
                                     ]
-                                }
-                            ]
-                        },
-                        {
-                            "type": "separator",
-                            "margin": "lg"
-                        },
-                        {
-                            "type": "box",
-                            "layout": "vertical",
-                            "contents": [
+                                },
+                                {
+                                    "type": "box",
+                                    "layout": "baseline",
+                                    "spacing": "sm",
+                                    "contents": [
+                                        {
+                                            "type": "text",
+                                            "text": "'.__('Preliminary symptoms').'",
+                                            "color": "#aaaaaa",
+                                            "size": "sm",
+                                            "flex": 3
+                                        },
+                                        {
+                                            "type": "text",
+                                            "text": "'.$patient->preliminary_symptoms.'",
+                                            "color": "#666666",
+                                            "size": "sm",
+                                            "flex": 5,
+                                            "wrap": true
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "box",
+                                    "layout": "baseline",
+                                    "spacing": "sm",
+                                    "contents": [
+                                        {
+                                            "type": "text",
+                                            "text": "'.__('Precautions').'",
+                                            "color": "#aaaaaa",
+                                            "size": "sm",
+                                            "flex": 3
+                                        },
+                                        {
+                                            "type": "text",
+                                            "text": "'.$patient->precautions.'",
+                                            "color": "#666666",
+                                            "size": "sm",
+                                            "flex": 5,
+                                            "wrap": true
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "box",
+                                    "layout": "baseline",
+                                    "spacing": "sm",
+                                    "contents": [
+                                        {
+                                            "type": "text",
+                                            "text": "'.__('Treatment history').'",
+                                            "color": "#aaaaaa",
+                                            "size": "sm",
+                                            "flex": 3
+                                        },
+                                        {
+                                            "type": "text",
+                                            "text": "'.$treatmentHistory.'",
+                                            "color": "#666666",
+                                            "size": "sm",
+                                            "flex": 5,
+                                            "wrap": true
+                                        }
+                                    ]
+                                },
                                 {
                                     "type": "text",
-                                    "text": "ประวัติการรักษา:",
+                                    "text": "'.__('Relative information').'",
                                     "weight": "bold",
                                     "size": "sm",
                                     "margin": "md"
@@ -363,38 +439,14 @@ class PatientController extends Controller
                                     "contents": [
                                         {
                                             "type": "text",
-                                            "text": "อาการปัจจุบัน:",
+                                            "text": "'.__('Name of relative').'",
                                             "color": "#aaaaaa",
                                             "size": "sm",
                                             "flex": 3
                                         },
                                         {
                                             "type": "text",
-                                            "text": "'.$patient->current_symptoms.'",
-                                            "wrap": true,
-                                            "color": "#666666",
-                                            "size": "sm",
-                                            "flex": 5
-                                        }
-                                    ],
-                                    "margin": "sm"
-                                },
-                                {
-                                    "type": "box",
-                                    "layout": "baseline",
-                                    "spacing": "sm",
-                                    "contents": [
-                                        {
-                                            "type": "text",
-                                            "text": "อาหารที่รับทาน:",
-                                            "color": "#aaaaaa",
-                                            "size": "sm",
-                                            "flex": 3,
-                                            "wrap": true
-                                        },
-                                        {
-                                            "type": "text",
-                                            "text": "'.$patient->food.'",
+                                            "text": "'.$patient->contact_person.' ('.$patient->contact_person_relationship.')",
                                             "wrap": true,
                                             "color": "#666666",
                                             "size": "sm",
@@ -409,97 +461,7 @@ class PatientController extends Controller
                                     "contents": [
                                         {
                                             "type": "text",
-                                            "text": "ระบบขับถ่าย:",
-                                            "color": "#aaaaaa",
-                                            "size": "sm",
-                                            "flex": 3
-                                        },
-                                        {
-                                            "type": "text",
-                                            "text": "'.$patient->excretory_system.'",
-                                            "wrap": true,
-                                            "color": "#666666",
-                                            "size": "sm",
-                                            "flex": 5
-                                        }
-                                    ]
-                                },
-                                {
-                                    "type": "box",
-                                    "layout": "baseline",
-                                    "spacing": "sm",
-                                    "contents": [
-                                        {
-                                            "type": "text",
-                                            "text": "ความคาดหวังญาติ:",
-                                            "color": "#aaaaaa",
-                                            "size": "sm",
-                                            "flex": 3,
-                                            "wrap": true
-                                        },
-                                        {
-                                            "type": "text",
-                                            "text": "'.$patient->expectations.'",
-                                            "wrap": true,
-                                            "color": "#666666",
-                                            "size": "sm",
-                                            "flex": 5
-                                        }
-                                    ]
-                                },
-                                {
-                                    "type": "box",
-                                    "layout": "baseline",
-                                    "spacing": "sm",
-                                    "contents": [
-                                        {
-                                            "type": "text",
-                                            "text": "ญาติผู้ติดต่อ:",
-                                            "color": "#aaaaaa",
-                                            "size": "sm",
-                                            "flex": 3
-                                        },
-                                        {
-                                            "type": "text",
-                                            "text": "'.$patient->contact_person.'",
-                                            "wrap": true,
-                                            "color": "#666666",
-                                            "size": "sm",
-                                            "flex": 5
-                                        }
-                                    ]
-                                },
-                                {
-                                    "type": "box",
-                                    "layout": "baseline",
-                                    "spacing": "sm",
-                                    "contents": [
-                                        {
-                                            "type": "text",
-                                            "text": "ความสัมพันธ์:",
-                                            "color": "#aaaaaa",
-                                            "size": "sm",
-                                            "flex": 3,
-                                            "wrap": true
-                                        },
-                                        {
-                                            "type": "text",
-                                            "text": "'.$patient->contact_person_relationship.'",
-                                            "wrap": true,
-                                            "color": "#666666",
-                                            "size": "sm",
-                                            "flex": 5
-                                        }
-                                    ]
-                                },
-                                {
-                                    "type": "box",
-                                    "layout": "baseline",
-                                    "spacing": "sm",
-                                    "contents": [
-                                        {
-                                            "type": "text",
-                                            "text": "เบอร์โทรศัพท์:",
+                                            "text": "'.__('Phone number').'",
                                             "color": "#aaaaaa",
                                             "size": "sm",
                                             "flex": 3
@@ -521,15 +483,14 @@ class PatientController extends Controller
                                     "contents": [
                                         {
                                             "type": "text",
-                                            "text": "คาดการณ์เข้าพักวันเวลา:",
+                                            "text": "'.__('Expected arrive').'",
                                             "color": "#aaaaaa",
                                             "size": "sm",
-                                            "flex": 3,
-                                            "wrap": true
+                                            "flex": 3
                                         },
                                         {
                                             "type": "text",
-                                            "text": "'.$patient->arrival_date_time_expectation.'",
+                                            "text": "'.__($expectedArrive).'",
                                             "wrap": true,
                                             "color": "#666666",
                                             "size": "sm",
@@ -544,15 +505,15 @@ class PatientController extends Controller
                                     "contents": [
                                         {
                                             "type": "text",
-                                            "text": "สนใจห้อง:",
+                                            "text": "'.__('Relative Expectations').'",
+                                            "wrap": true,
                                             "color": "#aaaaaa",
                                             "size": "sm",
-                                            "flex": 3,
-                                            "wrap": true
+                                            "flex": 3
                                         },
                                         {
                                             "type": "text",
-                                            "text": "'.__($patient->room_type).'",
+                                            "text": "'.__($relativeExpectations).'",
                                             "wrap": true,
                                             "color": "#666666",
                                             "size": "sm",
@@ -567,15 +528,91 @@ class PatientController extends Controller
                                     "contents": [
                                         {
                                             "type": "text",
-                                            "text": "เสนอเพิ่มเติม:",
+                                            "text": "'.__('Recommend additional recovery programs').'",
                                             "color": "#aaaaaa",
                                             "size": "sm",
-                                            "flex": 3,
-                                            "wrap": true
+                                            "wrap": true,
+                                            "flex": 3
                                         },
                                         {
                                             "type": "text",
-                                            "text": "'.$patient->offer_courses.'",
+                                            "text": "'.__($recommendService).'",
+                                            "wrap": true,
+                                            "color": "#666666",
+                                            "size": "sm",
+                                            "flex": 5
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "'.__('Additional information').'",
+                                    "weight": "bold",
+                                    "size": "sm",
+                                    "margin": "md"
+                                },
+                                {
+                                    "type": "box",
+                                    "layout": "baseline",
+                                    "spacing": "sm",
+                                    "contents": [
+                                        {
+                                            "type": "text",
+                                            "text": "'.__('Food').'",
+                                            "color": "#aaaaaa",
+                                            "size": "sm",
+                                            "wrap": true,
+                                            "flex": 3
+                                        },
+                                        {
+                                            "type": "text",
+                                            "text": "'.__($food).'",
+                                            "wrap": true,
+                                            "color": "#666666",
+                                            "size": "sm",
+                                            "flex": 5
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "box",
+                                    "layout": "baseline",
+                                    "spacing": "sm",
+                                    "contents": [
+                                        {
+                                            "type": "text",
+                                            "text": "'.__('Excretory system').'",
+                                            "color": "#aaaaaa",
+                                            "size": "sm",
+                                            "wrap": true,
+                                            "flex": 3
+                                        },
+                                        {
+                                            "type": "text",
+                                            "text": "'.__($excretorySystem).'",
+                                            "wrap": true,
+                                            "color": "#666666",
+                                            "size": "sm",
+                                            "flex": 5
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "box",
+                                    "layout": "baseline",
+                                    "spacing": "sm",
+                                    "contents": [
+                                        {
+                                            "type": "text",
+                                            "text": "'.__('Room type').'",
+                                            "color": "#aaaaaa",
+                                            "size": "sm",
+                                            "wrap": true,
+                                            "flex": 3
+                                        },
+                                        {
+                                            "type": "text",
+                                            "text": "'.__($roomType).'",
                                             "wrap": true,
                                             "color": "#666666",
                                             "size": "sm",

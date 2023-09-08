@@ -10,6 +10,17 @@
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+
+    {{-- <link rel="apple-touch-icon" sizes="180x180" href="/icon/favicon/farapple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icon/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icon/favicon/favicon-16x16.png"> --}}
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('/icon/favicon/apple-touch-icon.png') }}">
+    <link rel="icon" sizes="32x32" href="{{ asset('/icon/favicon/favicon-32x32.png') }}">
+    <link rel="icon" sizes="16x16" href="{{ asset('/icon/favicon/favicon-16x16.png') }}">
+
+    <link rel="manifest" href="/site.webmanifest">
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
