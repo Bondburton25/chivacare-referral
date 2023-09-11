@@ -249,8 +249,8 @@
                                 <select name="expectations" id="expectations" class="form-control form-control-sm">
                                     <option value="" selected>{{ __('Please select') }}</option>
                                     <option value="{{ __('Long-term care') }}">{{ __('Long-term care') }}</option>
-                                    <option value="{{ __('Restore strength') }}<">{{ __('Restore strength') }}</option>
-                                    <option value="{{ __('Palliative care') }}">{{ __('palliative care') }}</option>
+                                    <option value="{{ __('Restore strength') }}">{{ __('Restore strength') }}</option>
+                                    <option value="{{ __('Palliative care') }}">{{ __('Palliative care') }}</option>
                                     <option value="{{ __('End of life') }}">{{ __('End of life') }}</option>
                                     <option value="{{ __('Other') }}">{{ __('Other') }}</option>
                                 </select>
