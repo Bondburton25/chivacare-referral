@@ -84,7 +84,7 @@
                         </li>
                         <li class="list-group-item align-items-center border-0 px-0">
                             {{ __('ระบบขับถ่าย') }}:
-                            <span class="text-success">{{ $patient->food }}</span>
+                            <span class="text-success">{{ $patient->excretory_system }}</span>
                         </li>
                         <li class="list-group-item align-items-center border-0 px-0">
                             {{ __('ความคาดหวังญาติ') }}:

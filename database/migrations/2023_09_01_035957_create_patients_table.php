@@ -40,6 +40,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('stage_id')->default(1);
             $table->foreign('stage_id')->references('id')->on('stages');
+            $table->enum('health_status', ['very_stable', 'stable', 'moderate_stable', 'unstable', 'critically_ill'])->nullable();
             $table->timestamps();
         });
     }

@@ -35,6 +35,7 @@ class Patient extends Model
         'user_id',
         'precautions',
         'recommend_service',
+        'health_status',
         'created_at',
         'updated_at'
     ];

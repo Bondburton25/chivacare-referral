@@ -88,6 +88,7 @@
     "within_one_month": "ภายใน 1 เดือน",
     "Additional information": "ข้อมูลเพิ่มเติม",
     "Indecisive": "ไม่แน่ใจ",
+    "indecisive": "ไม่แน่ใจ",
     "Food": "อาหารรับประทาน",
     "Soft food": "อาหารอ่อน",
     "Excretory system": "ระบบขับถ่าย",
@@ -108,5 +109,14 @@
     "Single room":"ห้องเดี่ยว",
     "Room type": "ประเภทห้อง",
     "general_user": "ผู้ใช้ทั่วไป",
-    "normal_food" :"อาหารปกติ"
+    "Don't know yet": "ยังไม่ทราบ",
+    "Unknown": "ไม่ทราบ",
+    "normal_food" :"อาหารปกติ",
+    "very_stable" :"Very stable",
+    "stable" :"Stable",
+    "moderate_stable" :"Moderate stable",
+    "unstable": "Unstable",
+    "critically_ill" :"Critically ill",
+    "Other food": "อาหารอื่น ๆ",
+    "Please specify": "โปรดระบุ"
 }

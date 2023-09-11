@@ -37,7 +37,7 @@ class PatientController extends Controller
             'last_name' => 'required',
             'gender' => 'required',
             'birth_date' => 'required',
-            'congenital_disease' => 'required',
+            'health_status' => 'required',
             'preliminary_symptoms' => 'required',
             'precautions' => 'required',
             'contact_person' => 'required',
@@ -54,7 +54,7 @@ class PatientController extends Controller
             'height' => $request->height,
             'congenital_disease' => $request->congenital_disease,
             'preliminary_symptoms' => $request->preliminary_symptoms,
-            'food' => $request->food,
+            'food' => $request->other_food ? $request->other_food : $request->food,
             'excretory_system' => $request->excretory_system,
             'expectations' => $request->expectations,
             'contact_person' => $request->contact_person,
@@ -64,23 +64,23 @@ class PatientController extends Controller
             'room_type' => $request->room_type,
             'recommend_service' => $request->recommend_service,
             'precautions' => $request->precautions,
-            'treatment_history' => $request->treatment_history
+            'treatment_history' => $request->treatment_history,
+            'health_status' => $request->health_status == 'unknown' ? null : $request->health_status
         ]);
 
         // Optional information
         $patient->weight ? $weightInfo = $patient->weight .' '.__('kg') : $weightInfo = __('No data found');
         $patient->height ? $heightInfo = $patient->height .' '.__('cm') : $heightInfo = __('No data found');
+        $patient->health_status ? $healthStatus = __($patient->health_status) : $healthStatus = __('No data found');
+
+        $patient->congenital_disease ? $congenitalDisease = $patient->congenital_disease : $congenitalDisease = __('No data found');
+
         $patient->treatment_history ? $treatmentHistory = $patient->treatment_history : $treatmentHistory = __('No data found');
         $patient->food ? $food = $patient->food : $food = __('No data found');
-
         $patient->excretory_system ? $excretorySystem = $patient->excretory_system : $excretorySystem = __('No data found');
-
         $patient->expectations ? $relativeExpectations = $patient->expectations : $relativeExpectations = __('No data found');
-
         $patient->expected_arrive ? $expectedArrive = $patient->expected_arrive : $expectedArrive = __('No data found');
-
-        $patient->room_type ? $roomType = $patient->room_type : $roomType = __('No data found');
-
+        $patient->room_type ? $roomType = $patient->room_type : $roomType = __('Don\'t know yet');
         $patient->recommend_service ? $recommendService = $patient->recommend_service : $recommendService = __('No data found');
 
         $flexMessageReferPatientCompact = '{
@@ -347,6 +347,28 @@ class PatientController extends Controller
                                     "contents": [
                                         {
                                             "type": "text",
+                                            "text": "'.__('Health status').'",
+                                            "color": "#aaaaaa",
+                                            "size": "sm",
+                                            "flex": 3
+                                        },
+                                        {
+                                            "type": "text",
+                                            "text": "'.$healthStatus.'",
+                                            "color": "#666666",
+                                            "size": "sm",
+                                            "flex": 5,
+                                            "wrap": true
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "box",
+                                    "layout": "baseline",
+                                    "spacing": "sm",
+                                    "contents": [
+                                        {
+                                            "type": "text",
                                             "text": "'.__('Congenital disease').'",
                                             "color": "#aaaaaa",
                                             "size": "sm",
@@ -354,7 +376,7 @@ class PatientController extends Controller
                                         },
                                         {
                                             "type": "text",
-                                            "text": "'.$patient->congenital_disease.'",
+                                            "text": "'.$congenitalDisease.'",
                                             "color": "#666666",
                                             "size": "sm",
                                             "flex": 5,

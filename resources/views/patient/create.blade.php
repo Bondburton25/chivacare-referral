@@ -89,16 +89,26 @@
                         </div>
 
                         <div class="row mb-2">
-                            <label for="congenital_disease" class="col-md-4 col-form-label text-md-end">{{ __('Congenital disease') }} <span class="text-danger">*</span></label>
+                            <label for="health_status" class="col-md-4 col-form-label text-md-end">{{ __('Health status') }} <span class="text-danger">*</span></label>
+                            <div class="col-md-8">
+                                <select name="health_status" id="health_status" class="form-control form-control-sm">
+                                    <option value="">{{ __('Please select') }}</option>
+                                    <option value="very_stable">{{ __('very_stable') }}</option>
+                                    <option value="stable">{{ __('Stable') }}</option>
+                                    <option value="moderate_stable">{{ __('Moderate stable') }}</option>
+                                    <option value="unstable">{{ __('Unstable') }}</option>
+                                    <option value="critically_ill">{{ __('Critically ill') }}</option>
+                                    <option value="unknown">{{ __('Unknown') }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <label for="congenital_disease" class="col-md-4 col-form-label text-md-end">{{ __('Congenital disease') }}</label>
                             <div class="col-md-8">
                                 <div class="input-group">
-                                    <textarea name="congenital_disease" id="congenital_disease" class="form-control form-control-sm @error('congenital_disease') is-invalid @enderror" rows="2"></textarea>
+                                    <textarea name="congenital_disease" id="congenital_disease" class="form-control form-control-sm" rows="2"></textarea>
                                 </div>
-                                @error('congenital_disease')
-                                    <span class="invalid-feedback d-block" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
                             </div>
                         </div>
 
@@ -203,15 +213,21 @@
 
                         <span class="fw-normal mb-3">{{ __('Additional information') }}</span>
 
-                        <div class="row">
+                        <div class="row mb-2">
                             <label for="food" class="col-md-4 col-form-label text-md-end">{{ __('Food') }}</label>
                             <div class="col-md-8">
                                 <select name="food" id="food" class="form-control form-control-sm">
                                     <option value="" selected>{{ __('Please select') }}</option>
                                     <option value="{{ __('Normal food') }}">{{ __('Normal food') }}</option>
                                     <option value="{{ __('Soft food') }}">{{ __('Soft food') }}</option>
-                                    <option value="other">{{ __('Other') }}</option>
                                 </select>
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <label for="other_food" class="col-md-4 col-form-label text-md-end">{{ __('Other food') }} {{ __('please specify') }}</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control form-control-sm" name="other_food">
                             </div>
                         </div>
 
@@ -230,16 +246,14 @@
                         <div class="row mb-2">
                             <label for="expectations" class="col-md-4 col-form-label text-md-end">{{ __('Relative Expectations') }}</label>
                             <div class="col-md-8">
-                                <div class="input-group mb-3">
-                                    <select name="expectations" id="expectations" class="form-control form-control-sm">
-                                        <option value="" selected>{{ __('Please select') }}</option>
-                                        <option value="{{ __('Long-term care') }}">{{ __('Long-term care') }}</option>
-                                        <option value="{{ __('Restore strength') }}<">{{ __('Restore strength') }}</option>
-                                        <option value="{{ __('Palliative care') }}">{{ __('palliative care') }}</option>
-                                        <option value=">{{ __('End of life') }}">{{ __('End of life') }}</option>
-                                        <option value=">{{ __('Other') }}">{{ __('Other') }}</option>
-                                    </select>
-                                </div>
+                                <select name="expectations" id="expectations" class="form-control form-control-sm">
+                                    <option value="" selected>{{ __('Please select') }}</option>
+                                    <option value="{{ __('Long-term care') }}">{{ __('Long-term care') }}</option>
+                                    <option value="{{ __('Restore strength') }}<">{{ __('Restore strength') }}</option>
+                                    <option value="{{ __('Palliative care') }}">{{ __('palliative care') }}</option>
+                                    <option value="{{ __('End of life') }}">{{ __('End of life') }}</option>
+                                    <option value="{{ __('Other') }}">{{ __('Other') }}</option>
+                                </select>
                             </div>
                         </div>
 
@@ -250,6 +264,7 @@
                                     <option value="" selected>{{ __('Please select') }}</option>
                                     <option value="single">{{ __('Single room') }}</option>
                                     <option value="sharing">{{ __('Shared room') }}</option>
+                                    <option value="">{{ __('Don\'t know yet') }}</option>
                                 </select>
                                 @error('room_type')
                                     <span class="invalid-feedback d-block" role="alert">
