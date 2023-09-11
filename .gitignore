@@ -5,7 +5,6 @@
 public/images/patients
 /storage/*.key
 /vendor
-.env
 .env.backup
 .env.production
 .env.example
@@ -18,5 +17,3 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-app/Http/Controllers/Controller.php
-config/livewire.php
