@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
+use App\Models\{
+    Patient,
+    Stage,
+};
+
 use Illuminate\Database\Eloquent\Model;
 
-class Stage extends Model
+class HealthStatus extends Model
 {
     public $timestamps = false;
-
-    protected $fillable = [
-        'name',
-        'step',
-    ];
 
     public function patients()
     {

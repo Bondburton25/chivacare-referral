@@ -35,7 +35,7 @@ class Patient extends Model
         'user_id',
         'precautions',
         'recommend_service',
-        'health_status',
+        'health_status_id',
         'created_at',
         'updated_at'
     ];
@@ -71,6 +71,11 @@ class Patient extends Model
     public function stage()
     {
         return $this->belongsTo(Stage::class);
+    }
+
+    public function health_status()
+    {
+        return $this->belongsTo(HealthStatus::class);
     }
 
     public function scopeIdDescending($query)

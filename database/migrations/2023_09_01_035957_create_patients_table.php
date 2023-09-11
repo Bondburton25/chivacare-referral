@@ -38,9 +38,10 @@ return new class extends Migration
             $table->foreign('referred_by_id')->references('id')->on('users');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->unsignedBigInteger('stage_id')->default(1);
+            $table->unsignedBigInteger('stage_id');
             $table->foreign('stage_id')->references('id')->on('stages');
-            $table->enum('health_status', ['very_stable', 'stable', 'moderate_stable', 'unstable', 'critically_ill'])->nullable();
+            $table->unsignedBigInteger('health_status_id')->nullable();
+            $table->foreign('health_status_id')->references('id')->on('health_statuses');
             $table->timestamps();
         });
     }

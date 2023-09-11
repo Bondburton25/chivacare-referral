@@ -4,7 +4,8 @@ namespace App\Http\Livewire\Patient;
 
 use App\Models\{
     Patient,
-    Stage
+    Stage,
+    HealthStatus
 };
 
 use Livewire\{

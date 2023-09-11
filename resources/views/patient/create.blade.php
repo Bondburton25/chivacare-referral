@@ -8,6 +8,7 @@
 
     <div class="row justify-content-center">
         <div class="col-md-4 col-12">
+            {{-- @livewire('patient.form') --}}
             <div class="card border-0 shadow-sm">
                 <div class="card-header fw-normal border-0">{{ __('Refer the patient') }}</div>
                     <img src="{{ asset('images/doctor-using-smarthone-office.jpg') }}" class="border-0 link-opacity-10-hover" alt="">
@@ -89,16 +90,14 @@
                         </div>
 
                         <div class="row mb-2">
-                            <label for="health_status" class="col-md-4 col-form-label text-md-end">{{ __('Health status') }} <span class="text-danger">*</span></label>
+                            <label for="health_status_id" class="col-md-4 col-form-label text-md-end">{{ __('Health status') }} <span class="text-danger">*</span></label>
                             <div class="col-md-8">
-                                <select name="health_status" id="health_status" class="form-control form-control-sm">
+                                <select name="health_status_id" id="health_status_id" class="form-control form-control-sm">
                                     <option value="">{{ __('Please select') }}</option>
-                                    <option value="very_stable">{{ __('very_stable') }}</option>
-                                    <option value="stable">{{ __('Stable') }}</option>
-                                    <option value="moderate_stable">{{ __('Moderate stable') }}</option>
-                                    <option value="unstable">{{ __('Unstable') }}</option>
-                                    <option value="critically_ill">{{ __('Critically ill') }}</option>
-                                    <option value="unknown">{{ __('Unknown') }}</option>
+                                    @foreach ($health_statuses as $health_status)
+                                        <option value="{{ $health_status->id }}">{{ $health_status->name }}</option>
+                                    @endforeach
+                                    <option value="">{{ __('Unknown') }}</option>
                                 </select>
                             </div>
                         </div>

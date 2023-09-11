@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\{
+    HealthStatus,
     Patient,
-    User
+    User,
+    Stage
 };
 
 class PatientController extends Controller
@@ -24,7 +26,10 @@ class PatientController extends Controller
      */
     public function create()
     {
-        return view('patient.create');
+        // $health_statuses = HealthStatus::all();
+        return view('patient.create', [
+            'health_statuses' => HealthStatus::all()
+        ]);
     }
 
     /**
@@ -37,7 +42,7 @@ class PatientController extends Controller
             'last_name' => 'required',
             'gender' => 'required',
             'birth_date' => 'required',
-            'health_status' => 'required',
+            // 'health_status' => 'required',
             'preliminary_symptoms' => 'required',
             'precautions' => 'required',
             'contact_person' => 'required',
@@ -65,13 +70,14 @@ class PatientController extends Controller
             'recommend_service' => $request->recommend_service,
             'precautions' => $request->precautions,
             'treatment_history' => $request->treatment_history,
-            'health_status' => $request->health_status == 'unknown' ? null : $request->health_status
+            'health_status' => $request->health_status == 'unknown' ? null : $request->health_status,
+            'health_status_id' => $request->health_status_id,
         ]);
 
         // Optional information
         $patient->weight ? $weightInfo = $patient->weight .' '.__('kg') : $weightInfo = __('No data found');
         $patient->height ? $heightInfo = $patient->height .' '.__('cm') : $heightInfo = __('No data found');
-        $patient->health_status ? $healthStatus = __($patient->health_status) : $healthStatus = __('No data found');
+        $patient->health_status_id ? $healthStatus = __($patient->health_status->name) : $healthStatus = __('No data found');
 
         $patient->congenital_disease ? $congenitalDisease = $patient->congenital_disease : $congenitalDisease = __('No data found');
 
@@ -699,7 +705,9 @@ class PatientController extends Controller
     public function show(string $id)
     {
         $patient = Patient::findOrFail($id);
-        return view('patient.show', compact('patient'));
+        // $health_statuses = HealthStatus::all();
+        $stages = Stage::all();
+        return view('patient.show', compact('patient', 'stages'));
     }
 
     /**

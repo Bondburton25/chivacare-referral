@@ -107,6 +107,7 @@
     "Shared room": "ห้องรวม",
     "Recommend additional recovery programs": "แนะนำโปรแกรมฟื้นฟูเพิ่มเติม",
     "Single room":"ห้องเดี่ยว",
+    "Sharing room": "ห้องรวม",
     "Room type": "ประเภทห้อง",
     "general_user": "ผู้ใช้ทั่วไป",
     "Don't know yet": "ยังไม่ทราบ",
@@ -118,5 +119,7 @@
     "unstable": "Unstable",
     "critically_ill" :"Critically ill",
     "Other food": "อาหารอื่น ๆ",
-    "Please specify": "โปรดระบุ"
+    "Please specify": "โปรดระบุ",
+    "Pending": "รอดำเนินการ",
+    "Send patient information at": "ส่งข้อมูลคนไข้เมื่อ"
 }
