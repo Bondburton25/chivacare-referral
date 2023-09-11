@@ -225,7 +225,7 @@
                         </div>
 
                         <div class="row mb-2">
-                            <label for="other_food" class="col-md-4 col-form-label text-md-end">{{ __('Other food') }} {{ __('please specify') }}</label>
+                            <label for="other_food" class="col-md-4 col-form-label text-md-end">{{ __('Other food') }} {{ __('Please specify') }}</label>
                             <div class="col-md-8">
                                 <input type="text" class="form-control form-control-sm" name="other_food">
                             </div>
