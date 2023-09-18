@@ -28,6 +28,8 @@ class Patient extends Model
         'congenital_disease',
         'phone_number',
         'expected_arrive',
+        'expected_arrive_date_time',
+        'arrive_date_time',
         'room_type',
         'offer_courses',
         'referred_by_id',
@@ -36,8 +38,12 @@ class Patient extends Model
         'precautions',
         'recommend_service',
         'health_status_id',
+        'staying_decision',
+        'physical_therapy_service',
+        'reason_not_staying',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'decided_at'
     ];
 
     /**
@@ -87,8 +93,7 @@ class Patient extends Model
     {
         parent::boot();
         self::creating(function($model) {
-            $first_stage = Stage::where('step', 1)->first();
-            $model->stage_id = $first_stage->id;
+            $model->stage_id = Stage::where('step', 1)->first()->id;
             $model->number = 'HN'.sprintf('%05d', Patient::count()+1);
             if(auth()->check()) {
                 $model->referred_by_id = auth()->id();

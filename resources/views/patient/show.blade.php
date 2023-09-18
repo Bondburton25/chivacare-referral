@@ -103,7 +103,7 @@
 
                         <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
                             {{ __('Health Status') }}
-                            <span class="text-success">{{ __($patient->health_status->name) }}</span>
+                            <span class="text-success">{{ $patient->health_status ? __($patient->health_status->name) : '' }}</span>
                         </li>
 
                         <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
@@ -191,53 +191,223 @@
             <div class="card shadow-sm border-0 mb-3">
                 <div class="card-header">
                     <div class="d-flex justify-content-between align-items-center">
-                        <div class="title-card">ขั้นตอนการดำเนินการ</div>
+                        <div class="title-card">{{ __('Action steps') }}</div>
                         <div class="button-update">
-                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal">
-                                อัทเดทขั้นตอน <i class="bi bi-arrow-repeat"></i>
-                            </button>
-                            <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true" style="display: none;">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                    <form action="https://js-services-app.herokuapp.com/repairs/54/update" method="PUT" enctype="multipart/form-data">
-                                        <input type="hidden" name="_token" value="fXfyak0xExdaGmthOPUn31ijzCP8K8lGpz7suQFQ">                                            <div class="modal-header border-0">
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body text-center">
-                                            <h4>เปลี่ยนแปลงขั้นตอนการดำเนินการ</h4>
 
-                                                                                        </div>
-                                        <div class="modal-footer border-0 d-flex justify-content-center mb-2">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
-                                            <button type="submit" class="btn btn-primary">ยืนยัน</button>
+                            @if($patient->staying_decision != 'backoff')
+                                @if($patient->stage->step < 5)
+                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal">
+                                    {{ __('Update steps') }}
+                                    <i class="bi bi-arrow-repeat"></i>
+                                </button>
+                                <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <form action="{{ route('patients.update',[$patient->id]) }}" method="POST" enctype="multipart/form-data">
+                                                {{ method_field('PUT') }}
+                                                @csrf
+                                                <div class="modal-header border-0">
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body text-center">
+                                                    <h4>{{ __('Update on the patient referral process') }}</h4>
+                                                    @if($nextStage)
+                                                        <p>Stage {{ $nextStage->step }} {{ $nextStage->name }}</p>
+                                                    @endif
+                                                    @if($patient->stage->step == 3)
+                                                        <div class="py-2">
+                                                            <p>{{ __('Patient\'s relatives decide to stay') }}/{{ __('Backoff') }}</p>
+                                                            <div class="d-flex justify-content-evenly">
+                                                                <div>
+                                                                    <input type="radio" class="btn-check" name="staying_decision" value="stay" id="staying" autocomplete="off" checked>
+                                                                    <label class="btn btn-outline-success mr-2" for="staying"><i class="bi bi-check-circle-fill"></i> {{ __('Staying') }}</label>
+                                                                </div>
+
+                                                                <div>
+                                                                    <input type="radio" class="btn-check" name="staying_decision" value="pending" id="pending" autocomplete="off">
+                                                                    <label class="btn btn-outline-warning mr-2" for="pending"><i class="bi bi-question-diamond-fill"></i> {{ __('Still undecided') }}</label>
+                                                                </div>
+
+                                                                <div><input type="radio" class="btn-check" name="staying_decision" value="backoff" id="backoff" autocomplete="off">
+                                                                    <label class="btn btn-outline-danger" for="backoff"><i class="bi bi-x-circle-fill"></i> {{ __('Backoff') }}
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-3 w-50 mx-auto mt-3">
+                                                            <label for="expected_arrive_date_time" class="form-label">{{ __('Expected arrival date/time') }} ({{ __('In case of staying') }})</label>
+                                                            <input type="datetime-local" id="expected_arrive_date_time" name="expected_arrive_date_time" class="form-control">
+                                                        </div>
+
+                                                        <div class="mb-3 w-50 mx-auto mt-3">
+                                                            <label for="reason_not_staying" class="form-label">{{ __('Backoff reason') }} ({{ __('In case not use the service') }})</label>
+                                                            <textarea name="reason_not_staying" id="reason_not_staying" rows="2" class="form-control"></textarea>
+                                                        </div>
+
+                                                        <div class="mb-3 w-50 mx-auto mt-3">
+                                                            <input class="form-check-input me-1" type="checkbox" value="1" id="physical_therapy_service" name="physical_therapy_service">
+                                                            <label class="form-check-label" for="physical_therapy_service">{{ __('Stay with physical therapy services') }} </label>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="modal-footer border-0 d-flex justify-content-center mb-2">
+                                                    <button type="submit" class="btn btn-success">{{ __('Confirm') }}</button>
+                                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                                                </div>
+                                            </form>
                                         </div>
-                                    </form>
                                     </div>
                                 </div>
-                            </div>
+                                @endif
+                            @endif
                         </div>
                     </div>
                 </div>
                 <div class="card-body p-4">
+                    {{-- <div class="mb-2">Current stage {{ $patient->stage->step }}</div> --}}
                     <ul class="timeline">
                         @foreach ($stages as $stage)
-                        <li class="timeline-item mb-4 {{ $stage->id == $patient->stage_id ? 'current-stage active' : '' }}">
-                            <p class="mb-0">Stage {{ $stage->step }} {{ $stage->name }}</p>
-                            <time class="text-muted">
-                                @if($stage->step === 1)
-                                    {{ __('Send patient information at') }} {{ $patient->created_at }}
-                                @else
-                                {{ __('Pending') }}
-                                @endif
-                            </time>
-                        </li>
+                            <li class="timeline-item mb-4 {{ $stage->id == $patient->stage_id ? 'current-stage active' : '' }}">
+                                <p class="mb-0">{{ __('Stage') }} {{ $stage->step }} {{ $stage->name }}</p>
+                                <time class="text-muted">
+                                    @if($stage->step <= $patient->stage->step)
+                                        @if($stage->step == 1)
+                                            {{ __('Sent patient information at') }} {{ $patient->created_at }}
+                                        @endif
+
+                                        @if($stage->step == 2)
+                                            {{ __('ติดต่อญาติคนไข้เมื่อ') }} {{ $patient->contacted_relative_at }}
+                                        @endif
+
+                                        @if($stage->step == 3)
+                                            {{ __('ญาติคนไข้เข้าดูสถานเมื่อ') }} {{ $patient->contacted_relative_at }}
+                                        @endif
+
+                                        @if($stage->step === 4)
+                                            {{ __('Decided made on') }} {{ $patient->decided_at }}
+                                            <div class="d-block">
+
+                                                    @if($patient->staying_decision !== 'pending')
+                                                    <span class="text-{{ $patient->staying_decision == 'stay' ? 'success' : 'danger' }}"><i class="bi bi-{{ $patient->staying_decision == 'stay' ? 'check-circle text-success' : 'x-circle text-danger' }}-fill"></i>
+                                                         {{ __('Decision') }}: {{ __($patient->staying_decision) }}</span>
+                                                    @else
+                                                        @if($patient->stage->step === 4)
+                                                            {{ __('Still undecided') }}
+                                                        @endif
+                                                    @endif
+
+                                                    @if($patient->reason_not_staying)
+                                                        <div class="d-block">
+                                                            {{ __('Reason') }}: {{ __($patient->reason_not_staying) }}
+                                                        </div>
+                                                    @endif
+
+                                                    {{ $patient->physical_therapy_service ? __('Including physical therapy services') : ''  }}
+                                                @if($patient->staying_decision == 'stay')
+                                                <div class="d-block">
+                                                    {{ __('Expected arrival date/time') }} {{ $patient->expected_arrive_date_time ? date('d/m/Y', strtotime($patient->expected_arrive_date_time)) : '' }}
+
+                                                    @if($patient->arrive_date_time == null)
+                                                    <span class="small d-block text-muted" id="days-to-come">
+                                                        @if(date('Y-m-d', strtotime($patient->expected_arrive_date_time)) > date('Y-m-d'))
+                                                            ({{ __('More') }} {{ Carbon\Carbon::parse($patient->expected_arrive_date_time)->diffInDays(date('Y-m-d')) }} {{ __('Day(s) to come') }})
+                                                        @elseif(date('Y-m-d', strtotime($patient->expected_arrive_date_time)) < date('Y-m-d'))
+                                                            ({{ Carbon\Carbon::parse($patient->expected_arrive_date_time)->diffInDays(date('Y-m-d')) }} {{ __('Day(s) ago') }})
+                                                        @else
+                                                            ({{ __('Today') }})
+                                                        @endif
+                                                    </span>
+                                                    @endif
+                                                </div>
+                                                @endif
+                                            </div>
+                                        @endif
+
+
+                                        @if($stage->step === 5)
+                                            {{ __('Completed at') }} {{ $patient->arrive_date_time }}
+                                            @if(date('Y-m-d', strtotime($patient->arrive_date_time)) !== date('Y-m-d'))
+                                                ({{ Carbon\Carbon::parse($patient->arrive_date_time)->diffInDays(date('Y-m-d'))+1 }} {{ __('Day(s) ago') }})
+                                            @endif
+                                        @endif
+
+                                        @if($stage->step === 6)
+                                            {{ __('The patient completed 1 month of stay on') }} {{ $patient->admission_date_one_month }}
+                                        @endif
+
+                                    @else
+                                        <i class="bi bi-hourglass-top"></i> {{ __('Pending') }}
+                                    @endif
+                                </time>
+                            </li>
                         @endforeach
                     </ul>
                 </div>
             </div>
 
+            @if(Carbon\Carbon::parse($patient->arrive_date_time)->diffInDays(date('Y-m-d'))+1 >= 30)
+            <div class="card shadow-sm border-0">
+                <div class="card-header">
+                    {{ __('Commission fee') }}
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        @if(Carbon\Carbon::parse($patient->arrive_date_time)->diffInDays(date('Y-m-d'))+1 >= 30)
+                        <li class="list-group-item d-flex justify-content-between align-items-start border-0">
+                            <div class="ms-2 me-auto commission-month">
+                                <div class="item">{{ __('First month') }}</div>
+                            </div>
+                            <div class="amount">
+                                {{ number_format(1000,2)  }}
+                            </div>
+                        </li>
+                        @endif
 
-        </div>
+                        @if(Carbon\Carbon::parse($patient->arrive_date_time)->diffInDays(date('Y-m-d'))+1 > 30)
+                        <li class="list-group-item d-flex justify-content-between align-items-start border-0">
+                            <div class="ms-2 me-auto commission-month">
+                              <div class="item">
+                                {{ __('Month') }} 2
+                             </div>
+                            </div>
+                            <div class="amount">
+                                {{ number_format(1000,2)  }}
+                            </div>
+                        </li>
+                        @endif
+
+                        @if(Carbon\Carbon::parse($patient->arrive_date_time)->diffInDays(date('Y-m-d'))+1 > 90)
+                        <li class="list-group-item d-flex justify-content-between align-items-start border-0">
+                            <div class="ms-2 me-auto commission-month">
+                              <div class="item">
+                                {{ __('Month') }} 3
+                             </div>
+                            </div>
+                            <div class="amount">
+                                {{ number_format(1500,2)  }}
+                            </div>
+                        </li>
+                        @endif
+
+                        <li class="list-group-item d-flex justify-content-between align-items-start border-0">
+                            <div class="ms-2 me-auto">
+                              <div class="fw-bold">{{ __('Total expenses') }}</div>
+                            </div>
+                            <span class="fw-bold">
+                                @if(Carbon\Carbon::parse($patient->arrive_date_time)->diffInDays(date('Y-m-d'))+1 > 90)
+                                    {{ number_format(3500,2) }}
+                                @elseif(Carbon\Carbon::parse($patient->arrive_date_time)->diffInDays(date('Y-m-d'))+1 > 30)
+                                    {{ number_format(2000,2) }}
+                                @else
+                                    {{ number_format(1000,2) }}
+                                @endif
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            @endif
+        </div><!-- / card-md-4 -->
     </div>
 </div>
 

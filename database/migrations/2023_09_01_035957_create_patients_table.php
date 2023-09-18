@@ -30,7 +30,10 @@ return new class extends Migration
             $table->string('contact_person_relationship')->nullable();
             $table->string('treatment_history')->nullable();
             $table->string('phone_number')->nullable();
+            $table->longText('reason_not_staying')->nullable();
             $table->string('expected_arrive')->nullable();
+            $table->datetime('expected_arrive_date_time')->nullable();
+            $table->datetime('arrive_date_time')->nullable();
             $table->enum('room_type', ['single', 'sharing'])->nullable();
             $table->string('precautions')->nullable();
             $table->string('recommend_service')->nullable();
@@ -42,6 +45,16 @@ return new class extends Migration
             $table->foreign('stage_id')->references('id')->on('stages');
             $table->unsignedBigInteger('health_status_id')->nullable();
             $table->foreign('health_status_id')->references('id')->on('health_statuses');
+            $table->enum('staying_decision', ['stay', 'pending', 'backoff'])->nullable();
+            $table->boolean('physical_therapy_service')->nullable();
+            $table->datetime('contacted_relative_at')->nullable();
+            $table->datetime('relative_visited_at')->nullable();
+            $table->datetime('relative_decide_of_stay_at')->nullable();
+            $table->datetime('admit_patient_at')->nullable();
+            $table->datetime('decided_at')->nullable();
+            $table->date('admission_date_one_month')->nullable();
+            $table->date('admission_date_two_months')->nullable();
+            $table->date('admission_date_three_months')->nullable();
             $table->timestamps();
         });
     }
