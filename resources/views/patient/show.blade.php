@@ -286,8 +286,8 @@
                                         @if($stage->step === 4)
                                             {{ __('Decided made on') }} {{ $patient->decided_at }}
                                             <div class="d-block">
-
                                                     @if($patient->staying_decision !== 'pending')
+
                                                     <span class="text-{{ $patient->staying_decision == 'stay' ? 'success' : 'danger' }}"><i class="bi bi-{{ $patient->staying_decision == 'stay' ? 'check-circle text-success' : 'x-circle text-danger' }}-fill"></i>
                                                          {{ __('Decision') }}: {{ __($patient->staying_decision) }}</span>
                                                     @else
@@ -325,7 +325,7 @@
 
 
                                         @if($stage->step === 5)
-                                            {{ __('Completed at') }} {{ $patient->arrive_date_time }}
+                                            {{ $patient->arrive_date_time ? __('Completed at') .' '. $patient->arrive_date_time : '' }}
                                             @if(date('Y-m-d', strtotime($patient->arrive_date_time)) !== date('Y-m-d'))
                                                 ({{ Carbon\Carbon::parse($patient->arrive_date_time)->diffInDays(date('Y-m-d'))+1 }} {{ __('Day(s) ago') }})
                                             @endif
