@@ -29,7 +29,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('app:patient-stay-one-month')->dailyAt('14:20');
         // $schedule->command('app:patient-stay-two-months')->dailyAt('10:15');
         // $schedule->command('app:patient-stay-three-months')->dailyAt('10:15');
-        $schedule->command('app:patient-referral-fee-one-month')->monthlyOn(20, '14:20');
+        $schedule->command('app:patient-referral-fee-one-month')->monthlyOn(20, '15:05');
         // $schedule->command('app:patient-referral-Fee-two-months')->monthlyOn(20, '10:15');
         // $schedule->command('app:patient-referral-Fee-three-months')->monthlyOn(20, '10:15');
         // $schedule->command('app:patient-stay-one-month')->everyMinute();
