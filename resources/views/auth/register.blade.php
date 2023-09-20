@@ -146,8 +146,7 @@
             document.getElementById("user-image").src = profile.pictureUrl;
         }).catch(err => console.error(err));
     }
-    // liff.init({ liffId: "2000626016-NL7a4wJ6" }, () => {
-    liff.init({ liffId: "2000588475-zveQ08Zq" }, () => {
+    liff.init({ liffId: "2000626016-NL7a4wJ6" }, () => {
         if (liff.isLoggedIn()) {
           runApp();
         } else {
