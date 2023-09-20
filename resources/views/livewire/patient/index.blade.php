@@ -92,8 +92,8 @@
             <a href="{{ route('patients.show', $patient->id) }}" class="card shadow-sm mb-2 link-offset-2 link-underline link-underline-opacity-0 border-light-subtle">
                 <div class="card-body d-flex align-items-top">
                     <div>
-                        <span class="text-muted">{{ __('A patient named') }}</span>
-                        <span class="user-request">{{ $patient->full_name }} </span>
+                        <span class="text-muted">{{ __('A patient named') }} </span>
+                        <span class="user-request">{{ $patient->full_name }} (HN{{ $patient->number }})</span>
                         <span class="text-muted">{{ $patient->health_status()->exists() ? __('Health status').' '.$patient->health_status->name : __('Patient\'s condition unknown') }} {{ __('sent into the system at') }}</span>
                         <span class="text-muted">
                             {{ $patient->created_at->diffForHumans() }}
