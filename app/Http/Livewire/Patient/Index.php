@@ -30,6 +30,9 @@ class Index extends Component
     {
         $stages = Stage::all();
         $health_statuses = HealthStatus::all();
+        $patientAdmitStage = DB::table('stages')->where('step', 5)->first();
+
+        // $patients = DB::table('patients')->where('arrive_date_time', '<=', Carbon::now()->subDays(30))->where('stage_id', $patientAdmitStage->id)->paginate(10);
 
         // $date = Carbon::today()->subDays(300);
         // dd($date);
@@ -54,10 +57,6 @@ class Index extends Component
             ->when($this->byHealthStatus, function($query) {
                 $query->where('health_status_id', $this->byHealthStatus);
             })
-            // ->when($this->byArriveDate, function($query) {
-            //     $query->where('arrive_date_time', '>=', $this->byArriveDate);
-            // })
-        // ->where('arrive_date_time', '>', now()->subDays(30))
         ->idDescending()
         ->paginate(10);
         return view('livewire.patient.index', ['patients' => $patients, 'stages' => $stages, 'health_statuses' => $health_statuses]);

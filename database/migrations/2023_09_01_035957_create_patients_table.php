@@ -52,6 +52,7 @@ return new class extends Migration
             $table->datetime('relative_decide_of_stay_at')->nullable();
             $table->datetime('admit_patient_at')->nullable();
             $table->datetime('decided_at')->nullable();
+            $table->datetime('end_service_at')->nullable();
             $table->date('admission_date_one_month')->nullable();
             $table->date('admission_date_two_months')->nullable();
             $table->date('admission_date_three_months')->nullable();

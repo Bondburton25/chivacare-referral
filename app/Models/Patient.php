@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-
 use Illuminate\Database\Eloquent\Model;
 
 class Patient extends Model
@@ -41,6 +40,7 @@ class Patient extends Model
         'staying_decision',
         'physical_therapy_service',
         'reason_not_staying',
+        'end_service_at',
         'created_at',
         'updated_at',
         'decided_at'

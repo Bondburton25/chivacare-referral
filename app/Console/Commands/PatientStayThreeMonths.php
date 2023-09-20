@@ -7,31 +7,31 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\Patient;
 
-class PatientStayOneMonth extends Command
+class PatientStayThreeMonths extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'app:patient-stay-one-month';
+    protected $signature = 'app:patient-stay-three-months';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Update patient stage if they stay for 30 day';
+    protected $description = 'Update patient stage if they stay for 90 day';
 
     /**
      * Execute the console command.
      */
     public function handle()
     {
-        $patientAdmitStage = DB::table('stages')->where('step', 5)->first();
-        $stayOneMonthStage = DB::table('stages')->where('step', 6)->first();
+        $stayTwoMonthsStage = DB::table('stages')->where('step', 7)->first();
+        $stayThreeMonthsStage = DB::table('stages')->where('step', 8)->first();
 
-        $patients = Patient::where('arrive_date_time', '<=', Carbon::now()->subDays(30))->where('stage_id', $patientAdmitStage->id)->get();
+        $patients = Patient::where('arrive_date_time', '<=', Carbon::now()->subDays(90))->where('stage_id', $stayTwoMonthsStage->id)->get();
 
         foreach ($patients as $patient) {
             $curl = curl_init();
@@ -102,7 +102,7 @@ class PatientStayOneMonth extends Command
                                 },
                                 {
                                     "type": "text",
-                                    "text": "'.$stayOneMonthStage->name.'",
+                                    "text": "'.$stayThreeMonthsStage->name.'",
                                     "flex": 2,
                                     "wrap": true,
                                     "size": "sm"
@@ -145,9 +145,10 @@ class PatientStayOneMonth extends Command
             ),
         ));
             $response = curl_exec($curl);
-            $err = curl_error($curl);
+            $error = curl_error($curl);
             curl_close($curl);
         }
-        DB::table('patients')->where('arrive_date_time', '<=', Carbon::now()->subDays(30))->where('stage_id', $patientAdmitStage->id)->update(['stage_id' => $stayOneMonthStage->id, 'admission_date_one_month' => today()]);
+        // Update a new stage for patients
+        DB::table('patients')->where('arrive_date_time', '<=', Carbon::now()->subDays(90))->where('stage_id', $stayTwoMonthsStage->id)->update(['stage_id' => $stayThreeMonthsStage->id, 'admission_date_three_months' => today(), 'end_service_at' => now()]);
     }
 }

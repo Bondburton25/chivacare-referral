@@ -4,8 +4,6 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
 
 class Kernel extends ConsoleKernel
 {
@@ -15,8 +13,12 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        // Commands\PatientReferralCommission::class,
         Commands\PatientStayOneMonth::class,
+        Commands\PatientStayTwoMonths::class,
+        Commands\PatientStayThreeMonths::class,
+        Commands\PatientReferralCommissionOneMonth::class,
+        Commands\PatientReferralCommissionTwoMonths::class,
+        Commands\PatientReferralCommissionThreeMonths::class,
     ];
 
     /**
@@ -24,12 +26,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('app:patient-stay-one-month')->everyMinute();
-        // $schedule->call(function () {
-        //     $patientAdmitStage = DB::table('stages')->where('step', 5)->first();
-        //     $stayOneMonthStage = DB::table('stages')->where('step', 6)->first();
-        //     DB::table('patients')->where('arrive_date_time', '<=', Carbon::now()->subDays(30))->where('stage_id', $patientAdmitStage->id)->update(['stage_id' => $stayOneMonthStage->id, 'admission_date_one_month' => today()]);
-        // })->everyMinute();
+        $schedule->command('app:patient-stay-one-month')->dailyAt('09:45');
+        $schedule->command('app:patient-stay-two-months')->dailyAt('09:45');
+        $schedule->command('app:patient-stay-three-months')->dailyAt('09:45');
+        $schedule->command('app:patient-referral-commission-one-month')->monthlyOn(20, '09:45');
+        $schedule->command('app:patient-referral-commission-two-months')->monthlyOn(20, '09:45');
+        $schedule->command('app:patient-referral-commission-three-months')->monthlyOn(20, '09:45');
     }
 
     /**

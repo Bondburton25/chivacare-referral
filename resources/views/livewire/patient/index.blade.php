@@ -56,13 +56,13 @@
                     <td>{{ __('Action') }}</td>
                 </tr>
                 @forelse($patients as $patient)
-                <tr wire:loading.class.deplay="opacity-50" class="small">
+                <tr wire:loading.class.deplay="opacity-50">
                     <td>{{ $patient->number }}</td>
                     <td>{{ $patient->full_name }}</td>
                     <td>
                         <span class="badge rounded-pill p-2 fw-normal bg-success-subtle text-success">
                             <i class="bi bi-check2-circle"></i>
-                            {{ $patient->stage->name }}
+                            {{ __('Step') }} {{ $patient->stage->step }} {{ $patient->stage->name }}
                         </span>
                     </td>
                     <td>{{ $patient->health_status()->exists() ? __('Health status').' '.$patient->health_status->name : __('Patient\'s condition unknown') }}</td>

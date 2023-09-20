@@ -27,6 +27,18 @@ class User extends Authenticatable
         'phone_number'
     ];
 
+    protected $appends = ['fullname'];
+
+    /**
+     * Get the Patient's full name.
+     *
+     * @return string
+     */
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . ' '. $this->last_name;
+    }
+
     public function auth_provider()
     {
         return $this->hasOne(AuthProvider::class);

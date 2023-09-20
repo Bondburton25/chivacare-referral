@@ -144,7 +144,7 @@ class PatientController extends Controller
                         },
                         {
                             "type": "text",
-                            "text": "'.__('You has been successfully sent patient information Wait for CVC to contact the patient').'",
+                            "text": "'.__('Stage').' 1 '.__('You has been successfully sent patient information Wait for CVC to contact the patient').'",
                             "flex": 2,
                             "wrap": true,
                             "size": "sm"
@@ -727,15 +727,6 @@ class PatientController extends Controller
     {
         $patient  = Patient::findOrFail($id);
 
-        // if($request->staying_decision != 'pending') {
-        //     $newStage = Stage::where('step', $patient->stage->step+1)->first();
-        //     $patient->stage_id = $newStage->id;
-        //     if($newStage->step == 2 ? $patient->contacted_relative_at = now() : '');
-        //     if($newStage->step == 3 ? $patient->relative_visited_at = now() : '');
-        //     if($newStage->step == 4 ? $patient->decided_at = now() : '');
-        //     if($newStage->step == 5 ? $patient->arrive_date_time = now() : '');
-        // }
-
         $newStage = Stage::where('step', $patient->stage->step+1)->first();
         $patient->stage_id = $newStage->id;
         if($newStage->step == 2 ? $patient->contacted_relative_at = now() : '');
@@ -816,7 +807,7 @@ class PatientController extends Controller
                         },
                         {
                             "type": "text",
-                            "text": "'.__($patient->stage->name).'",
+                            "text": "'.__($newStage->name).'",
                             "flex": 2,
                             "wrap": true,
                             "size": "sm"
@@ -871,10 +862,6 @@ class PatientController extends Controller
         // return redirect()->route('patients.show', $patient->id);
 
         $flexDataJsonDeCode = json_decode($flexMessageUpdateReferPatient, true);
-
-        // Sending Flex messages
-        // $datas['url'] = "https://api.line.me/v2/bot/message/push";
-        // $datas['channelAccessToken'] = config('settings.channelAccessToken');
         $messages['to'] = auth()->user()->auth_provider->provider_id;
         $messages['messages'][] = $flexDataJsonDeCode;
         $encodeJson = json_encode($messages);
