@@ -28,7 +28,7 @@ class PatientStayThreeMonths extends Command
      */
     public function handle()
     {
-        $stayTwoMonthsStage = DB::table('stages')->where('step', 7)->first();
+        $stayTwoMonthsStage   = DB::table('stages')->where('step', 7)->first();
         $stayThreeMonthsStage = DB::table('stages')->where('step', 8)->first();
 
         $patients = Patient::where('arrive_date_time', '<=', Carbon::now()->subDays(90))->where('stage_id', $stayTwoMonthsStage->id)->get();

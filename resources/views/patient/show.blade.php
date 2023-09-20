@@ -65,7 +65,14 @@
 
     <div class="row mb-3">
         <div class="col h5"><i class="bi bi-user-fill"></i> {{ __('Patient profile') }}</div>
-        {{-- <div class="col text-end"><a href="{{ route('patients.create') }}" class="btn btn-sm btn-primary">{{ __('Refer the patient') }} <i class="bi bi-person-badge-fill"></i></a></div> --}}
+        @if($patient->stage->step > 4)
+        <div class="col text-end">
+            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#updateModal">
+                {{ __('End of service') }}
+                <i class="bi bi-hourglass-bottom"></i>
+            </button>
+        </div>
+        @endif
     </div>
 
     <div class="row">
