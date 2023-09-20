@@ -8,21 +8,21 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\Patient;
 
-class PatientReferralCommissionOneMonth extends Command
+class PatientReferralFeeOneMonth extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'app:patient-referral-commission-one-month';
+    protected $signature = 'app:patient-referral-fee-one-month';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Report the commission for one month to the patient\'s referral';
+    protected $description = 'Report the fee for one month to the patient\'s referral';
 
     /**
      * Create a new command instance.

@@ -14,11 +14,11 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\PatientStayOneMonth::class,
-        Commands\PatientStayTwoMonths::class,
-        Commands\PatientStayThreeMonths::class,
-        Commands\PatientReferralCommissionOneMonth::class,
-        Commands\PatientReferralCommissionTwoMonths::class,
-        Commands\PatientReferralCommissionThreeMonths::class,
+        // Commands\PatientStayTwoMonths::class,
+        // Commands\PatientStayThreeMonths::class,
+        Commands\PatientReferralFeeOneMonth::class,
+        // Commands\PatientReferralFeeTwoMonths::class,
+        // Commands\PatientReferralFeeThreeMonths::class,
     ];
 
     /**
@@ -29,15 +29,15 @@ class Kernel extends ConsoleKernel
         $schedule->command('app:patient-stay-one-month')->dailyAt('14:00');
         // $schedule->command('app:patient-stay-two-months')->dailyAt('10:15');
         // $schedule->command('app:patient-stay-three-months')->dailyAt('10:15');
-        // $schedule->command('app:patient-referral-commission-one-month')->monthlyOn(20, '10:15');
-        // $schedule->command('app:patient-referral-commission-two-months')->monthlyOn(20, '10:15');
-        // $schedule->command('app:patient-referral-commission-three-months')->monthlyOn(20, '10:15');
+        $schedule->command('app:patient-referral-fee-one-month')->monthlyOn(20, '14:15');
+        // $schedule->command('app:patient-referral-Fee-two-months')->monthlyOn(20, '10:15');
+        // $schedule->command('app:patient-referral-Fee-three-months')->monthlyOn(20, '10:15');
         // $schedule->command('app:patient-stay-one-month')->everyMinute();
-        $schedule->command('app:patient-stay-two-months')->everyMinute();
-        $schedule->command('app:patient-stay-three-months')->everyMinute();
-        $schedule->command('app:patient-referral-commission-one-month')->everyMinute();
-        $schedule->command('app:patient-referral-commission-two-months')->everyMinute();
-        $schedule->command('app:patient-referral-commission-three-months')->everyMinute();
+        // $schedule->command('app:patient-stay-two-months')->everyMinute();
+        // $schedule->command('app:patient-stay-three-months')->everyMinute();
+
+        // $schedule->command('app:patient-referral-Fee-two-months')->everyMinute();
+        // $schedule->command('app:patient-referral-Fee-three-months')->everyMinute();
     }
 
     /**
