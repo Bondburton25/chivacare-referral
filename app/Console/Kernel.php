@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('app:patient-stay-one-month')->dailyAt('14:00');
+        $schedule->command('app:patient-stay-one-month')->dailyAt('14:15');
         // $schedule->command('app:patient-stay-two-months')->dailyAt('10:15');
         // $schedule->command('app:patient-stay-three-months')->dailyAt('10:15');
         $schedule->command('app:patient-referral-fee-one-month')->monthlyOn(20, '14:15');
