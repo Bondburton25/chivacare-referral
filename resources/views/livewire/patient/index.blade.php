@@ -91,12 +91,11 @@
         @forelse($patients as $patient)
             <a href="{{ route('patients.show', $patient->id) }}" class="card shadow-sm mb-2 link-offset-2 link-underline link-underline-opacity-0 border-light-subtle">
                 <div class="card-body d-flex align-items-top">
-                    {{-- <img src="{{ $patient->customer_user ? $patient->customer_user->avatar : asset('public/images/undraw_profile.svg') }}" class="img-profile rounded-circle me-2" width="32px" height="32px"> --}}
                     <div>
+                        <span class="text-muted">{{ __('A patient named') }}</span>
                         <span class="user-request">{{ $patient->full_name }} </span>
                         <span class="text-muted">{{ $patient->health_status()->exists() ? __('Health status').' '.$patient->health_status->name : __('Patient\'s condition unknown') }} {{ __('sent into the system at') }}</span>
-                        <span class="text-muted small">{{ __('sent into the system at') }}</span>
-                        <span class="small">
+                        <span class="text-muted">
                             {{ $patient->created_at->diffForHumans() }}
                         </span>
                     </div>
