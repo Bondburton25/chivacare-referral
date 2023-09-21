@@ -28,10 +28,10 @@ class PatientStayTwoMonths extends Command
      */
     public function handle()
     {
-        $stayOneMonthStage = DB::table('stages')->where('step', 6)->first();
+        $stayOneMonthStage  = DB::table('stages')->where('step', 6)->first();
         $stayTwoMonthsStage = DB::table('stages')->where('step', 7)->first();
 
-        $patients = Patient::where('arrive_date_time', '<=', Carbon::now()->subDays(60))->where('stage_id', $stayOneMonthStage->id)->get();
+        $patients = Patient::where('arrive_date_time', '<=', Carbon::now()->subDays(60))->where('stage_id', $stayOneMonthStage->id)->where('end_service_at', null)->get();
 
         foreach ($patients as $patient) {
             $curl = curl_init();
@@ -147,20 +147,8 @@ class PatientStayTwoMonths extends Command
             $response = curl_exec($curl);
             $err = curl_error($curl);
             curl_close($curl);
-            if ($err) {
-                $datasReturn['result'] = 'Error';
-                $datasReturn['message'] = $err;
-            } else {
-                if($response == "{}"){
-                    $datasReturn['result'] = 'Status';
-                    $datasReturn['message'] = 'Success';
-                } else{
-                    $datasReturn['result'] = 'Error';
-                    $datasReturn['message'] = $response;
-                }
-            }
         }
         // Update a new stage for patients
-        DB::table('patients')->where('arrive_date_time', '<=', Carbon::now()->subDays(60))->where('stage_id', $stayOneMonthStage->id)->update(['stage_id' => $stayTwoMonthsStage->id, 'admission_date_two_months' => today()]);
+        DB::table('patients')->where('end_service_at', null)->where('arrive_date_time', '<=', Carbon::now()->subDays(60))->where('stage_id', $stayOneMonthStage->id)->update(['stage_id' => $stayTwoMonthsStage->id, 'admission_date_two_months' => today()]);
     }
 }

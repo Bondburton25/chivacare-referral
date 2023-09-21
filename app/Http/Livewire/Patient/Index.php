@@ -13,8 +13,8 @@ use Livewire\{
     WithPagination
 };
 
+use Gate;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 
 class Index extends Component
 {
@@ -30,35 +30,44 @@ class Index extends Component
     {
         $stages = Stage::all();
         $health_statuses = HealthStatus::all();
-        $patientAdmitStage = DB::table('stages')->where('step', 5)->first();
 
-        // $patients = DB::table('patients')->where('arrive_date_time', '<=', Carbon::now()->subDays(30))->where('stage_id', $patientAdmitStage->id)->paginate(10);
-
-        // $date = Carbon::today()->subDays(300);
-        // dd($date);
-        // $date_30_days_ago = Carbon::today()->subDays(30);
-        // dd($date_30_days_ago);
-        // $date_30_days_ago = Carbon::now()->subDays(30);
-        // $patients = Patient::where('arrive_date_time', '<=', Carbon::now()->subDays(30))->paginate(10);
-
-        $patients = Patient::when($this->search, function($query) {
-            $query->whereHas('referred_by', function($query) {
-                    $query->where('name', 'like', '%'.$this->search.'%');
+        if(Gate::allows('isAdmin')) {
+            $patients = Patient::when($this->search, function($query) {
+                $query->whereHas('referred_by', function($query) {
+                        $query->where('name', 'like', '%'.$this->search.'%');
+                    })
+                    ->orWhere('first_name', 'like', '%'.$this->search.'%')
+                    ->orWhere('last_name', 'like', '%'.$this->search.'%')
+                    ->orWhere('contact_person', 'like', '%'.$this->search.'%')
+                    ->orWhere('number', 'like', '%'.$this->search.'%')
+                    ->orWhere('phone_number', 'like', '%'.$this->search.'%');
                 })
-                ->orWhere('first_name', 'like', '%'.$this->search.'%')
-                ->orWhere('last_name', 'like', '%'.$this->search.'%')
-                ->orWhere('contact_person', 'like', '%'.$this->search.'%')
-                ->orWhere('number', 'like', '%'.$this->search.'%')
-                ->orWhere('phone_number', 'like', '%'.$this->search.'%');
-            })
-            ->when($this->byStage, function($query) {
-                $query->where('stage_id', $this->byStage);
-            })
-            ->when($this->byHealthStatus, function($query) {
-                $query->where('health_status_id', $this->byHealthStatus);
-            })
-        ->idDescending()
-        ->paginate(10);
+                ->when($this->byStage, function($query) {
+                    $query->where('stage_id', $this->byStage);
+                })
+                ->when($this->byHealthStatus, function($query) {
+                    $query->where('health_status_id', $this->byHealthStatus);
+                })
+            ->idDescending()
+            ->paginate(10);
+        } else {
+        $patients = Patient::where('referred_by_id', auth()->user()->id)
+                        ->when($this->search, function($query) {
+                            $query->where('first_name', 'like', '%'.$this->search.'%')
+                            ->orWhere('last_name', 'like', '%'.$this->search.'%')
+                            ->orWhere('contact_person', 'like', '%'.$this->search.'%')
+                            ->orWhere('number', 'like', '%'.$this->search.'%')
+                            ->orWhere('phone_number', 'like', '%'.$this->search.'%');
+                        })
+                        ->when($this->byStage, function($query) {
+                            $query->where('stage_id', $this->byStage);
+                        })
+                        ->when($this->byHealthStatus, function($query) {
+                            $query->where('health_status_id', $this->byHealthStatus);
+                        })
+                    ->idDescending()
+                    ->paginate(10);
+        }
         return view('livewire.patient.index', ['patients' => $patients, 'stages' => $stages, 'health_statuses' => $health_statuses]);
     }
 }

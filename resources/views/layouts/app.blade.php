@@ -38,6 +38,10 @@
             font-family: 'Kanit', sans-serif;
             font-size: 14px
         }
+        .img-profile {
+            width: 30px;
+            height: 30px;
+        }
     </style>
     @yield('stylesheet')
 </head>
@@ -74,7 +78,9 @@
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    <img src="{{ Auth::user()->avatar ? Auth::user()->avatar : asset('public/images/undraw_profile.svg') }}" class="img-profile rounded-circle mr-5" width="32px" height="32px"> {{ Auth::user()->name }} <small>({{ __(Auth::user()->role) }})</small>
+                                    <img src="{{ Auth::user()->avatar ? Auth::user()->avatar : asset('public/images/undraw_profile.svg') }}" class="img-profile rounded-circle mr-5">
+                                    {{ Auth::user()->name }}
+                                     <small class="text-capitalize">({{ __(Auth::user()->role) }})</small>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
@@ -83,7 +89,6 @@
                                                      document.getElementById('logout-form').submit();">
                                         <i class="bi bi-box-arrow-right"></i> {{ __('Logout') }}
                                     </a>
-
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>

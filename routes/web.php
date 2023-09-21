@@ -46,7 +46,12 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 // Authentication
 Route::group(['middleware' => ['auth']], function () {
-    Route::resource('/patients', PatientController::class);
+    Route::resource('/patients', PatientController::class)->except(['show']);
+    Route::put('/patients/{patient}/end_service', [PatientController::class, 'endService'])->name('patients.end-service');
+
+    Route::middleware([managePatient::class])->group(function() {
+        Route::resource('/patients', PatientController::class)->only(['show']);
+    });
 });
 
 

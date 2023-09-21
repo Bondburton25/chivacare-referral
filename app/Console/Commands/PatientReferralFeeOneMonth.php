@@ -40,7 +40,7 @@ class PatientReferralFeeOneMonth extends Command
     public function handle()
     {
         $stayOneMonthStage = DB::table('stages')->where('step', 6)->first();
-        $patients = Patient::where('arrive_date_time', '<=', Carbon::now()->subDays(30))->where('stage_id', $stayOneMonthStage->id)->get();
+        $patients = Patient::where('arrive_date_time', '<=', Carbon::now()->subDays(30))->where('stage_id', $stayOneMonthStage->id)->where('end_service_at', null)->get();
         foreach ($patients as $patient) {
             $curl = curl_init();
             curl_setopt_array($curl, array(
@@ -55,7 +55,7 @@ class PatientReferralFeeOneMonth extends Command
                     "to": "' . $patient->referred_by->auth_provider->provider_id . '",
                     "messages": [{
                     "type": "flex",
-                    "altText": "'.__('Referral fee').'",
+                    "altText": "'.__('Patient referral fee') .' '.$patient->full_name.'",
                     "contents": {
                         "type": "bubble",
                         "body": {
@@ -64,7 +64,7 @@ class PatientReferralFeeOneMonth extends Command
                             "contents": [
                                 {
                                     "type": "text",
-                                    "text": "Referral fee",
+                                    "text": "'.__('Patient referral fee') .' '.$patient->full_name.'",
                                     "weight": "bold",
                                     "color": "#1DB446",
                                     "size": "sm"
@@ -79,7 +79,7 @@ class PatientReferralFeeOneMonth extends Command
                                 },
                                 {
                                     "type": "text",
-                                    "text": "'.__('Chivacare') .' '.__('congratulations') .' '.__('Because you receive referral fees') .' '.__('it is an amount of') .' '.__('1,000 Bath') .' '.__('from the patient you referred named') .' '.$patient->full_name .' '.__('whose has completed of stay for') .' '.__('30 Days') .' '.__('From the first day of stay') .' '.$patient->arrive_date_time.'",
+                                    "text": "'.__('Chivacare') .' '.__('congratulations') .' '.__('Because you receive referral fees') .' '.__('it is an amount of') .' '.__('1,000 Bath') .' '.__('from the patient you referred named') .' '.$patient->full_name .' '.__('1') .' '.__('month') .' '.__('From the first day of stay') .' '.date('Y-m-d', strtotime($patient->arrive_date_time)).'",
                                     "size": "sm",
                                     "color": "#aaaaaa",
                                     "wrap": true,
@@ -115,7 +115,7 @@ class PatientReferralFeeOneMonth extends Command
             ]
         }',
             CURLOPT_HTTPHEADER => array(
-                "Authorization: Bearer QoUKeR+rPCjaHolU2Cv0kYXvWHx4Xl366O2PqbctqC6zSUv0F9i+U0/iupxgi/WUwxQlcpqP9caAvQzeqbCMYZMXib3TRi9ocUi4iEUiqQKHPynBbUhFQZGV409mw5yBf1cU6zadgXuADifB0kLoMgdB04t89/1O/w1cDnyilFU=",
+                "Authorization: Bearer GtVt/MRkohh1NDhA0Acjwh4rkjHMu8dIXaNjA5F5eKrMkn9muvgkqhiR0vPXfVyFgFfMqU5UAX28VFUrdd6tSeNgTs9HaZe/RxGcM5uLVXKP+0VHvS951/Nnd73cFsYTBglR4mPCN42S1269jWuzFgdB04t89/1O/w1cDnyilFU=",
                 "cache-control: no-cache",
                 "content-type: application/json; charset=UTF-8",
             ),

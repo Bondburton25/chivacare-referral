@@ -35,14 +35,10 @@
         width: 11px;
         content: "";
     }
-    .timeline .timeline-item.active:after {
-        background-color: #13795b
-    }
-
     .timeline .timeline-item.current-stage:after {
         animation: blinker 1s linear infinite;
+        background-color: #13795b
     }
-
     @keyframes blinker {
         50% {
             opacity: 0;
@@ -65,14 +61,38 @@
 
     <div class="row mb-3">
         <div class="col h5"><i class="bi bi-user-fill"></i> {{ __('Patient profile') }}</div>
-        @if($patient->stage->step > 4)
-        <div class="col text-end">
-            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#updateModal">
-                {{ __('End of service') }}
-                <i class="bi bi-hourglass-bottom"></i>
-            </button>
-        </div>
-        @endif
+        @can('isAdmin')
+            @if($patient->stage->step > 4)
+                <div class="col text-end">
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#endServiceModal">
+                        {{ __('End of service') }}
+                        <i class="bi bi-hourglass-bottom"></i>
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="endServiceModal" tabindex="-1" aria-labelledby="endServiceModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form action="{{ route('patients.end-service',[$patient->id]) }}" method="POST" enctype="multipart/form-data">
+                                {{ method_field('PUT') }}
+                                @csrf
+                            <div class="modal-header border-0">
+                            <h1 class="modal-title fs-5" id="endServiceModalLabel">{{ __('End of service') }}</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-center">
+                                <h4>{{ __('Do you want to end services for this patient?') }}</h4>
+                            </div>
+                            <div class="modal-footer border-0 d-flex justify-content-center align-items-center">
+                                <button type="submit" class="btn btn-primary">{{ __('Confirm') }}</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                            </div>
+                            </form>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+        @endcan
     </div>
 
     <div class="row">
@@ -81,7 +101,6 @@
             <div class="card shadow-sm border-0 mb-3">
                 <div class="card-header">{{ __('Patient information') }}</div>
                 <div class="card-body">
-
                     <ul class="list-group">
                         <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 ">
                             {{ __('First Name') }}-{{ __('Last Name') }}
@@ -135,11 +154,6 @@
                     </ul>
                 </div>
             </div>
-
-            {{-- <div class="alert alert-light border-0 mb-3 small">
-                <div class="d-block">{{ $patient->health_status->name }}</div>
-                {{ $patient->health_status->description }}
-            </div> --}}
 
             <div class="card shadow-sm border-0 mb-3">
                 <div class="card-header">
@@ -199,8 +213,8 @@
                 <div class="card-header">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="title-card">{{ __('Action steps') }}</div>
+                        @can('isAdmin')
                         <div class="button-update">
-
                             @if($patient->staying_decision != 'backoff')
                                 @if($patient->stage->step < 5)
                                 <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal">
@@ -268,13 +282,13 @@
                                 @endif
                             @endif
                         </div>
+                        @endcan
                     </div>
                 </div>
-                <div class="card-body p-4">
-                    {{-- <div class="mb-2">Current stage {{ $patient->stage->step }}</div> --}}
+                <div class="card-body pt-4 px-4">
                     <ul class="timeline">
                         @foreach ($stages as $stage)
-                            <li class="timeline-item mb-4 {{ $stage->id == $patient->stage_id ? 'current-stage active' : '' }}">
+                            <li class="timeline-item mb-4 {{ $stage->id == $patient->stage_id && $patient->end_service_at == null ? 'current-stage ' : '' }}">
                                 <p class="mb-0">{{ __('Stage') }} {{ $stage->step }} {{ $stage->name }}</p>
                                 <time class="text-muted">
                                     @if($stage->step <= $patient->stage->step)
@@ -341,13 +355,18 @@
                                         @if($stage->step === 6)
                                             {{ __('The patient completed 1 month of stay on') }} {{ $patient->admission_date_one_month }}
                                         @endif
-
                                     @else
                                         <i class="bi bi-hourglass-top"></i> {{ __('Pending') }}
                                     @endif
                                 </time>
                             </li>
                         @endforeach
+                        @if($patient->end_service_at)
+                            <li class="timeline-item mb-4 current-stage active">
+                                <span>{{ __('End of service') }}</span>
+                                <div class="text-muted">{{ __('The patient end service at') }} {{ $patient->end_service_at }}</div>
+                            </li>
+                        @endif
                     </ul>
                 </div>
             </div>
@@ -355,7 +374,7 @@
             @if(Carbon\Carbon::parse($patient->arrive_date_time)->diffInDays(date('Y-m-d'))+1 >= 30)
             <div class="card shadow-sm border-0">
                 <div class="card-header">
-                    {{ __('Commission fee') }}
+                    {{ __('Patient referral fee') }}
                 </div>
                 <div class="card-body">
                     <ul class="list-group">
@@ -365,7 +384,7 @@
                                 <div class="item">{{ __('First month') }}</div>
                             </div>
                             <div class="amount">
-                                {{ number_format(1000,2)  }}
+                                {{ number_format(1000,2) }} {{ __('Baht') }}
                             </div>
                         </li>
                         @endif
@@ -378,7 +397,7 @@
                              </div>
                             </div>
                             <div class="amount">
-                                {{ number_format(1000,2)  }}
+                                {{ number_format(1000,2) }} {{ __('Baht') }}
                             </div>
                         </li>
                         @endif
@@ -391,22 +410,22 @@
                              </div>
                             </div>
                             <div class="amount">
-                                {{ number_format(1500,2)  }}
+                                {{ number_format(1500,2) }} {{ __('Baht') }}
                             </div>
                         </li>
                         @endif
 
-                        <li class="list-group-item d-flex justify-content-between align-items-start border-0">
+                        <li class="list-group-item d-flex justify-content-between align-items-start border-0 text-success">
                             <div class="ms-2 me-auto">
-                              <div class="fw-bold">{{ __('Total expenses') }}</div>
+                              <div class="fw-normal">{{ __('Total patient referral fee') }}</div>
                             </div>
-                            <span class="fw-bold">
+                            <span class="fw-normal">
                                 @if(Carbon\Carbon::parse($patient->arrive_date_time)->diffInDays(date('Y-m-d'))+1 > 90)
-                                    {{ number_format(3500,2) }}
+                                    {{ number_format(3500,2) }} {{ __('Baht') }}
                                 @elseif(Carbon\Carbon::parse($patient->arrive_date_time)->diffInDays(date('Y-m-d'))+1 > 30)
-                                    {{ number_format(2000,2) }}
+                                    {{ number_format(2000,2) }} {{ __('Baht') }}
                                 @else
-                                    {{ number_format(1000,2) }}
+                                    {{ number_format(1000,2) }} {{ __('Baht') }}
                                 @endif
                             </span>
                         </li>

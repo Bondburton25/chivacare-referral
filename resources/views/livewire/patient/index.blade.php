@@ -68,7 +68,8 @@
                     <td>{{ $patient->health_status()->exists() ? __('Health status').' '.$patient->health_status->name : __('Patient\'s condition unknown') }}</td>
                     <td>
                         @if($patient->arrive_date_time)
-                        {{ $patient->arrive_date_time }} ({{ Carbon\Carbon::parse($patient->arrive_date_time)->diffInDays(date('Y-m-d')) }} {{ __('Day(s) ago') }})
+                            {{-- {{ $patient->arrive_date_time }} ({{ Carbon\Carbon::parse($patient->arrive_date_time)->diffInDays(date('Y-m-d')) }} {{ __('Day(s) ago') }}) --}}
+                            {{ Carbon\Carbon::parse($patient->arrive_date_time)->diffInDays(date('Y-m-d')) }}
                         @endif
                     </td>
                     <td><a class="btn btn-outline-primary btn-sm" href="{{ route('patients.show',$patient->id) }}">{{ __('View patient information') }}</a></td>
@@ -91,13 +92,14 @@
         @forelse($patients as $patient)
             <a href="{{ route('patients.show', $patient->id) }}" class="card shadow-sm mb-2 link-offset-2 link-underline link-underline-opacity-0 border-light-subtle">
                 <div class="card-body d-flex align-items-top">
-                    <div>
-                        <span class="text-muted">{{ __('A patient named') }} </span>
-                        <span class="user-request">{{ $patient->full_name }} (HN{{ $patient->number }})</span>
-                        <span class="text-muted">{{ $patient->health_status()->exists() ? __('Health status').' '.$patient->health_status->name : __('Patient\'s condition unknown') }} {{ __('sent into the system at') }}</span>
-                        <span class="text-muted">
-                            {{ $patient->created_at->diffForHumans() }}
-                        </span>
+                    <div class="info text-muted">
+                        @can('isAdmin')
+                            {{ __($patient->referred_by->role) }} {{ $patient->referred_by->fullname }} {{ __('has sent patient information named') }}
+                        @else
+                            {{ __('You have sent patient information named') }}
+                        @endcan
+                        <span class="user-request text-body">{{ $patient->full_name }} {{ $patient->number }}</span>
+                        {{ $patient->health_status()->exists() ? __('Health status').' '.$patient->health_status->name : __('Patient\'s condition unknown') }} {{ __('sent into the system at') }} {{ $patient->created_at->diffForHumans() }}
                     </div>
                 </div>
                 <div class="card-footer bg-transparent border-0 pt-0 d-flex justify-content-between">

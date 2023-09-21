@@ -703,10 +703,15 @@ class PatientController extends Controller
     public function show(string $id)
     {
         $patient = Patient::findOrFail($id);
+
         if($patient->staying_decision == 'backoff') {
             $stages = Stage::where('step', '<', 5)->get();
         } else {
-            $stages = Stage::all();
+            if($patient->end_service_at) {
+                $stages = Stage::where('step', '<=', $patient->stage->step)->get();
+            } else {
+                $stages = Stage::all();
+            }
         }
         $nextStage = Stage::where('step', $patient->stage->step+1)->first();
         return view('patient.show', compact('patient', 'stages', 'nextStage'));
@@ -875,5 +880,13 @@ class PatientController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function endService(Request $request, $id)
+    {
+        $patient  = Patient::findOrFail($id);
+        $patient->end_service_at = now();
+        $patient->save();
+        return back()->with('success', __('Successfully updated'));
     }
 }
