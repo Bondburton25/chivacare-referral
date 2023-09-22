@@ -5,6 +5,7 @@
 public/images/patients
 /storage/*.key
 /vendor
+.env.local
 .env.backup
 .env.production
 .env.example

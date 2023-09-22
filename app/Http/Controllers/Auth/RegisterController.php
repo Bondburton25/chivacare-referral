@@ -104,7 +104,7 @@ class RegisterController extends Controller
         $message["type"] = "text";
         $message["text"] = __('You have successfully registered');
         $lineMessage["messages"][0] = $message;
-        $lineMessage["to"] = $request->provider_id;
+        $lineMessage["to"]          = $request->provider_id;
         $this->pushMessage($lineMessage,'push');
 
         // Send message to LINE Notify

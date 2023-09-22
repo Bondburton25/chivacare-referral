@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\PatientStayOneMonth::class,
         Commands\PatientStayTwoMonths::class,
-        // Commands\PatientStayThreeMonths::class,
+        Commands\PatientStayThreeMonths::class,
         Commands\PatientReferralFeeOneMonth::class,
         // Commands\PatientReferralFeeTwoMonths::class,
         // Commands\PatientReferralFeeThreeMonths::class,
@@ -26,11 +26,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('app:patient-stay-one-month')->dailyAt();
-        $schedule->command('app:patient-stay-two-months')->dailyAt();
-        // $schedule->command('app:patient-stay-two-months')->dailyAt('10:15');
+        $schedule->command('app:patient-stay-one-month')->dailyAt('12:00');
+        $schedule->command('app:patient-stay-two-months')->dailyAt('12:00');
+        // $schedule->command('app:patient-stay-three-months')->dailyAt('12:00');
         // $schedule->command('app:patient-stay-three-months')->dailyAt('10:15');
-        $schedule->command('app:patient-referral-fee-one-month')->monthly();
+        // $schedule->command('app:patient-referral-fee-one-month')->monthly();
+        $schedule->command('app:patient-referral-fee-one-month')->monthlyOn(22, '12:00');
     }
 
     /**
