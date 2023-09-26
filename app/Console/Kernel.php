@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\PatientStayOneMonth::class,
         Commands\PatientStayTwoMonths::class,
-        // Commands\PatientStayThreeMonths::class,
+        Commands\PatientStayThreeMonths::class,
     ];
 
     /**
@@ -25,9 +25,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('app:patient-stay-one-month')->daily();
         $schedule->command('app:patient-stay-two-months')->daily();
-        // $schedule->command('app:patient-stay-two-months')->dailyAt('12:00');
-        // $schedule->command('app:patient-stay-three-months')->dailyAt('12:00');
-        // $schedule->command('app:patient-stay-three-months')->dailyAt('10:15');
+        $schedule->command('app:patient-stay-three-months')->daily();
     }
 
     /**
