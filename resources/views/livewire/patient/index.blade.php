@@ -39,15 +39,6 @@
         @endcan
 
         <div class="col-sm-3 col-6 mb-2">
-            <select wire:model="byArriveDate" class="form-control form-control-sm">
-                <option value="" selected>{{ __('Length of stay') }}</option>
-                <option value="30">30 {{ __('Days') }}</option>
-                <option value="60">60 {{ __('Days') }}</option>
-                <option value="90">90 {{ __('Days') }}</option>
-            </select>
-        </div>
-
-        <div class="col-sm-3 col-6 mb-2">
             <select wire:model="byRoomType" class="form-control form-control-sm">
                 <option value="" selected>{{ __('Show all room types') }}</option>
                 <option value="single">{{ __('Single room') }}</option>
@@ -87,7 +78,8 @@
                     <td>{{ $patient->health_status()->exists() ? __('Health status').' '.$patient->health_status->name : __('Patient\'s condition unknown') }}</td>
                     <td class="text-{{ $patient->arrive_date_time ? '' : 'muted' }}">
                         @if($patient->arrive_date_time)
-                            {{ $patient->arrive_date_time }} ({{ Carbon\Carbon::parse($patient->arrive_date_time)->diffInDays(date('Y-m-d')) }} {{ __('Day(s) ago') }})
+                            {{ $patient->arrive_date_time }}
+                            ({{ Carbon\Carbon::parse($patient->arrive_date_time)->diffInDays(date('Y-m-d'))+1 }} {{ __('Day(s) ago') }})
                         @else
                             {{ __('Not staying yet') }}
                         @endif
@@ -98,7 +90,7 @@
                         {{ __($patient->referred_by->role) }} {{ $patient->referred_by->fullname }}
                     </td>
                     @endcan
-                    <td><a class="btn btn-outline-primary btn-sm" href="{{ route('patients.show',$patient->id) }}">{{ __('View patient information') }} <i class="bi bi-person-badge"></i></a></td>
+                    <td><a class="btn btn-outline-primary btn-sm" href="{{ route('patients.show',$patient->id) }}">{{ __('View patient information') }}</a></td>
                 </tr>
                 @empty
                 <tr>

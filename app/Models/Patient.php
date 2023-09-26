@@ -49,21 +49,29 @@ class Patient extends Model
     protected $dates =[
         'created_at',
         'updated_at',
-        'expected_arrive',
         'expected_arrive_date_time',
-        'arrive_date_time'
+        'arrive_date_time',
+        'end_service_at',
+        'admission_date_one_month',
+        'admission_date_two_months',
+        'admission_date_three_months',
+        'decided_at',
+        'end_service_at',
+        'relative_visited_at',
+        'relative_decide_of_stay_at',
+        'admit_patient_at'
     ];
 
-    // public function getArriveDateTimeAttribute($arrive_date_time)
+    // public function setArriveDateTimeAttribute($value)
     // {
-    //     if($arrive_date_time != null) {
-    //         return Carbon::parse($arrive_date_time)->format('d/m/Y, H:m');
-    //     }
+    //     $this->attributes['arrive_date_time'] = Carbon::parse($value);
     // }
 
-    public function setArriveDateTimeAttribute($value)
+    public function getArriveDateTimeAttribute($value)
     {
-        $this->attributes['arrive_date_time'] = Carbon::parse($value);
+        if($value != null) {
+            return Carbon::parse($value)->format('d-m-Y, H:m');
+        }
     }
 
     /**
