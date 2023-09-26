@@ -16,9 +16,6 @@ class Kernel extends ConsoleKernel
         Commands\PatientStayOneMonth::class,
         // Commands\PatientStayTwoMonths::class,
         // Commands\PatientStayThreeMonths::class,
-        // Commands\PatientReferralFeeOneMonth::class,
-        // Commands\PatientReferralFeeTwoMonths::class,
-        // Commands\PatientReferralFeeThreeMonths::class,
     ];
 
     /**
