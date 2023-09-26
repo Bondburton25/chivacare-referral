@@ -46,6 +46,26 @@ class Patient extends Model
         'decided_at'
     ];
 
+    protected $dates =[
+        'created_at',
+        'updated_at',
+        'expected_arrive',
+        'expected_arrive_date_time',
+        'arrive_date_time'
+    ];
+
+    // public function getArriveDateTimeAttribute($arrive_date_time)
+    // {
+    //     if($arrive_date_time != null) {
+    //         return Carbon::parse($arrive_date_time)->format('d/m/Y, H:m');
+    //     }
+    // }
+
+    public function setArriveDateTimeAttribute($value)
+    {
+        $this->attributes['arrive_date_time'] = Carbon::parse($value);
+    }
+
     /**
      * Get the Patient's full name.
      *

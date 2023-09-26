@@ -5,7 +5,8 @@ namespace App\Http\Livewire\Patient;
 use App\Models\{
     Patient,
     Stage,
-    HealthStatus
+    HealthStatus,
+    User
 };
 
 use Livewire\{
@@ -24,13 +25,13 @@ class Index extends Component
 
     protected $listeners = ['refreshParent' => '$refresh'];
 
-    public $search, $byStage, $byHealthStatus, $byArriveDate;
+    public $search, $byStage, $byHealthStatus, $byArriveDate, $referredBy, $byRoomType;
 
     public function render()
     {
         $stages = Stage::all();
         $health_statuses = HealthStatus::all();
-
+        $referrers = User::has('patients')->get();
         if(Gate::allows('isAdmin')) {
             $patients = Patient::when($this->search, function($query) {
                 $query->whereHas('referred_by', function($query) {
@@ -47,6 +48,15 @@ class Index extends Component
                 })
                 ->when($this->byHealthStatus, function($query) {
                     $query->where('health_status_id', $this->byHealthStatus);
+                })
+                ->when($this->referredBy, function($query) {
+                    $query->where('referred_by_id', $this->referredBy);
+                })
+                ->when($this->byArriveDate, function($query) {
+                    $query->where('arrive_date_time', '<=', Carbon::now()->subDays($this->byArriveDate));
+                })
+                ->when($this->byRoomType, function($query) {
+                    $query->where('room_type', $this->byRoomType);
                 })
             ->idDescending()
             ->paginate(10);
@@ -65,9 +75,15 @@ class Index extends Component
                         ->when($this->byHealthStatus, function($query) {
                             $query->where('health_status_id', $this->byHealthStatus);
                         })
+                        ->when($this->byArriveDate, function($query) {
+                            $query->where('arrive_date_time', '<=', Carbon::now()->subDays($this->byArriveDate));
+                        })
+                        ->when($this->byRoomType, function($query) {
+                            $query->where('room_type', $this->byRoomType);
+                        })
                     ->idDescending()
                     ->paginate(10);
         }
-        return view('livewire.patient.index', ['patients' => $patients, 'stages' => $stages, 'health_statuses' => $health_statuses]);
+        return view('livewire.patient.index', ['patients' => $patients, 'stages' => $stages, 'health_statuses' => $health_statuses, 'referrers' => $referrers]);
     }
 }

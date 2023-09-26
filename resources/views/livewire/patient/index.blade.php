@@ -3,12 +3,11 @@
         <i class="bi bi-funnel-fill"></i> {{ __('Filter information by') }}:
     </div>
     <div class="row mb-3">
-        <div class="col-sm-3 col-12">
-            <div class="mb-2">
-                <input type="text" wire:model="search" class="form-control form-control-sm" placeholder="{{ __('Search patients') }} {{ __('By name, HN number, contact person') }}...">
-            </div>
+        <div class="col-sm-3 col-12 mb-3">
+            <input type="text" wire:model="search" class="form-control form-control-sm" placeholder="{{ __('Search patients') }} {{ __('By name, HN number, contact person') }}...">
         </div>
-        <div class="col-sm-3 col-12">
+
+        <div class="col-sm-3 col-6 mb-2">
             <div class="mb-2">
                 <select wire:model="byStage" class="form-control form-control-sm">
                     <option value="" selected>{{ __('Show all stage') }}</option>
@@ -18,26 +17,43 @@
                 </select>
             </div>
         </div>
-        <div class="col-sm-3 col-12">
-            <div class="mb-2">
-                <select wire:model="byHealthStatus" class="form-control form-control-sm">
-                    <option value="" selected>{{ __('Show all health status') }}</option>
-                    @foreach ($health_statuses as $health_status)
-                        <option value="{{ $health_status->id }}">{{ $health_status->name }}</option>
-                    @endforeach
-                </select>
-            </div>
+
+        <div class="col-sm-3 col-6 mb-2">
+            <select wire:model="byHealthStatus" class="form-control form-control-sm">
+                <option value="" selected>{{ __('Show all health status') }}</option>
+                @foreach ($health_statuses as $health_status)
+                    <option value="{{ $health_status->id }}">{{ $health_status->name }}</option>
+                @endforeach
+            </select>
         </div>
 
-        <div class="col-sm-3 col-12">
-            <div class="mb-2">
-                <select wire:model="byArriveDate" class="form-control form-control-sm">
-                    <option value="" selected>{{ __('Length of stay') }}</option>
-                    <option value="30">30 Days</option>
-                    <option value="60">60 Days</option>
-                    <option value="90">90 Days</option>
-                </select>
-            </div>
+        @can('isAdmin')
+        <div class="col-sm-3 col-6 mb-2">
+            <select wire:model="referredBy" class="form-control form-control-sm">
+                <option value="" selected>{{ __('Shows patients referred by everyone') }}</option>
+                @foreach ($referrers as $referrer)
+                    <option value="{{ $referrer->id }}">{{ __('Referred by') }} {{ __($referrer->role) }} {{ $referrer->fullname }}</option>
+                @endforeach
+            </select>
+        </div>
+        @endcan
+
+        <div class="col-sm-3 col-6 mb-2">
+            <select wire:model="byArriveDate" class="form-control form-control-sm">
+                <option value="" selected>{{ __('Length of stay') }}</option>
+                <option value="30">30 {{ __('Days') }}</option>
+                <option value="60">60 {{ __('Days') }}</option>
+                <option value="90">90 {{ __('Days') }}</option>
+            </select>
+        </div>
+
+        <div class="col-sm-3 col-6 mb-2">
+            <select wire:model="byRoomType" class="form-control form-control-sm">
+                <option value="" selected>{{ __('Show all room types') }}</option>
+                <option value="single">{{ __('Single room') }}</option>
+                <option value="sharing">{{ __('Shared room') }}</option>
+                <option value="">{{ __('Don\'t know yet') }}</option>
+            </select>
         </div>
 
     </div>
@@ -53,6 +69,9 @@
                     <td>{{ __('Stage') }}</td>
                     <td>{{ __('Health status') }}</td>
                     <td>{{ __('Arrival date') }}</td>
+                    @can('isAdmin')
+                    <td>{{ __('Referred by') }}</td>
+                    @endcan
                     <td>{{ __('Action') }}</td>
                 </tr>
                 @forelse($patients as $patient)
@@ -66,17 +85,24 @@
                         </span>
                     </td>
                     <td>{{ $patient->health_status()->exists() ? __('Health status').' '.$patient->health_status->name : __('Patient\'s condition unknown') }}</td>
-                    <td>
+                    <td class="text-{{ $patient->arrive_date_time ? '' : 'muted' }}">
                         @if($patient->arrive_date_time)
-                            {{-- {{ $patient->arrive_date_time }} ({{ Carbon\Carbon::parse($patient->arrive_date_time)->diffInDays(date('Y-m-d')) }} {{ __('Day(s) ago') }}) --}}
-                            {{ Carbon\Carbon::parse($patient->arrive_date_time)->diffInDays(date('Y-m-d')) }}
+                            {{ $patient->arrive_date_time }} ({{ Carbon\Carbon::parse($patient->arrive_date_time)->diffInDays(date('Y-m-d')) }} {{ __('Day(s) ago') }})
+                        @else
+                            {{ __('Not staying yet') }}
                         @endif
                     </td>
-                    <td><a class="btn btn-outline-primary btn-sm" href="{{ route('patients.show',$patient->id) }}">{{ __('View patient information') }}</a></td>
+                    @can('isAdmin')
+                    <td>
+                        <img src="{{ $patient->referred_by->avatar }}" class="img-profile rounded-circle mr-5">
+                        {{ __($patient->referred_by->role) }} {{ $patient->referred_by->fullname }}
+                    </td>
+                    @endcan
+                    <td><a class="btn btn-outline-primary btn-sm" href="{{ route('patients.show',$patient->id) }}">{{ __('View patient information') }} <i class="bi bi-person-badge"></i></a></td>
                 </tr>
                 @empty
                 <tr>
-                    <td class="text-center" colspan="6">
+                    <td class="text-center" colspan="7">
                         <div class="alert alert-light text-muted text-center border-0 mb-0" role="alert">
                             <i class="bi bi-exclamation-square-fill h2 d-block"></i>
                             {{ __('No data found') }}
@@ -94,11 +120,13 @@
                 <div class="card-body d-flex align-items-top">
                     <div class="info text-muted">
                         @can('isAdmin')
-                            {{ __($patient->referred_by->role) }} {{ $patient->referred_by->fullname }} {{ __('has sent patient information named') }}
+                        <img src="{{ $patient->referred_by->avatar }}" class="img-profile rounded-circle me-1">{{ __($patient->referred_by->role) }}
+                        <span class="text-primary">{{ $patient->referred_by->fullname }}</span>
+                            {{ __('has sent patient information named') }}
                         @else
                             {{ __('You have sent patient information named') }}
                         @endcan
-                        <span class="user-request text-body">{{ $patient->full_name }} {{ $patient->number }}</span>
+                        <span class="user-request text-success">{{ $patient->full_name }} {{ $patient->number }}</span>
                         {{ $patient->health_status()->exists() ? __('Health status').' '.$patient->health_status->name : __('Patient\'s condition unknown') }} {{ __('sent into the system at') }} {{ $patient->created_at->diffForHumans() }}
                     </div>
                 </div>

@@ -8,7 +8,9 @@
 
     <div class="d-flex justify-content-between mb-3">
         <div class="page-title h5 text-success mb-0 align-self-center">รายการผู้ป่วยทั้งหมด</div>
+        @cannot('isAdmin')
         <div><a href="{{ route('patients.create') }}" class="btn btn-primary">{{ __('Refer the patient') }} <i class="bi bi-person-badge-fill"></i></a></div>
+        @endcannot
     </div>
 
     <div class="table-responsive">

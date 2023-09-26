@@ -846,28 +846,9 @@ class PatientController extends Controller
                 }
             }
         }';
-        // // Send to creater
-        // $flexDataJsonPatientCompactCode = json_decode($flexMessageReferPatientCompact,true);
-
-        // $messages['to'] = auth()->user()->auth_provider->provider_id;
-        // $messages['messages'][] = $flexDataJsonPatientCompactCode;
-        // $encodeJsonPatientCompact = json_encode($messages);
-        // $this->pushFlexMessage($encodeJsonPatientCompact);
-
-        // // Send to admin
-        // $admin = User::where('role', 'admin')->first();
-
-        // if($admin) {
-        //     $flexDataJsonPatientCode   = json_decode($flexMessageDataJson,true);
-        //     $messagesPatientInfo['to'] = $admin->auth_provider->provider_id;
-        //     $messagesPatientInfo['messages'][] = $flexDataJsonPatientCode;
-        //     $encodeJson = json_encode($messagesPatientInfo);
-        //     $this->pushFlexMessage($encodeJson);
-        // }
-        // return redirect()->route('patients.show', $patient->id);
 
         $flexDataJsonDeCode = json_decode($flexMessageUpdateReferPatient, true);
-        $messages['to'] = auth()->user()->auth_provider->provider_id;
+        $messages['to'] = $patient->referred_by->auth_provider->provider_id;
         $messages['messages'][] = $flexDataJsonDeCode;
         $encodeJson = json_encode($messages);
         $this->pushFlexMessage($encodeJson);

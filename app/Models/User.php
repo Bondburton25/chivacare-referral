@@ -43,4 +43,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(AuthProvider::class);
     }
+
+    public function patients()
+    {
+        return $this->hasMany(Patient::class, 'referred_by_id');
+    }
 }
