@@ -40,19 +40,6 @@ class LoginController extends Controller
      */
     protected $redirectTo = RouteServiceProvider::HOME;
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        // $this->middleware('guest')->except('logout');
-        session(['url.intended' => url()->previous()]);
-        $this->redirectTo = session()->get('url.intended');
-        $this->middleware('guest')->except('logout');
-    }
-
     public function redirectToLine() {
         return Socialite::driver('line')->redirect();
     }

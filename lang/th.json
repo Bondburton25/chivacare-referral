@@ -200,5 +200,6 @@
     "Shows patients referred by everyone": "แสดงผู้ป่วยที่แนะนำโดยทุกคน",
     "Referred by": "แนะนำโดย",
     "Show all room types": "แสดงห้องทุกประเภท",
-    "which has been in service for": "ซึ่งได้เข้าบริการเป็นเวลา"
+    "which has been in service for": "ซึ่งได้เข้าบริการเป็นเวลา",
+    "super_admin": "Super admin"
 }

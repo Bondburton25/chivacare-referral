@@ -21,10 +21,8 @@ return new class extends Migration
             $table->string('occupation')->nullable();
             $table->string('role');
             $table->string('affiliation')->nullable();
-            // $table->string('email')->unique();
-            // $table->timestamp('email_verified_at')->nullable();
-            // $table->string('password');
-            // $table->rememberToken();
+            $table->timestamp('verified_at')->nullable();
+            $table->boolean('is_verified')->nullable();
             $table->timestamps();
         });
     }

@@ -81,8 +81,14 @@ class RegisterController extends Controller
         ]);
     }
 
+    public function registerEmployees()
+    {
+        return view('auth.register-employees');
+    }
+
     public function registerLine(Request $request): RedirectResponse
     {
+        // dd($request->role);
         $validatedData = $request->validate([
             'provider_id'  => 'required|unique:auth_providers',
             'phone_number' => 'required|unique:users',
@@ -91,8 +97,8 @@ class RegisterController extends Controller
             'name'         => 'required',
             'avatar'       => 'required',
             'role'         => 'required',
-            'occupation'   => 'required',
-            'affiliation'  => 'required',
+            // 'occupation'   => 'required',
+            // 'affiliation'  => 'required',
         ]);
 
         $user = User::create($validatedData);

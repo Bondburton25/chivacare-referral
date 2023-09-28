@@ -49,6 +49,8 @@
                             </div>
                         </div>
 
+                        <input type="hidden" name="role" value="admin">
+
                         <div class="row mb-3">
                             <label for="last_name" class="col-md-4 col-form-label text-md-end">{{ __('Last Name') }} <span class="text-danger">*</span></label>
                             <div class="col-md-6">
@@ -86,23 +88,6 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="line_id" class="col-md-4 col-form-label text-md-end">{{ __('User role') }} <span class="text-danger">*</span></label>
-                            <div class="col-md-6">
-                                <select name="role" id="role" class="form-control">
-                                    <option value="" selected>{{ __('Please select') }}</option>
-                                    <option value="doctor">{{ __('Doctor') }}</option>
-                                    <option value="nurse">{{ __('Nurse') }}</option>
-                                    <option value="general_user">{{ __('General user') }}</option>
-                                </select>
-                                @error('role')
-                                    <span class="invalid-feedback d-block" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
                             <label for="line_id" class="col-md-4 col-form-label text-md-end">{{ __('Affiliation') }}</label>
                             <div class="col-md-6">
                                 <input type="text" class="form-control" id="affiliation" name="affiliation">
@@ -114,7 +99,7 @@
                             </div>
                         </div>
 
-                        <input type="hidden" id="lineUserid" name="provider_id">
+                        <input type="text" id="lineUserid" name="provider_id">
                         <input type="hidden" id="name" name="name">
                         <input type="hidden" id="avatar" name="avatar">
 
@@ -134,6 +119,7 @@
 @endsection
 
 @section('javascript')
+
 <script src="https://static.line-scdn.net/liff/edge/versions/2.15.0/sdk.js"></script>
 <script>
     function runApp() {
@@ -145,14 +131,15 @@
             document.getElementById("user-image").src = profile.pictureUrl;
         }).catch(err => console.error(err));
     }
-    // liffID for Production = 2000626016-NL7a4wJ6
-    // liffID for Development = 2000588475-zveQ08Zq
-    liff.init({ liffId: "2000626016-NL7a4wJ6" }, () => {
+    // liffID for Production  = 2000626016-3m0YB8zW
+    // liffID for Development = 2000588475-9dGzkaw3
+    liff.init({ liffId: "2000626016-3m0YB8zW" }, () => {
         if (liff.isLoggedIn()) {
           runApp();
         } else {
           liff.login();
         }
     }, err => console.error(err.code, error.message));
-  </script>
+</script>
+
 @endsection
