@@ -25,7 +25,7 @@
     <div class="row justify-content-center">
         <div class="col-md-4 col-12">
             <div class="card border-0 shadow-sm">
-                <img src="{{ asset('images/close-up-male-hands-using-smartphone.jpg') }}" class="border-0 link-opacity-10-hover" alt="">
+                <img src="{{ asset('images/operator-woman.webp') }}" class="border-0 link-opacity-10-hover" alt="">
                 <div class="card-body py-4">
                     <img src="" alt="user-line" id="user-image" class="rounded mx-auto d-block rounded-circle mb-2">
                     @error('provider_id')
