@@ -87,101 +87,9 @@ class PatientController extends Controller
         $patient->room_type ? $roomType = $patient->room_type : $roomType = __('Don\'t know yet');
         $patient->recommend_service ? $recommendService = $patient->recommend_service : $recommendService = __('No data found');
 
-        $flexMessageReferPatientCompact = '{
-            "type": "flex",
-            "altText": "'.__('You have successfully referred patient information').'",
-            "contents": {
-                "type": "bubble",
-                "size": "mega",
-                "header": {
-                    "type": "box",
-                    "layout": "vertical",
-                    "contents": [
-                        {
-                            "type": "box",
-                            "layout": "horizontal",
-                            "contents": [
-                                {
-                                    "type": "box",
-                                    "layout": "vertical",
-                                    "contents": [
-                                        {
-                                            "type": "text",
-                                            "text": "'.__('Patient referral information').'",
-                                            "color": "#FFFFFF"
-                                        },
-                                        {
-                                            "type": "text",
-                                            "text": "'.$patient->full_name.'",
-                                            "flex": 1,
-                                            "color": "#FFFFFF",
-                                            "gravity": "bottom"
-                                        }
-                                    ],
-                                    "flex": 6,
-                                    "alignItems": "flex-start",
-                                    "justifyContent": "space-between",
-                                    "margin": "none"
-                                }
-                            ]
-                        }
-                    ],
-                    "paddingAll": "20px",
-                    "backgroundColor": "#198754",
-                    "spacing": "md",
-                    "paddingTop": "22px"
-                },
-                "body": {
-                    "type": "box",
-                    "layout": "baseline",
-                    "contents": [
-                        {
-                            "type": "text",
-                            "text": "'.__('Current stage').'",
-                            "color": "#b7b7b7",
-                            "size": "xs",
-                            "flex": 1
-                        },
-                        {
-                            "type": "text",
-                            "text": "'.__('Stage').' 1 '.__('You has been successfully sent patient information Wait for CVC to contact the patient').'",
-                            "flex": 2,
-                            "wrap": true,
-                            "size": "sm"
-                        }
-                    ]
-                },
-                "footer": {
-                    "type": "box",
-                    "layout": "vertical",
-                    "spacing": "sm",
-                    "contents": [
-                        {
-                            "type": "button",
-                            "style": "primary",
-                            "height": "sm",
-                            "action": {
-                                "type": "uri",
-                                "label": "'.__('View patient information').'",
-                                "uri": "'.url('/patients/'.$patient->id.'').'"
-                            },
-                            "color": "#E7A109"
-                        },
-                        {
-                            "type": "box",
-                            "layout": "vertical",
-                            "contents": [],
-                            "margin": "sm"
-                        }
-                    ],
-                    "flex": 0
-                }
-            }
-        }';
-
         $flexMessageDataJson = '{
             "type": "flex",
-            "altText": "'.__('You have received patient referred information') .' '."$patient->full_name".'",
+            "altText": "'.__('You have successfully referred patient information') .' '."$patient->full_name".'",
             "contents": {
                 "type": "bubble",
                 "header": {
@@ -676,24 +584,116 @@ class PatientController extends Controller
             }
         }';
 
+        $flexMessageReferPatientCompact = '{
+            "type": "flex",
+            "altText": "'.__('You have successfully referred patient information').'",
+            "contents": {
+                "type": "bubble",
+                "size": "mega",
+                "header": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                        {
+                            "type": "box",
+                            "layout": "horizontal",
+                            "contents": [
+                                {
+                                    "type": "box",
+                                    "layout": "vertical",
+                                    "contents": [
+                                        {
+                                            "type": "text",
+                                            "text": "'.__('Patient referral information').'",
+                                            "color": "#FFFFFF"
+                                        },
+                                        {
+                                            "type": "text",
+                                            "text": "'.$patient->full_name.'",
+                                            "flex": 1,
+                                            "color": "#FFFFFF",
+                                            "gravity": "bottom"
+                                        }
+                                    ],
+                                    "flex": 6,
+                                    "alignItems": "flex-start",
+                                    "justifyContent": "space-between",
+                                    "margin": "none"
+                                }
+                            ]
+                        }
+                    ],
+                    "paddingAll": "20px",
+                    "backgroundColor": "#198754",
+                    "spacing": "md",
+                    "paddingTop": "22px"
+                },
+                "body": {
+                    "type": "box",
+                    "layout": "baseline",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "'.__('Current stage').'",
+                            "color": "#b7b7b7",
+                            "size": "xs",
+                            "flex": 1
+                        },
+                        {
+                            "type": "text",
+                            "text": "'.__('Stage').' 1 '.__('You has been successfully sent patient information Wait for CVC to contact the patient').'",
+                            "flex": 2,
+                            "wrap": true,
+                            "size": "sm"
+                        }
+                    ]
+                },
+                "footer": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "button",
+                            "style": "primary",
+                            "height": "sm",
+                            "action": {
+                                "type": "uri",
+                                "label": "'.__('View patient information').'",
+                                "uri": "'.url('/patients/'.$patient->id.'').'"
+                            },
+                            "color": "#E7A109"
+                        },
+                        {
+                            "type": "box",
+                            "layout": "vertical",
+                            "contents": [],
+                            "margin": "sm"
+                        }
+                    ],
+                    "flex": 0
+                }
+            }
+        }';
+
+        $flexDataJsonPatientCode = json_decode($flexMessageDataJson,true);
+        $messagesPatientInfo['to'] = $patient->referred_by->auth_provider->provider_id;
+        $messagesPatientInfo['messages'][] = $flexDataJsonPatientCode;
+        $encodeJson = json_encode($messagesPatientInfo);
+        $this->pushFlexMessage($encodeJson);
+
         // Send to creater
         $flexDataJsonPatientCompactCode = json_decode($flexMessageReferPatientCompact,true);
-
-        $messages['to'] = auth()->user()->auth_provider->provider_id;
+        $messages['to'] = $patient->referred_by->auth_provider->provider_id;
         $messages['messages'][] = $flexDataJsonPatientCompactCode;
         $encodeJsonPatientCompact = json_encode($messages);
         $this->pushFlexMessage($encodeJsonPatientCompact);
 
-        // Send to admin
-        $admin = User::where('role', 'admin')->first();
+        // Send message to LINE Notify
+        $messageToNotify = __(auth()->user()->role) .' '. auth()->user()->fullname .' '. __('has sent patient information named').' '. $patient->fullname.' '.__('View more information here') .' '. url('/patients/'.$patient->id.'').'';
 
-        if($admin) {
-            $flexDataJsonPatientCode = json_decode($flexMessageDataJson,true);
-            $messagesPatientInfo['to'] = $admin->auth_provider->provider_id;
-            $messagesPatientInfo['messages'][] = $flexDataJsonPatientCode;
-            $encodeJson = json_encode($messagesPatientInfo);
-            $this->pushFlexMessage($encodeJson);
-        }
+        $token = 'ZDJRAjRTvNjJ9sawi7wHx49D717BojlMZlg5XAoGosd';
+        $this->lineNotify($messageToNotify, $token);
         return redirect()->route('patients.show', $patient->id);
     }
 
