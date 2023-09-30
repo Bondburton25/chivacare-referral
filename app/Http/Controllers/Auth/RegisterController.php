@@ -81,7 +81,7 @@ class RegisterController extends Controller
         ]);
     }
 
-    public function registerEmployees()
+    public function registerEmployee()
     {
         return view('auth.register-employees');
     }

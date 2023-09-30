@@ -38,7 +38,7 @@ Route::controller(LoginController::class)->group(function () {
 });
 
 // Register
-Route::get('register-employees', [RegisterController::class, 'registerEmployees'])->name('register.employees');
+Route::get('register-employee', [RegisterController::class, 'registerEmployee'])->name('register.employee');
 Route::post('register-line-store', [RegisterController::class, 'registerLine'])->name('register.line.store');
 
 // Homepage

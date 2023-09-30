@@ -99,7 +99,7 @@
                             </div>
                         </div>
 
-                        <input type="text" id="lineUserid" name="provider_id">
+                        <input type="hidden" id="lineUserid" name="provider_id">
                         <input type="hidden" id="name" name="name">
                         <input type="hidden" id="avatar" name="avatar">
 
