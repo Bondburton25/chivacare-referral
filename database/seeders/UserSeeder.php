@@ -17,19 +17,19 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $user = User::create([
-            'first_name' => 'Bond',
-            'last_name' => 'Burton',
-            'name' => 'Bond',
-            'role' => 'super_admin',
-            'phone_number' => '0834464043',
-            'avatar' => 'https://profile.line-scdn.net/0hGgJ_7Pf5GEhnJgraJclmNxd2GyJEV0FaSUNXfFMmQy9dHlxJGEUCfFJ1RX5fE1hKHkJVKQciQXhrNW8ueXDkfGAWRXlbF1gdTEFXqQ',
+            'first_name' => '🍀🍁PakEY😻แพก🎶',
+            'name' => '🍀🍁PakEY😻แพก🎶',
+            'last_name' => 'แพกกี้',
+            'role' => 'admin',
+            'phone_number' => '0619628165',
+            'avatar' => 'https://profile.line-scdn.net/0hMeKZ_xk1EkpmIzipxXNsNRZzESBFUktYTkZeKQAqTS5fGwdITk1YfwN2TXoMEFAcT0BbKlogS3pqMGUseHXufmETT3taElIfTURdqw',
             'is_verified' => true,
             'verified_at' => now(),
         ]);
 
         AuthProvider::create([
             'user_id' => $user->id,
-            'provider_id' => 'U735fb461941383eb14f9ff9e24c5f8fb',
+            'provider_id' => 'Uda966d3629f63b8d8cd4ba2a4990832c',
             'provider' => 'line'
         ]);
     }
