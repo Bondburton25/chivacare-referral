@@ -88,7 +88,6 @@ class RegisterController extends Controller
 
     public function registerLine(Request $request): RedirectResponse
     {
-        // dd($request->role);
         $validatedData = $request->validate([
             'provider_id'  => 'required|unique:auth_providers',
             'phone_number' => 'required|unique:users',
@@ -114,8 +113,15 @@ class RegisterController extends Controller
         $this->pushMessage($lineMessage,'push');
 
         // Send message to LINE Notify
-        $messageToNotify = $user->name .' '.__('has registered as a').' '.__($request->role).'';
+
+        if($request->role == 'employee') {
+            $messageToNotify = $user->fullname .' '. __('has registered as an employee').' '.__('View more information here') .' '. url('/employees/'.$user->id.'').'';
+        } else {
+            $messageToNotify = $user->name .' '.__('has registered as a').' '.__($request->role).'';
+        }
+
         $token = 'O4Y2v1Zw49FL9A40IuLXu35XRKyK1710p6wEf6C07C9';
+
         $this->lineNotify($messageToNotify, $token);
 
         $welcomeStickerJson = '{

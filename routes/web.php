@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\{
 };
 
 use App\Http\Controllers\{
+    EmployeeController,
     PatientController
 };
 
@@ -52,6 +53,10 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::middleware([managePatient::class])->group(function() {
         Route::resource('/patients', PatientController::class)->only(['show']);
+    });
+
+    Route::middleware([onlySuperAdmin::class])->group(function() {
+        Route::resource('/employees', EmployeeController::class)->only(['index', 'show', 'update']);
     });
 });
 

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('pageTitle', __('Register'))
+@section('pageTitle', __('Register employee'))
 
 @section('stylesheet')
 
@@ -49,7 +49,7 @@
                             </div>
                         </div>
 
-                        <input type="hidden" name="role" value="admin">
+                        <input type="hidden" name="role" value="employee">
 
                         <div class="row mb-3">
                             <label for="last_name" class="col-md-4 col-form-label text-md-end">{{ __('Last Name') }} <span class="text-danger">*</span></label>
@@ -133,7 +133,7 @@
     }
     // liffID for Production  = 2000626016-3m0YB8zW
     // liffID for Development = 2000588475-9dGzkaw3
-    liff.init({ liffId: "2000626016-3m0YB8zW" }, () => {
+    liff.init({ liffId: "2000588475-9dGzkaw3" }, () => {
         if (liff.isLoggedIn()) {
           runApp();
         } else {

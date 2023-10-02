@@ -202,5 +202,16 @@
     "Referred by": "แนะนำโดย",
     "Show all room types": "แสดงห้องทุกประเภท",
     "which has been in service for": "ซึ่งได้เข้าบริการเป็นเวลา",
-    "super_admin": "Super admin"
+    "super_admin": "Super admin",
+    "Registered at": "ลงทะเบียนเมื่อ",
+    "Verified at": "ยืนยันแล้วเมื่อ",
+    "Register employee": "ลงทะเบียนพนักงาน",
+    "Employee profile": "โปรไฟล์พนักงาน",
+    "Role": "บทบาท",
+    "Manage permission": "จัดการสิทธิ์",
+    "You have verified the user account in the role": "คุณได้รับการยืนยันบัญชีผู้ใช้ในบทบาท",
+    "successfully registered": "ได้ลงทะเบียนสำเร็จ",
+    "has registered as an employee": "ได้ลงทะเบียนเป็นผู้ใช้พนักงาน",
+    "View profile": "ดูโปรไฟล์",
+    "Close window": "ปิดหน้าต่าง"
 }

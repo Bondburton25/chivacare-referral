@@ -24,7 +24,9 @@ class User extends Authenticatable
         'occupation',
         'avatar',
         'role',
-        'phone_number'
+        'phone_number',
+        'verified_at',
+        'is_verified'
     ];
 
     protected $appends = ['fullname'];
