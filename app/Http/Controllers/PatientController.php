@@ -170,6 +170,29 @@ class PatientController extends Controller
                                     "contents": [
                                         {
                                             "type": "text",
+                                            "text": "HN Number",
+                                            "color": "#aaaaaa",
+                                            "size": "sm",
+                                            "flex": 3,
+                                            "weight": "regular"
+                                        },
+                                        {
+                                            "type": "text",
+                                            "text": "'.$patient->number.'",
+                                            "wrap": true,
+                                            "color": "#000000",
+                                            "size": "sm",
+                                            "flex": 5
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "box",
+                                    "layout": "baseline",
+                                    "spacing": "sm",
+                                    "contents": [
+                                        {
+                                            "type": "text",
                                             "text": "'.__('Gender').'",
                                             "color": "#aaaaaa",
                                             "size": "sm",
