@@ -89,7 +89,7 @@ class PatientController extends Controller
 
         $flexMessageDataJson = '{
             "type": "flex",
-            "altText": "'.__('You have successfully referred patient information').' '."$patient->full_name".'",
+            "altText": "'.__('You have successfully referred patient information') .' '."$patient->full_name".'",
             "contents": {
                 "type": "bubble",
                 "header": {
