@@ -132,7 +132,6 @@
         }).catch(err => console.error(err));
     }
     // liffID for Production  = 2000626016-3m0YB8zW
-    // liffID for Development = 2000588475-9dGzkaw3
     liff.init({ liffId: "2000626016-3m0YB8zW" }, () => {
         if (liff.isLoggedIn()) {
           runApp();
