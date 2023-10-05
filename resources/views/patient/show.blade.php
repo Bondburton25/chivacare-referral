@@ -107,6 +107,10 @@
                             <span class="text-success">{{ $patient->full_name }}</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                            {{ __('Refer number') }}
+                            <span class="text-success">{{ __($patient->number) }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
                             {{ __('Gender') }}
                             <span class="text-success">{{ __($patient->gender) }}</span>
                         </li>
