@@ -147,7 +147,7 @@ class PatientController extends Controller
                                     "contents": [
                                         {
                                             "type": "text",
-                                            "text": "ชื่อ-สกุล",
+                                            "text": "'.__('First Name-Last name').'",
                                             "color": "#aaaaaa",
                                             "size": "sm",
                                             "flex": 3,
@@ -179,6 +179,29 @@ class PatientController extends Controller
                                         {
                                             "type": "text",
                                             "text": "'.__($patient->gender).'",
+                                            "wrap": true,
+                                            "color": "#000000",
+                                            "size": "sm",
+                                            "flex": 5
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "box",
+                                    "layout": "baseline",
+                                    "spacing": "sm",
+                                    "contents": [
+                                        {
+                                            "type": "text",
+                                            "text": "'.__('Refer number') .' refer no.)",
+                                            "color": "#aaaaaa",
+                                            "size": "sm",
+                                            "flex": 3,
+                                            "weight": "regular"
+                                        },
+                                        {
+                                            "type": "text",
+                                            "text": "'.$patient->number.'",
                                             "wrap": true,
                                             "color": "#000000",
                                             "size": "sm",

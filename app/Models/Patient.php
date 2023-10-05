@@ -122,7 +122,7 @@ class Patient extends Model
         parent::boot();
         self::creating(function($model) {
             $model->stage_id = Stage::where('step', 1)->first()->id;
-            $model->number = 'RN'.sprintf('%05d', Patient::count()+1);
+            $model->number = 'RN'.sprintf('%04d', Patient::count()+1);
             if(auth()->check()) {
                 $model->referred_by_id = auth()->id();
             }
