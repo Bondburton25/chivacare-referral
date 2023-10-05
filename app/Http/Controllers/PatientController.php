@@ -587,8 +587,7 @@ class PatientController extends Controller
         $flexMessageReferPatientCompact = '{
             "type": "flex",
             "altText": "'.__('You have successfully referred patient information').'",
-            "contents":
-            {
+            "contents": {
                 "type": "bubble",
                 "size": "mega",
                 "header": {
@@ -870,10 +869,5 @@ class PatientController extends Controller
         $patient->end_service_at = now();
         $patient->save();
         return back()->with('success', __('Successfully updated'));
-    }
-
-    public function referralFees()
-    {
-        return view('patient.referral-fee');
     }
 }

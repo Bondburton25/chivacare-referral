@@ -58,9 +58,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::middleware([onlySuperAdmin::class])->group(function() {
         Route::resource('/employees', EmployeeController::class)->only(['index', 'show', 'update']);
     });
-
-    Route::get('patient-referral-fees', PatientController::class, 'referralFees')->name('patients.referral-fees');
 });
-
 
 URL::forceScheme('https');
