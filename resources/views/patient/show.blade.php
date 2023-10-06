@@ -237,7 +237,7 @@
                                                 <div class="modal-body text-center">
                                                     <h4>{{ __('Update on the patient referral process') }}</h4>
                                                     @if($nextStage)
-                                                        <p>Stage {{ $nextStage->step }} {{ $nextStage->name }}</p>
+                                                        <span>{{ __('Step') }}</span> <span class="text-success">{{ $nextStage->step }} {{ $nextStage->name }}</span>
                                                     @endif
                                                     @if($patient->stage->step == 3)
                                                         <div class="py-2">
@@ -293,16 +293,24 @@
                     <ul class="timeline">
                         @foreach ($stages as $stage)
                             <li class="timeline-item mb-4 {{ $stage->id == $patient->stage_id && $patient->end_service_at == null ? 'current-stage ' : '' }}">
-                                <p class="mb-0">{{ __('Stage') }} {{ $stage->step }} {{ $stage->name }}</p>
+                                <p class="mb-0">{{ __('Step') }} <span class="text-success">{{ $stage->step }} {{ $stage->name }}</p></span>
                                 <time class="text-muted">
                                     @if($stage->step <= $patient->stage->step)
                                         @if($stage->step == 1)
-                                            <div class="d-block">
-                                                {{-- <img src="{{ $patient->referred_by->avatar }}" class="img-profile rounded-circle mr-5"> --}}
-                                                {{ __($patient->referred_by->role) }}
-                                                {{ $patient->referred_by->fullname }} {{ __('Sent patient information at') }}
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-shrink-0">
+                                                    <img src="{{ $patient->referred_by->avatar }}" class="img-profile rounded-circle d-inline-block">
+                                                </div>
+                                                <div class="flex-grow-1 ms-2 referred_person">
+                                                    {{ __($patient->referred_by->role) }} <span class="text-primary">{{ $patient->referred_by->fullname }}</span>
+                                                    <div class="d-block created_at">
+                                                        {{ __('Sent patient information at') }} {{ $patient->created_at }}
+                                                        {{-- <div class="d-block">
+                                                            ({{ $patient->created_at->diffForHumans() }})
+                                                        </div> --}}
+                                                    </div>
+                                                </div>
                                             </div>
-                                            {{ $patient->created_at }}
                                         @endif
 
                                         @if($stage->step == 2)
