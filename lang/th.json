@@ -198,6 +198,7 @@
     "Patient referral fee": "ค่าแนะนำคนไข้",
     "The patient end service at": "คนไข้สิ้นสุดการให้บริการเมื่อ",
     "Do you want to end services for this patient?": "คุณต้องการสิ้นสุดบริการคนไข้ท่านนี้ใช่หรือไม่?",
+    "On the date": "ในวันที่",
     "You have sent patient information named": "คุณได้ส่งข้อมูลคนไข้ชื่อ",
     "has sent patient information named": "ได้ส่งข้อมูลคนไข้ชื่อ",
     "Shows patients referred by everyone": "แสดงผู้ป่วยที่แนะนำโดยทุกคน",
@@ -216,5 +217,6 @@
     "has registered as an employee": "ได้ลงทะเบียนเป็นผู้ใช้พนักงาน",
     "View profile": "ดูโปรไฟล์",
     "Close window": "ปิดหน้าต่าง",
-    "In stage": "อยู่ในขั้นตอนที่"
+    "In stage": "อยู่ในขั้นตอนที่",
+    "Yesterday": "เมื่อวาน"
 }

@@ -341,20 +341,29 @@
                                                     @endif
 
                                                     {{ $patient->physical_therapy_service ? __('Including physical therapy services') : ''  }}
+
                                                 @if($patient->staying_decision == 'stay')
                                                 <div class="d-block">
                                                     {{ __('Expected arrival date/time') }} {{ $patient->expected_arrive_date_time ? date('d/m/Y', strtotime($patient->expected_arrive_date_time)) : '' }}
 
                                                     @if($patient->arrive_date_time == null)
-                                                    <span class="small d-block text-muted" id="days-to-come">
-                                                        @if(date('Y-m-d', strtotime($patient->expected_arrive_date_time)) > date('Y-m-d'))
-                                                            ({{ __('More') }} {{ Carbon\Carbon::parse($patient->expected_arrive_date_time)->diffInDays(date('Y-m-d')) }} {{ __('Day(s) to come') }})
-                                                        @elseif(date('Y-m-d', strtotime($patient->expected_arrive_date_time)) < date('Y-m-d'))
-                                                            ({{ Carbon\Carbon::parse($patient->expected_arrive_date_time)->diffInDays(date('Y-m-d')) }} {{ __('Day(s) ago') }})
-                                                        @else
-                                                            ({{ __('Today') }})
-                                                        @endif
-                                                    </span>
+                                                        <span class="small d-block text-muted" id="days-to-come">
+                                                            @if(date('Y-m-d', strtotime($patient->expected_arrive_date_time)) > date('Y-m-d'))
+                                                                ({{ __('More') }} {{ Carbon\Carbon::parse($patient->expected_arrive_date_time)->diffInDays(date('Y-m-d')) }} {{ __('Day(s) to come') }})
+                                                            @elseif(date('Y-m-d', strtotime($patient->expected_arrive_date_time)) < date('Y-m-d'))
+                                                                <span class="text-danger">
+                                                                    @if(Carbon\Carbon::parse($patient->expected_arrive_date_time)->diffInDays(date('Y-m-d')) == 0)
+                                                                        {{ __('Yesterday') }} {{ __('Time') }} {{ date('H:m', strtotime($patient->expected_arrive_date_time)) }}
+                                                                    @else
+                                                                        ({{ Carbon\Carbon::parse($patient->expected_arrive_date_time)->diffInDays(date('Y-m-d'))+1 }} {{ __('Day(s) ago') }})
+                                                                    @endif
+                                                                </span>
+                                                            @else
+                                                                <span class="text-success">
+                                                                    {{ __('Today') }} {{ __('Time') }} {{ date('H:m', strtotime($patient->expected_arrive_date_time)) }}
+                                                                </span>
+                                                            @endif
+                                                        </span>
                                                     @endif
                                                 </div>
                                                 @endif

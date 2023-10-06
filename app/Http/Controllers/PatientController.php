@@ -108,6 +108,13 @@ class PatientController extends Controller
                                             "type": "text",
                                             "text": "'.__('Patient referral information').'",
                                             "color": "#FFFFFF"
+                                        },
+                                        {
+                                            "type": "text",
+                                            "text": "'."Refer no.".' '."$patient->number".'",
+                                            "size": "xs",
+                                            "color": "#FFFFFF",
+                                            "wrap": true
                                         }
                                     ],
                                     "flex": 6,
@@ -636,6 +643,13 @@ class PatientController extends Controller
                                             "flex": 1,
                                             "color": "#FFFFFF",
                                             "gravity": "bottom"
+                                        },
+                                        {
+                                            "type": "text",
+                                            "text": "'."Refer no.".' '."$patient->number".'",
+                                            "size": "xs",
+                                            "color": "#FFFFFF",
+                                            "wrap": true
                                         }
                                     ],
                                     "flex": 6,
@@ -715,7 +729,10 @@ class PatientController extends Controller
         // Send message to LINE Notify
         $messageToNotify = __(auth()->user()->role) .' '. auth()->user()->fullname .' '. __('has sent patient information named').' '. $patient->fullname.' '.__('View more information here') .' '. url('/patients/'.$patient->id.'').'';
 
-        $token = 'ZDJRAjRTvNjJ9sawi7wHx49D717BojlMZlg5XAoGosd';
+        // $token = 'ZDJRAjRTvNjJ9sawi7wHx49D717BojlMZlg5XAoGosd';
+
+        // Only Dev
+        $token = 'VGuxZuqx9AW9EdjYY89780StUyrEjOgVb9cEIOIK5po';
         $this->lineNotify($messageToNotify, $token);
         return redirect()->route('patients.show', $patient->id);
     }
@@ -775,8 +792,16 @@ class PatientController extends Controller
         }
 
         $patient->reason_not_staying = $request->reason_not_staying;
-
         $patient->save();
+
+
+        // if($patient->staying_decision) {
+        //     if($patient->staying_decision == 'stay') {
+        //         $stayingDecision = __($request->staying_decision).' '.__('On the date').' '.$patient->expected_arrive_date_time.'';
+        //     }
+        // } else {
+        //     $stayingDecision = '';
+        // }
 
         $flexMessageUpdateReferPatient = '{
             "type": "flex",
@@ -807,6 +832,13 @@ class PatientController extends Controller
                                             "flex": 1,
                                             "color": "#FFFFFF",
                                             "gravity": "bottom"
+                                        },
+                                        {
+                                            "type": "text",
+                                            "text": "'."Refer no.".' '."$patient->number".'",
+                                            "size": "xs",
+                                            "color": "#FFFFFF",
+                                            "wrap": true
                                         }
                                     ],
                                     "flex": 6,
@@ -835,7 +867,7 @@ class PatientController extends Controller
                         },
                         {
                             "type": "text",
-                            "text": "'.__($newStage->name).'",
+                            "text": "'.__('Step') .' '."$newStage->step".' '.$newStage->name.'",
                             "flex": 2,
                             "wrap": true,
                             "size": "sm"

@@ -50,7 +50,7 @@ class Patient extends Model
     protected $dates =[
         'created_at',
         'updated_at',
-        'expected_arrive_date_time',
+        // 'expected_arrive_date_time',
         'arrive_date_time',
         'end_service_at',
         'admission_date_one_month',
