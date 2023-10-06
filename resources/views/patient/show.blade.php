@@ -132,7 +132,7 @@
                         </li>
 
                         <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
-                            {{ __('Health Status') }}
+                            {{ __('Health status') }}
                             <span class="text-success">{{ $patient->health_status ? __($patient->health_status->name) : '' }}</span>
                         </li>
 
@@ -165,19 +165,19 @@
                 </div>
                 <div class="card-body">
                     <ul class="list-group">
-                        <li class="list-group-item align-items-center border-0 px-0 mb-0">
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-0">
                             {{ __('Name of relative') }}:
                             <span class="text-success">{{ $patient->contact_person }}</span>
                         </li>
-                        <li class="list-group-item align-items-center border-0 px-0 mb-0">
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-0">
                             {{ __('Relationship') }}:
                             <span class="text-success">{{ $patient->contact_person_relationship }}</span>
                         </li>
-                        <li class="list-group-item align-items-center border-0 px-0 mb-0">
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-0">
                             {{ __('Phone number') }}:
                             <span class="text-success">{{ $patient->phone_number }}</span>
                         </li>
-                        <li class="list-group-item align-items-center border-0 px-0">
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
                             {{ __('Relative Expectations') }}:
                             <span class="text-success">{{ $patient->expectations }}</span>
                         </li>
@@ -191,15 +191,15 @@
                 </div>
                 <div class="card-body">
                     <ul class="list-group">
-                        <li class="list-group-item align-items-center border-0 px-0 mb-0">
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-0">
                             {{ __('Food') }}:
                             <span class="text-success">{{ $patient->food }}</span>
                         </li>
-                        <li class="list-group-item align-items-center border-0 px-0 mb-0">
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-0">
                             {{ __('Excretory system') }}:
                             <span class="text-success">{{ __($patient->excretory_system) }}</span>
                         </li>
-                        <li class="list-group-item align-items-center border-0 px-0 mb-0">
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-0">
                             {{ __('Room type') }}:
                             <span class="text-success">
                                 {{ $patient->room_type == 'sharing' ? __('Sharing room') : ($patient->room_type == 'single' ? __('Shared room') : __('Don\'t know yet') ) }}
@@ -297,7 +297,12 @@
                                 <time class="text-muted">
                                     @if($stage->step <= $patient->stage->step)
                                         @if($stage->step == 1)
-                                            {{ __('Sent patient information at') }} {{ $patient->created_at }}
+                                            <div class="d-block">
+                                                {{-- <img src="{{ $patient->referred_by->avatar }}" class="img-profile rounded-circle mr-5"> --}}
+                                                {{ __($patient->referred_by->role) }}
+                                                {{ $patient->referred_by->fullname }} {{ __('Sent patient information at') }}
+                                            </div>
+                                            {{ $patient->created_at }}
                                         @endif
 
                                         @if($stage->step == 2)

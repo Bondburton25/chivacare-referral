@@ -41,6 +41,7 @@ class Patient extends Model
         'physical_therapy_service',
         'reason_not_staying',
         'end_service_at',
+        'treatment_history',
         'created_at',
         'updated_at',
         'decided_at'

@@ -4,7 +4,7 @@
     </div>
     <div class="row mb-3">
         <div class="col-sm-3 col-12 mb-3">
-            <input type="text" wire:model="search" class="form-control form-control-sm" placeholder="{{ __('Search patients') }} {{ __('By name, HN number, contact person') }}...">
+            <input type="text" wire:model="search" class="form-control form-control-sm" placeholder="{{ __('Search patients') }} {{ __('By name, Refer no, contact person') }}...">
         </div>
 
         <div class="col-sm-3 col-6 mb-2">
@@ -55,7 +55,7 @@
             </caption>
             <tbody>
                 <tr>
-                    <td>HN Hosptial</td>
+                    <td>{{ __('Refer number') }}</td>
                     <td>{{ __('Name') }}-{{ __('Last name') }} </td>
                     <td>{{ __('Stage') }}</td>
                     <td>{{ __('Health status') }}</td>
@@ -118,14 +118,19 @@
                         @else
                             {{ __('You have sent patient information named') }}
                         @endcan
-                        <span class="user-request text-success">{{ $patient->full_name }} {{ $patient->number }}</span>
-                        {{ $patient->health_status()->exists() ? __('Health status').' '.$patient->health_status->name : __('Patient\'s condition unknown') }} {{ __('sent into the system at') }} {{ $patient->created_at->diffForHumans() }}
+                        <span class="user-request text-success">{{ $patient->full_name }}</span>
+                        <span class="text-muted"> ({{ __('Refer number') }} </span>
+                        <span class="text-success">{{ $patient->number }})</span>
+
+                        <div class="d-block">
+                            {{ $patient->health_status()->exists() ? __('Health status').' '.$patient->health_status->name : __('Patient\'s condition unknown') }} {{ __('sent into the system at') }} {{ $patient->created_at->diffForHumans() }}
+                        </div>
                     </div>
                 </div>
                 <div class="card-footer bg-transparent border-0 pt-0 d-flex justify-content-between">
                     <span class="badge rounded-pill p-2 fw-normal bg-success-subtle text-success">
                         <i class="bi bi-check2-circle"></i>
-                        {{ __('Current stage') }} {{ $patient->stage->name }}
+                        {{ __('Current stage') }} {{ __('In stage') }} {{ $patient->stage->step }} {{ $patient->stage->name }}
                     </span>
                 </div>
             </a>

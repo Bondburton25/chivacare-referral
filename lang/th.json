@@ -3,7 +3,7 @@
     "Hello": "สวัสดี",
     "Logout": "ออกจากระบบ",
     "Search patients": "ค้นหาผู้ป่วย",
-    "By name, HN number, contact person": "ด้วยชื่อ หมายเลขคนไข้ ญาติ",
+    "By name, Refer no, contact person": "ด้วยชื่อ หมายเลขแนะนำ ญาติ",
     "Show all stage": "แสดงทุกขั้นตอน",
     "First Name": "ชื่อ",
     "Last Name": "นามสกุล",
@@ -215,5 +215,6 @@
     "successfully registered": "ได้ลงทะเบียนสำเร็จ",
     "has registered as an employee": "ได้ลงทะเบียนเป็นผู้ใช้พนักงาน",
     "View profile": "ดูโปรไฟล์",
-    "Close window": "ปิดหน้าต่าง"
+    "Close window": "ปิดหน้าต่าง",
+    "In stage": "อยู่ในขั้นตอนที่"
 }
