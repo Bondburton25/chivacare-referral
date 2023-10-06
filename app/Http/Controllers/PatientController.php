@@ -729,10 +729,11 @@ class PatientController extends Controller
         // Send message to LINE Notify
         $messageToNotify = __(auth()->user()->role) .' '. auth()->user()->fullname .' '. __('has sent patient information named').' '. $patient->fullname.' '.__('View more information here') .' '. url('/patients/'.$patient->id.'').'';
 
-        // $token = 'ZDJRAjRTvNjJ9sawi7wHx49D717BojlMZlg5XAoGosd';
+        // Production Dev
+        $token = 'ZDJRAjRTvNjJ9sawi7wHx49D717BojlMZlg5XAoGosd';
 
         // Only Dev
-        $token = 'VGuxZuqx9AW9EdjYY89780StUyrEjOgVb9cEIOIK5po';
+        // $token = 'VGuxZuqx9AW9EdjYY89780StUyrEjOgVb9cEIOIK5po';
         $this->lineNotify($messageToNotify, $token);
         return redirect()->route('patients.show', $patient->id);
     }
