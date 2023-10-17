@@ -51,6 +51,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/patients', PatientController::class)->except(['show']);
     Route::put('/patients/{patient}/end_service', [PatientController::class, 'endService'])->name('patients.end-service');
 
+    Route::put('/patients/{patient}/update-expected-arrive', [PatientController::class, 'updatedExpectedArrive'])->name('patients.update.expected-arrive');
+
     Route::middleware([managePatient::class])->group(function() {
         Route::resource('/patients', PatientController::class)->only(['show']);
     });

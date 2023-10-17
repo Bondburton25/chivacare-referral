@@ -344,8 +344,7 @@
 
                                                 @if($patient->staying_decision == 'stay')
                                                 <div class="d-block">
-                                                    {{ __('Expected arrival date/time') }} {{ $patient->expected_arrive_date_time ? date('d/m/Y', strtotime($patient->expected_arrive_date_time)) : '' }}
-
+                                                    {{ __('Expected arrival date/time') }} {{ $patient->expected_arrive_date_time ? date('d/m/Y', strtotime($patient->expected_arrive_date_time)) : '' }} {{ __('Time') }} {{ date('H:m', strtotime($patient->expected_arrive_date_time)) }}
                                                     @if($patient->arrive_date_time == null)
                                                         <span class="small d-block text-muted" id="days-to-come">
                                                             @if(date('Y-m-d', strtotime($patient->expected_arrive_date_time)) > date('Y-m-d'))
@@ -364,6 +363,37 @@
                                                                 </span>
                                                             @endif
                                                         </span>
+                                                    @endif
+
+                                                    @if($patient->expected_arrive_date_time && $patient->stage->step == 4)
+                                                        <div class="d-block mt-3">
+                                                            <button data-bs-toggle="modal" data-bs-target="#changeArriveDateModal" class="btn btn-outline-warning btn-sm">{{ __('Changing the expected date and time of service') }} <i class="bi bi-calendar-week-fill"></i>
+                                                            </button>
+                                                            <div class="modal fade" id="changeArriveDateModal" tabindex="-1" aria-labelledby="changeArriveDateModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog">
+                                                                    <form action="{{ route('patients.update.expected-arrive',[$patient->id]) }}" method="POST" enctype="multipart/form-data">
+                                                                    {{ method_field('PUT') }}
+                                                                    @csrf
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                        <h1 class="modal-title fs-5" id="changeArriveDateModalLabel">{{ __('Changing the expected date and time of service') }}</h1>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <div class="mb-3 w-50 mx-auto mt-3">
+                                                                                <label for="expected_arrive_date_time" class="form-label">{{ __('Expected arrival date/time') }}</label>
+                                                                                <input type="datetime-local" id="expected_arrive_date_time" name="expected_arrive_date_time" class="form-control">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="modal-footer d-flex justify-content-center align-items-center">
+                                                                            <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
+                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> {{ __('Cancel') }}</button>
+                                                                        </div>
+                                                                    </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     @endif
                                                 </div>
                                                 @endif

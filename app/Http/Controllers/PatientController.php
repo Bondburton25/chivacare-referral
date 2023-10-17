@@ -926,4 +926,12 @@ class PatientController extends Controller
         $patient->save();
         return back()->with('success', __('Successfully updated'));
     }
+
+    public function updatedExpectedArrive(Request $request, $id)
+    {
+        $patient  = Patient::findOrFail($id);
+        $patient->expected_arrive_date_time = $request->expected_arrive_date_time;
+        $patient->save();
+        return back()->with('success', __('Successfully updated'));
+    }
 }
