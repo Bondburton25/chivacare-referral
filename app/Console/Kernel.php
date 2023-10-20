@@ -23,9 +23,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('app:patient-stay-one-month')->daily();
-        $schedule->command('app:patient-stay-two-months')->daily();
-        $schedule->command('app:patient-stay-three-months')->daily();
+        $schedule->command('app:patient-stay-one-month')->dailyAt('09:00');
+        $schedule->command('app:patient-stay-two-months')->dailyAt('09:00');
+        $schedule->command('app:patient-stay-three-months')->dailyAt('09:00');
     }
 
     /**
@@ -34,7 +34,6 @@ class Kernel extends ConsoleKernel
     protected function commands(): void
     {
         $this->load(__DIR__.'/Commands');
-
         require base_path('routes/console.php');
     }
 }

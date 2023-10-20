@@ -24,8 +24,6 @@ use App\Http\Controllers\{
 |
 */
 
-
-
 Route::get('/', function () {
     return view('welcome');
 });
@@ -60,6 +58,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::middleware([onlySuperAdmin::class])->group(function() {
         Route::resource('/employees', EmployeeController::class)->only(['index', 'show', 'update']);
     });
+
+    Route::get('/referral-fees', [App\Http\Controllers\PatientController::class, 'referralFees'])->name('referral-fees');
 });
 
 URL::forceScheme('https');

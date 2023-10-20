@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 use App\Models\{
@@ -729,12 +730,7 @@ class PatientController extends Controller
         // Send message to LINE Notify
         $messageToNotify = __(auth()->user()->role) .' '. auth()->user()->fullname .' '. __('has sent patient information named').' '. $patient->fullname.' '.__('View more information here') .' '. url('/patients/'.$patient->id.'').'';
 
-        // Production Dev
-        $token = 'ZDJRAjRTvNjJ9sawi7wHx49D717BojlMZlg5XAoGosd';
-
-        // Only Dev
-        // $token = 'VGuxZuqx9AW9EdjYY89780StUyrEjOgVb9cEIOIK5po';
-        $this->lineNotify($messageToNotify, $token);
+        $this->lineNotify($messageToNotify, config('settings.lineNotifyTokenPatientReferral'));
         return redirect()->route('patients.show', $patient->id);
     }
 
@@ -794,15 +790,6 @@ class PatientController extends Controller
 
         $patient->reason_not_staying = $request->reason_not_staying;
         $patient->save();
-
-
-        // if($patient->staying_decision) {
-        //     if($patient->staying_decision == 'stay') {
-        //         $stayingDecision = __($request->staying_decision).' '.__('On the date').' '.$patient->expected_arrive_date_time.'';
-        //     }
-        // } else {
-        //     $stayingDecision = '';
-        // }
 
         $flexMessageUpdateReferPatient = '{
             "type": "flex",
@@ -933,5 +920,10 @@ class PatientController extends Controller
         $patient->expected_arrive_date_time = $request->expected_arrive_date_time;
         $patient->save();
         return back()->with('success', __('Successfully updated'));
+    }
+
+    public function referralFees()
+    {
+        return view('referral-fees.index');
     }
 }

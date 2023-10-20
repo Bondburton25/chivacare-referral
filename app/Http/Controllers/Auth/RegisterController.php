@@ -120,9 +120,7 @@ class RegisterController extends Controller
             $messageToNotify = $user->name .' '.__('has registered as a').' '.__($request->role).'';
         }
 
-        $token = 'O4Y2v1Zw49FL9A40IuLXu35XRKyK1710p6wEf6C07C9';
-
-        $this->lineNotify($messageToNotify, $token);
+        $this->lineNotify($messageToNotify, config('settings.lineNotifyTokenUserRegister'));
 
         $welcomeStickerJson = '{
             "type": "sticker",
@@ -131,7 +129,7 @@ class RegisterController extends Controller
         }';
 
         $welcomeStickerJsonCode = json_decode($welcomeStickerJson,true);
-        $datas['url']   = "https://api.line.me/v2/bot/message/push";
+        $datas['url'] = "https://api.line.me/v2/bot/message/push";
         $messages['to'] = $request->provider_id;
         $messages['messages'][] = $welcomeStickerJsonCode;
         $encodeJson = json_encode($messages);

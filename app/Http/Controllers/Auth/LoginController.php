@@ -47,32 +47,16 @@ class LoginController extends Controller
     public function handleLineCallback()
     {
         try {
-            $user     = Socialite::driver('line')->user();
+            $user = Socialite::driver('line')->user();
             $findUser = AuthProvider::where('provider', 'line')->where('provider_id', $user->id)->first();
             if ($findUser) {
                 $user = User::find($findUser->user_id);
                 Auth::login($user);
                 return redirect('/home');
             } else {
-                $newUser             = new User;
-                $newUser->name       = $user->name;
-                $newUser->first_name = $user->name;
-                $newUser->avatar     = $user->avatar;
-                $newUser->role       = 'general_user';
-                $newUser->save();
-                AuthProvider::create(['user_id' => $newUser->id, 'provider_id' => $user->id]);
-                Auth::login($newUser);
-                // Send message to LINE
-                $message["type"] = "text";
-                $message["text"] = __('You have already registered');
-                $line_msg["messages"][0] = $message;
-                $line_msg["to"] = $user->id;
-                $this->pushMessage($line_msg,'push');
-                // return redirect('/home');
-                return redirect()->intended();
+                return redirect('/register');
             }
         }
-
         catch(Exception $error) {
             Log::error($error->getMessage());
             return redirect()->intended();

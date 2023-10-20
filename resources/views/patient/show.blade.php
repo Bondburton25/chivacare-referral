@@ -2,7 +2,6 @@
 
 @section('pageTitle', __('Patient profile').' '.$patient->full_name)
 
-
 @section('stylesheet')
 
 <style>
@@ -35,9 +34,14 @@
         width: 11px;
         content: "";
     }
-    .timeline .timeline-item.current-stage:after {
+    .timeline .timeline-item.passed-stage:after,
+    .timeline .timeline-item.current-stage:after,
+    .timeline .timeline-item.last-stage:after {
+        background-color: #198754
+    }
+    .timeline .timeline-item.next-stage:after {
+        background-color: #198754;
         animation: blinker 1s linear infinite;
-        background-color: #13795b
     }
     @keyframes blinker {
         50% {
@@ -73,19 +77,19 @@
                         <div class="modal-dialog">
                         <div class="modal-content">
                             <form action="{{ route('patients.end-service',[$patient->id]) }}" method="POST" enctype="multipart/form-data">
-                                {{ method_field('PUT') }}
-                                @csrf
-                            <div class="modal-header border-0">
-                            <h1 class="modal-title fs-5" id="endServiceModalLabel">{{ __('End of service') }}</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body text-center">
-                                <h4>{{ __('Do you want to end services for this patient?') }}</h4>
-                            </div>
-                            <div class="modal-footer border-0 d-flex justify-content-center align-items-center">
-                                <button type="submit" class="btn btn-primary">{{ __('Confirm') }}</button>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
-                            </div>
+                                    {{ method_field('PUT') }}
+                                    @csrf
+                                <div class="modal-header border-0">
+                                <h1 class="modal-title fs-5" id="endServiceModalLabel">{{ __('End of service') }}</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body text-center">
+                                    <h4>{{ __('Do you want to end services for this patient?') }}</h4>
+                                </div>
+                                <div class="modal-footer border-0 d-flex justify-content-center align-items-center">
+                                    <button type="submit" class="btn btn-primary">{{ __('Confirm') }}</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                                </div>
                             </form>
                         </div>
                         </div>
@@ -290,9 +294,14 @@
                     </div>
                 </div>
                 <div class="card-body pt-4 px-4">
+                    <div class="pb-4">{{ __('Current stage') }} <span class="text-success">{{ __('Step') }} {{ $patient->stage->step }} {{ $patient->stage->name }}</span></div>
                     <ul class="timeline">
                         @foreach ($stages as $stage)
-                            <li class="timeline-item mb-4 {{ $stage->id == $patient->stage_id && $patient->end_service_at == null ? 'current-stage ' : '' }}">
+                            <li class="timeline-item mb-4
+                                {{ $stage->step == $patient->stage->step ? 'current-stage' : '' }}
+                                {{ $patient->stage->step > $stage->step ? 'passed-stage' : '' }}
+                                {{ $stage->step == $patient->stage->step+1 ? 'next-stage' : '' }}
+                                ">
                                 <p class="mb-0">{{ __('Step') }} <span class="text-success">{{ $stage->step }} {{ $stage->name }}</p></span>
                                 <time class="text-muted">
                                     @if($stage->step <= $patient->stage->step)
@@ -418,7 +427,7 @@
                             </li>
                         @endforeach
                         @if($patient->end_service_at)
-                            <li class="timeline-item mb-4 current-stage active">
+                            <li class="timeline-item mb-4 last-stage">
                                 <span>{{ __('End of service') }}</span>
                                 <div class="text-muted">{{ __('The patient end service at') }} {{ $patient->end_service_at }}</div>
                             </li>

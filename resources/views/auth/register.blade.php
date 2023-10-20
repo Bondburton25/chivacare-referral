@@ -136,6 +136,7 @@
 @section('javascript')
 <script src="https://static.line-scdn.net/liff/edge/versions/2.15.0/sdk.js"></script>
 <script>
+    var liffIdLine = "{!! config('settings.liffIdUserRegister') !!}";
     function runApp() {
         liff.getProfile().then(profile => {
             document.getElementById("lineUserid").value = profile.userId;
@@ -145,9 +146,7 @@
             document.getElementById("user-image").src = profile.pictureUrl;
         }).catch(err => console.error(err));
     }
-    // liffID for Production = 2000626016-NL7a4wJ6
-    // liffID for Development = 2000588475-zveQ08Zq
-    liff.init({ liffId: "2000626016-NL7a4wJ6" }, () => {
+    liff.init({ liffId: liffIdLine }, () => {
         if (liff.isLoggedIn()) {
           runApp();
         } else {

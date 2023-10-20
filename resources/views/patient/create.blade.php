@@ -2,6 +2,12 @@
 
 @section('pageTitle', __('Refer the patient'))
 
+<style>
+   .form-control {
+        background-color: #d4e6ff !important;
+    }
+</style>
+
 @section('content')
 
 <div class="container">
@@ -10,12 +16,12 @@
         <div class="col-md-4 col-12">
             {{-- @livewire('patient.form') --}}
             <div class="card border-0 shadow-sm">
-                <div class="card-header fw-normal border-0">{{ __('Refer the patient') }}</div>
+                <div class="card-header fw-bold border-0">{{ __('Refer the patient') }}</div>
                     <img src="{{ asset('images/doctor-using-smarthone-office.jpg') }}" class="border-0 link-opacity-10-hover" alt="">
                 <div class="card-body py-4">
                     <form method="POST" action="{{ route('patients.store') }}" file="true" enctype="multipart/form-data">
                     @csrf
-                        <span class="fw-normal mb-3">{{ __('Patient information') }}</span>
+                        <span class="fw-bold mb-3">{{ __('Patient information') }}</span>
 
                         <div class="row mb-2">
                             <label for="first_name" class="col-md-4 col-form-label text-md-end">{{ __('First Name') }} <span class="text-danger">*</span></label>
@@ -148,7 +154,7 @@
                             </div>
                         </div>
 
-                        <span class="fw-normal mb-3">{{ __('Relative information') }}</span>
+                        <span class="fw-bold mb-3">{{ __('Relative information') }}</span>
 
                         <div class="row mb-2">
                             <label for="contact_person" class="col-md-4 col-form-label text-md-end">{{ __('Name of relative') }} <span class="text-danger">*</span></label>
@@ -210,7 +216,7 @@
                             </div>
                         </div>
 
-                        <span class="fw-normal mb-3">{{ __('Additional information') }}</span>
+                        <span class="fw-bold mb-3">{{ __('Additional information') }}</span>
 
                         <div class="row mb-2">
                             <label for="food" class="col-md-4 col-form-label text-md-end">{{ __('Food') }}</label>

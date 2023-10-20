@@ -122,6 +122,7 @@
 
 <script src="https://static.line-scdn.net/liff/edge/versions/2.15.0/sdk.js"></script>
 <script>
+    var liffIdLine = "{!! config('settings.liffIdEmployeesRegister') !!}";
     function runApp() {
         liff.getProfile().then(profile => {
             document.getElementById("lineUserid").value = profile.userId;
@@ -131,9 +132,8 @@
             document.getElementById("user-image").src = profile.pictureUrl;
         }).catch(err => console.error(err));
     }
-    // liffID for Production  = 2000626016-3m0YB8zW,
-    // Dev = 2000588475-9dGzkaw3
-    liff.init({ liffId: "2000626016-3m0YB8zW" }, () => {
+    // liff.init({ liffId: "2000626016-3m0YB8zW" }, () => {
+    liff.init({ liffId: liffIdLine }, () => {
         if (liff.isLoggedIn()) {
           runApp();
         } else {

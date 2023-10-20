@@ -102,7 +102,7 @@ class PatientStayTwoMonths extends Command
                                 },
                                 {
                                     "type": "text",
-                                    "text": "'.$stayTwoMonthsStage->name.'",
+                                    "text": "'.__('Step').' '.$stayTwoMonthsStage->step.' '.$stayTwoMonthsStage->name.'",
                                     "flex": 2,
                                     "wrap": true,
                                     "size": "sm"
