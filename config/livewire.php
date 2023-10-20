@@ -54,10 +54,10 @@ return [
     |
     */
 
-    'asset_url' => null,
+    // 'asset_url' => null,
 
     // Set url path for production
-    // 'asset_url' => env('APP_URL', null).'./public',
+    'asset_url' => env('APP_URL', null).'./public',
 
 
     /*
