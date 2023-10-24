@@ -9,7 +9,8 @@ use App\Models\{
     HealthStatus,
     Patient,
     User,
-    Stage
+    Stage,
+    PatientImage
 };
 
 class PatientController extends Controller
@@ -72,6 +73,15 @@ class PatientController extends Controller
             'treatment_history' => $request->treatment_history,
             'health_status_id' => $request->health_status_id,
         ]);
+
+        if($request->hasfile('images')) {
+            foreach($request->file('images') as $image) {
+                $filename = uniqid() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('storage/images/'), $filename);
+                $patient_images = array ('patient_id' => $patient->id, 'image' => $filename);
+                PatientImage::create($patient_images);
+            }
+        }
 
         // Optional information
         $patient->weight ? $weightInfo = $patient->weight .' '.__('kg') : $weightInfo = __('No data found');
@@ -728,7 +738,7 @@ class PatientController extends Controller
         $this->pushFlexMessage($encodeJsonPatientCompact);
 
         // Send message to LINE Notify
-        $messageToNotify = __(auth()->user()->role) .' '. auth()->user()->fullname .' '. __('has sent patient information named').' '. $patient->fullname.' '.__('View more information here') .' '. url('/patients/'.$patient->id.'').'';
+        $messageToNotify = __(auth()->user()->role) .' '. auth()->user()->fullname .' '.__('has sent patient information named').' '. $patient->fullname.' '.__('View more information here') .' '. url('/patients/'.$patient->id.'').'';
 
         $this->lineNotify($messageToNotify, config('settings.lineNotifyTokenPatientReferral'));
         return redirect()->route('patients.show', $patient->id);
@@ -770,11 +780,14 @@ class PatientController extends Controller
         $patient  = Patient::findOrFail($id);
 
         $newStage = Stage::where('step', $patient->stage->step+1)->first();
+
         $patient->stage_id = $newStage->id;
+
         if($newStage->step == 2 ? $patient->contacted_relative_at = now() : '');
         if($newStage->step == 3 ? $patient->relative_visited_at = now() : '');
         if($newStage->step == 4 ? $patient->decided_at = now() : '');
-        if($newStage->step == 5 ? $patient->arrive_date_time = now() : '');
+
+        // if($newStage->step == 5 ? $patient->arrive_date_time = now() : '');
 
         if ($request->has('staying_decision')){
             $patient->staying_decision = $request->staying_decision;
@@ -784,8 +797,12 @@ class PatientController extends Controller
             $patient->expected_arrive_date_time = $request->expected_arrive_date_time;
         }
 
-        if ($request->has('physical_therapy_service')){
-            $patient->physical_therapy_service = $request->physical_therapy_service;
+        // if ($request->has('physical_therapy_service')){
+        //     $patient->physical_therapy_service = $request->physical_therapy_service;
+        // }
+
+        if ($request->has('arrive_date_time')){
+            $patient->arrive_date_time = $request->arrive_date_time;
         }
 
         $patient->reason_not_staying = $request->reason_not_staying;

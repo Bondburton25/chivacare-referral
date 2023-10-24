@@ -262,7 +262,7 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row mb-2">
                             <label for="room_type" class="col-md-4 col-form-label text-md-end">{{ __('Room type') }}</label>
                             <div class="col-md-8">
                                 <select name="room_type" id="room_type" class="form-control form-control-sm @error('room_type') is-invalid @enderror">
@@ -276,6 +276,13 @@
                                         {{ $message }}
                                     </span>
                                 @enderror
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label for="images" class="col-md-4 col-form-label text-md-end">{{ __('แนบภาพอาการคนไข้') }}</label>
+                            <div class="col-md-8">
+                                <input type="file" name="images[]" id="images" class="form-control" multiple>
                             </div>
                         </div>
 

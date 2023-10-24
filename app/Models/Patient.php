@@ -113,6 +113,11 @@ class Patient extends Model
         return $this->belongsTo(HealthStatus::class);
     }
 
+    public function images()
+    {
+    	return $this->hasMany(PatientImage::class);
+    }
+
     public function scopeIdDescending($query)
     {
         return $query->orderBy('created_at', 'desc');

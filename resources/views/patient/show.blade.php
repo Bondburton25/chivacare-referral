@@ -4,6 +4,11 @@
 
 @section('stylesheet')
 
+@if($patient->images()->exists())
+<script src="{{ asset('vendor/fancybox/fancybox.umd.js') }}"></script>
+<link href="{{ asset('vendor/fancybox/fancybox.css') }}" rel="stylesheet">
+@endif
+
 <style>
     .page-title {
         background: linear-gradient(#011023 -15.86%, #042558 21.51%, #5482B3 65.39%, #5482B3 100.33%, #7DA0CA);
@@ -278,6 +283,13 @@
                                                             <label class="form-check-label" for="physical_therapy_service">{{ __('Stay with physical therapy services') }} </label>
                                                         </div>
                                                     @endif
+
+                                                    @if($patient->stage->step == 4)
+                                                        <div class="mb-3 w-50 mx-auto mt-3">
+                                                            <label for="arrive_date_time" class="form-label">{{ __('Date/time of patient admission') }} <span class="text-danger">*</span></label>
+                                                            <input type="datetime-local" id="arrive_date_time" name="arrive_date_time" class="form-control">
+                                                        </div>
+                                                    @endif
                                                 </div>
                                                 <div class="modal-footer border-0 d-flex justify-content-center mb-2">
                                                     <button type="submit" class="btn btn-success">{{ __('Confirm') }}</button>
@@ -498,8 +510,41 @@
                 </div>
             </div>
             @endif
+
+            @if($patient->images()->exists())
+            <div class="card shadow-sm border-0 mb-3">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="title-card">{{ __('ภาพของคนไข้') }}</div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        @foreach ($patient->images as $image)
+                        <div class="col-sm-4 col-6">
+                            <a href="{{ asset('storage/images/' . $image->image) }}" data-fancybox data-caption="{{ $image->caption }} {{ $image->description }}">
+                                <img src="{{ asset('storage/images/' . $image->image) }}" class="img-thumbnail ">
+                            </a>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+            @endif
+
         </div><!-- / card-md-4 -->
     </div>
 </div>
 
 @endsection
+
+@if($patient->images()->exists())
+@section('javascript')
+
+<script>
+    Fancybox.bind("[data-fancybox]", {});
+</script>
+
+@endsection
+
+@endif

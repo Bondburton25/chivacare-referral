@@ -224,5 +224,6 @@
     "Update": "อัพเดท",
     "Number of service days": "จำนวนวันที่เข้าบริการ",
     "Referral fee to be paid": "ค่าแนะนำที่ต้องจ่าย",
-    "Patient": "คนไข้"
+    "Patient": "คนไข้",
+    "Date/time of patient admission": "วันเวลาที่รับตัวคนไข้"
 }
