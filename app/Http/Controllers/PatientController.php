@@ -797,10 +797,6 @@ class PatientController extends Controller
             $patient->expected_arrive_date_time = $request->expected_arrive_date_time;
         }
 
-        // if ($request->has('physical_therapy_service')){
-        //     $patient->physical_therapy_service = $request->physical_therapy_service;
-        // }
-
         if ($request->has('arrive_date_time')){
             $patient->arrive_date_time = $request->arrive_date_time;
         }
@@ -912,6 +908,71 @@ class PatientController extends Controller
         $messages['messages'][] = $flexDataJsonDeCode;
         $encodeJson = json_encode($messages);
         $this->pushFlexMessage($encodeJson);
+
+        if($patient->staying_decision == 'backoff') {
+            $flexMessageNotStay = '{
+                "type": "flex",
+                "altText": "'.__('Informing patient of the decision not to stay') .' '."$patient->full_name".'",
+                "contents": {
+                    "type": "bubble",
+                    "body": {
+                      "type": "box",
+                      "layout": "vertical",
+                      "contents": [
+                        {
+                          "type": "text",
+                          "text": "'.__('Informing patient of the decision not to stay').'",
+                          "weight": "bold",
+                          "color": "#1DB446",
+                          "size": "sm"
+                        },
+                        {
+                          "type": "text",
+                          "text": "'.__('Dear Khun') .' '.$patient->referred_by->full_name.'",
+                          "size": "xs",
+                          "color": "#aaaaaa",
+                          "wrap": true
+                        },
+                        {
+                          "type": "text",
+                          "text": "'.__('Chivacare') .' '.__('would like to inform that') .' '.__('The patient you referred named') .' '.$patient->full_name .' '.__('has decided not to stay') .' '.__('for reason') .' '.$patient->reason_not_staying.'",
+                          "size": "xs",
+                          "color": "#aaaaaa",
+                          "wrap": true,
+                          "margin": "lg"
+                        },
+                        {
+                          "type": "text",
+                          "text": "'.__('Forwarded for your information').'",
+                          "size": "xs",
+                          "color": "#aaaaaa",
+                          "wrap": true,
+                          "margin": "lg"
+                        },
+                        {
+                            "type": "text",
+                            "text": "'.__('If you have any questions or want to ask for more information. You can inquire through this chat').'",
+                            "size": "xxs",
+                            "color": "#aaaaaa",
+                            "wrap": true,
+                            "margin": "lg"
+                        }
+                      ]
+                    },
+                    "styles": {
+                      "footer": {
+                        "separator": true
+                      }
+                    }
+                }
+            }';
+
+            $flexDataJsonDeCodeNotStay = json_decode($flexMessageNotStay, true);
+            $messages['to'] = $patient->referred_by->auth_provider->provider_id;
+            $messages['messages'][] = $flexDataJsonDeCodeNotStay;
+            $encodeJson = json_encode($messages);
+            $this->pushFlexMessage($encodeJson);
+        }
         return back()->with('success', __('Successfully updated'));
     }
 
@@ -925,9 +986,71 @@ class PatientController extends Controller
 
     public function endService(Request $request, $id)
     {
-        $patient  = Patient::findOrFail($id);
+        $patient = Patient::findOrFail($id);
         $patient->end_service_at = now();
         $patient->save();
+
+        $flexMessagePatientEndService = '{
+            "type": "flex",
+            "altText": "'.__('Notification of end service') .' '."$patient->full_name".'",
+            "contents": {
+                "type": "bubble",
+                "body": {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "'.__('Notification of end service').'",
+                      "weight": "bold",
+                      "color": "#1DB446",
+                      "size": "sm"
+                    },
+                    {
+                      "type": "text",
+                      "text": "'.__('Dear Khun') .' '.$patient->referred_by->full_name.'",
+                      "size": "xs",
+                      "color": "#aaaaaa",
+                      "wrap": true
+                    },
+                    {
+                      "type": "text",
+                      "text": "'.__('Chivacare') .' '.__('would like to inform that') .' '.__('The patient you referred named') .' '.$patient->full_name .' '.__('has ended the service').'",
+                      "size": "xs",
+                      "color": "#aaaaaa",
+                      "wrap": true,
+                      "margin": "lg"
+                    },
+                    {
+                      "type": "text",
+                      "text": "'.__('Forwarded for your information').'",
+                      "size": "xs",
+                      "color": "#aaaaaa",
+                      "wrap": true,
+                      "margin": "lg"
+                    },
+                    {
+                        "type": "text",
+                        "text": "'.__('If you have any questions or want to ask for more information. You can inquire through this chat').'",
+                        "size": "xxs",
+                        "color": "#aaaaaa",
+                        "wrap": true,
+                        "margin": "lg"
+                    }
+                  ]
+                },
+                "styles": {
+                  "footer": {
+                    "separator": true
+                  }
+                }
+            }
+        }';
+        $flexDataJsonDeCode = json_decode($flexMessagePatientEndService, true);
+        $messages['to'] = $patient->referred_by->auth_provider->provider_id;
+        $messages['messages'][] = $flexDataJsonDeCode;
+        $encodeJson = json_encode($messages);
+        $this->pushFlexMessage($encodeJson);
         return back()->with('success', __('Successfully updated'));
     }
 
@@ -936,6 +1059,68 @@ class PatientController extends Controller
         $patient  = Patient::findOrFail($id);
         $patient->expected_arrive_date_time = $request->expected_arrive_date_time;
         $patient->save();
+
+        $flexMessage = '{
+            "type": "flex",
+            "altText": "'.__('Changing the expected date and time of service') .' '."$patient->full_name".'",
+            "contents": {
+                "type": "bubble",
+                "body": {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "'.__('Changing the expected date and time of service').'",
+                      "weight": "bold",
+                      "color": "#1DB446",
+                      "size": "sm"
+                    },
+                    {
+                      "type": "text",
+                      "text": "'.__('Dear Khun') .' '.$patient->referred_by->full_name.'",
+                      "size": "xs",
+                      "color": "#aaaaaa",
+                      "wrap": true
+                    },
+                    {
+                      "type": "text",
+                      "text": "'.__('Chivacare') .' '.__('would like to inform that') .' '.__('The patient you referred named') .' '.$patient->full_name .' '.__('has changed the expected date and time of service') .' '.__('to be the date') .' '.date('Y-m-d', strtotime($patient->expected_arrive_date_time)) .' '.__('Time') .' '.date('H:m', strtotime($patient->expected_arrive_date_time)).'",
+                      "size": "xs",
+                      "color": "#aaaaaa",
+                      "wrap": true,
+                      "margin": "lg"
+                    },
+                    {
+                      "type": "text",
+                      "text": "'.__('Forwarded for your information').'",
+                      "size": "xs",
+                      "color": "#aaaaaa",
+                      "wrap": true,
+                      "margin": "lg"
+                    },
+                    {
+                        "type": "text",
+                        "text": "'.__('If you have any questions or want to ask for more information. You can inquire through this chat').'",
+                        "size": "xxs",
+                        "color": "#aaaaaa",
+                        "wrap": true,
+                        "margin": "lg"
+                    }
+                  ]
+                },
+                "styles": {
+                  "footer": {
+                    "separator": true
+                  }
+                }
+            }
+        }';
+        $flexDataJsonDeCode = json_decode($flexMessage, true);
+        $messages['to'] = $patient->referred_by->auth_provider->provider_id;
+        $messages['messages'][] = $flexDataJsonDeCode;
+        $encodeJson = json_encode($messages);
+        $this->pushFlexMessage($encodeJson);
         return back()->with('success', __('Successfully updated'));
     }
 

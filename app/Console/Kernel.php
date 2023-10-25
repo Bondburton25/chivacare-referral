@@ -13,6 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        Commands\PatientAdventDelay::class,
         Commands\PatientStayOneMonth::class,
         Commands\PatientStayTwoMonths::class,
         Commands\PatientStayThreeMonths::class,
@@ -23,6 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('app:patient-advent-delay')->dailyAt('09:00');
         $schedule->command('app:patient-stay-one-month')->dailyAt('09:00');
         $schedule->command('app:patient-stay-two-months')->dailyAt('09:00');
         $schedule->command('app:patient-stay-three-months')->dailyAt('09:00');
