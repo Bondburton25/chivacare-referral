@@ -1,8 +1,5 @@
 /.phpunit.cache
 /node_modules
-/public/hot
-/public/storage
-public/images/patients
 /storage/*.key
 .env.local
 .env.backup
