@@ -88,7 +88,7 @@ class PatientController extends Controller
             foreach ($files as $key => $file) {
                 $path = $file->store('upload', 's3');
                 PatientImage::create([
-                    'image' => $path,
+                    'image' => basename($path),
                     'patient_id' => $patient->id
                 ]);
             }

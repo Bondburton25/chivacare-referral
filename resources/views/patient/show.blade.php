@@ -4,12 +4,8 @@
 
 @section('stylesheet')
 
-{{-- <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"/> --}}
-
 @if($patient->images()->exists())
-<script src="{{ asset('vendor/fancybox/fancybox.umd.js') }}"></script>
-<link href="{{ asset('vendor/fancybox/fancybox.css') }}" rel="stylesheet">
+<link href="{{ asset('css/fancybox/fancybox.css') }}" rel="stylesheet">
 @endif
 
 <style>
@@ -547,9 +543,12 @@
 
 @endsection
 
-@section('javascript')
+@if($patient->images()->exists())
+    @section('javascript')
+        <script src="{{ asset('js/fancybox/fancybox.umd.js') }}"></script>
+        <script>
+            Fancybox.bind("[data-fancybox]", {});
+        </script>
+    @endsection
 
-<script>
-    Fancybox.bind("[data-fancybox]", {});
-</script>
-@endsection
+@endif
