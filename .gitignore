@@ -1,9 +1,8 @@
 /.phpunit.cache
 /node_modules
 /public/hot
-public/images/patients
-/storage/*.key
 /vendor
+/storage/*.key
 .env.local
 .env.backup
 .env.production
@@ -17,5 +16,4 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-
 
