@@ -4,7 +4,7 @@
 /public/storage
 public/images/patients
 /storage/*.key
-/vendor
+vendor
 .env.backup
 .env.production
 .env.example
