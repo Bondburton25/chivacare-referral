@@ -1,7 +1,10 @@
 /.phpunit.cache
 /node_modules
+/public/hot
+/public/storage
+public/images/patients
 /storage/*.key
-.env.local
+/vendor
 .env.backup
 .env.production
 .env.example
