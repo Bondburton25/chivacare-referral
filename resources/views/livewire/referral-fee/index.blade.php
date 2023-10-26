@@ -19,7 +19,6 @@
                 <td>{{ __('Current stage') }}</td>
                 <td>{{ __('Number of service days') }}</td>
                 <td>{{ __('Referral fee to be paid') }}</td>
-                <td>{{ __('Referral fee to be paid total') }}</td>
             </tr>
             @forelse ($patients as $patient)
                 <tr wire:loading.class.deplay="opacity-50">
