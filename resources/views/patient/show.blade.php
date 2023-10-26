@@ -5,8 +5,11 @@
 @section('stylesheet')
 
 @if($patient->images()->exists())
-<script src="{{ asset('vendor/fancybox/fancybox.umd.js') }}"></script>
+{{-- <script src="{{ asset('vendor/fancybox/fancybox.umd.js') }}"></script>
 <link href="{{ asset('vendor/fancybox/fancybox.css') }}" rel="stylesheet">
+ --}}
+
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"/>
 @endif
 
 <style>
@@ -548,7 +551,10 @@
 <script>
     Fancybox.bind("[data-fancybox]", {});
 </script>
-
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
 @endsection
+
+
+@push('scripts')
 
 @endif
