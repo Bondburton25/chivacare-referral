@@ -74,12 +74,23 @@ class PatientController extends Controller
             'health_status_id' => $request->health_status_id,
         ]);
 
-        if($request->hasfile('images')) {
-            foreach($request->file('images') as $image) {
-                $filename = uniqid() . '.' . $image->getClientOriginalExtension();
-                $image->move(public_path('storage/images/'), $filename);
-                $patient_images = array ('patient_id' => $patient->id, 'image' => $filename);
-                PatientImage::create($patient_images);
+        // if($request->hasfile('images')) {
+        //     foreach($request->file('images') as $image) {
+        //         $filename = uniqid() . '.' . $image->getClientOriginalExtension();
+        //         $image->move(public_path('storage/images/'), $filename);
+        //         $patient_images = array ('patient_id' => $patient->id, 'image' => $filename);
+        //         PatientImage::create($patient_images);
+        //     }
+        // }
+
+        if ($request->hasFile('images')) {
+            $files = $request->file('images');
+            foreach ($files as $key => $file) {
+                $path = $file->store('upload', 's3');
+                PatientImage::create([
+                    'image' => $path,
+                    'patient_id' => $patient->id
+                ]);
             }
         }
 

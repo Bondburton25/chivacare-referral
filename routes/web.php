@@ -9,7 +9,8 @@ use App\Http\Controllers\Auth\{
 
 use App\Http\Controllers\{
     EmployeeController,
-    PatientController
+    PatientController,
+    UploadController
 };
 
 
@@ -63,3 +64,5 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 URL::forceScheme('https');
+
+Route::get('/upload/{file}', [App\Http\Controllers\UploadController::class, 'show'])->name('file.show');

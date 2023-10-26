@@ -4,12 +4,12 @@
 
 @section('stylesheet')
 
-@if($patient->images()->exists())
-{{-- <script src="{{ asset('vendor/fancybox/fancybox.umd.js') }}"></script>
-<link href="{{ asset('vendor/fancybox/fancybox.css') }}" rel="stylesheet">
- --}}
+{{-- <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"/> --}}
 
- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"/>
+@if($patient->images()->exists())
+<script src="{{ asset('vendor/fancybox/fancybox.umd.js') }}"></script>
+<link href="{{ asset('vendor/fancybox/fancybox.css') }}" rel="stylesheet">
 @endif
 
 <style>
@@ -529,8 +529,9 @@
                     <div class="row">
                         @foreach ($patient->images as $image)
                         <div class="col-sm-4 col-6">
-                            <a href="{{ asset('storage/images/' . $image->image) }}" data-fancybox data-caption="{{ $image->caption }} {{ $image->description }}">
-                                <img src="{{ asset('storage/images/' . $image->image) }}" class="img-thumbnail ">
+                            <a href="{{ Storage::disk('s3')->temporaryUrl('upload/'.$image->image, now()->addMinutes(30)) }}" data-fancybox data-caption="{{ $image->caption }} {{ $image->description }}">
+                                {{-- <img src="{{ asset('storage/images/' . $image->image) }}" class="img-thumbnail "> --}}
+                                <img src="{{ Storage::disk('s3')->temporaryUrl('upload/'.$image->image, now()->addMinutes(30)) }}" class="img-thumbnail">
                             </a>
                         </div>
                         @endforeach
@@ -546,16 +547,9 @@
 
 @endsection
 
-@if($patient->images()->exists())
 @section('javascript')
 
 <script>
     Fancybox.bind("[data-fancybox]", {});
 </script>
-<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
 @endsection
-
-
-@push('scripts')
-
-@endif
