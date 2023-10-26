@@ -69,7 +69,7 @@
     </nav>
 
     <div class="row mb-3">
-        <div class="col h5"><i class="bi bi-user-fill"></i> {{ __('Patient profile') }}</div>
+        <div class="col h5"><i class="bi bi-user-fill"></i> {{ __('Patient profile') }} {{ $patient->fullname }}</div>
         @can('isAdmin')
             @if($patient->stage->step > 4)
                 <div class="col text-end">
@@ -167,6 +167,10 @@
                     </ul>
                 </div>
             </div>
+
+            @if($patient->health_status)
+                <small><i>{{ $patient->health_status->description }}</i></small>
+            @endif
 
             <div class="card shadow-sm border-0 mb-3">
                 <div class="card-header">

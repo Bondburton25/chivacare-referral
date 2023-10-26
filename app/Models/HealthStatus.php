@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class HealthStatus extends Model
 {
+    protected $fillable = ['name', 'description'];
+
     public $timestamps = false;
 
     public function patients()
