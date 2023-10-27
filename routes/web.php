@@ -25,10 +25,6 @@ use App\Http\Controllers\{
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
 // Login with LINE
@@ -61,8 +57,8 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::get('/referral-fees', [App\Http\Controllers\PatientController::class, 'referralFees'])->name('referral-fees');
+
+    Route::get('/upload/{file}', [App\Http\Controllers\UploadController::class, 'show'])->name('file.show');
 });
 
 URL::forceScheme('https');
-
-Route::get('/upload/{file}', [App\Http\Controllers\UploadController::class, 'show'])->name('file.show');

@@ -45,7 +45,8 @@
     .timeline .timeline-item.last-stage:after {
         background-color: #198754
     }
-    .timeline .timeline-item.next-stage:after {
+    .timeline .timeline-item.next-stage:after,
+    .timeline .timeline-item.last-stage:after {
         background-color: #198754;
         animation: blinker 1s linear infinite;
     }
@@ -71,39 +72,41 @@
 
     <div class="row mb-3">
         <div class="col h5"><i class="bi bi-user-fill"></i> {{ __('Patient profile') }} {{ $patient->fullname }}</div>
-        @can('isAdmin')
-            @if($patient->stage->step > 4)
-                <div class="col text-end">
-                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#endServiceModal">
-                        {{ __('End of service') }}
-                        <i class="bi bi-hourglass-bottom"></i>
-                    </button>
-                    <!-- Modal -->
-                    <div class="modal fade" id="endServiceModal" tabindex="-1" aria-labelledby="endServiceModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                        <div class="modal-content">
-                            <form action="{{ route('patients.end-service',[$patient->id]) }}" method="POST" enctype="multipart/form-data">
-                                    {{ method_field('PUT') }}
-                                    @csrf
-                                <div class="modal-header border-0">
-                                <h1 class="modal-title fs-5" id="endServiceModalLabel">{{ __('End of service') }}</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body text-center">
-                                    <h4>{{ __('Do you want to end services for this patient?') }}</h4>
-                                </div>
-                                <div class="modal-footer border-0 d-flex justify-content-center align-items-center">
-                                    <button type="submit" class="btn btn-primary">{{ __('Confirm') }}</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
-                                </div>
-                            </form>
-                        </div>
+        @canany(['isAdmin', 'isSuperAdmin'])
+            @if($patient->end_service_at == null)
+                @if($patient->stage->step > 4)
+                    <div class="col text-end">
+                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#endServiceModal">
+                            {{ __('End of service') }}
+                            <i class="bi bi-hourglass-bottom"></i>
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="endServiceModal" tabindex="-1" aria-labelledby="endServiceModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form action="{{ route('patients.end-service',[$patient->id]) }}" method="POST" enctype="multipart/form-data">
+                                        {{ method_field('PUT') }}
+                                        @csrf
+                                    <div class="modal-header border-0">
+                                    <h1 class="modal-title fs-5" id="endServiceModalLabel">{{ __('End of service') }}</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        <h4>{{ __('Do you want to end services for this patient?') }}</h4>
+                                    </div>
+                                    <div class="modal-footer border-0 d-flex justify-content-center align-items-center">
+                                        <button type="submit" class="btn btn-primary">{{ __('Confirm') }}</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                                    </div>
+                                </form>
+                            </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endif
             @endif
         @endcan
-    </div>
+    </div><!-- / row -->
 
     <div class="row">
 
@@ -163,33 +166,25 @@
                                 @endif
                             </div>
                         </li>
-
                         <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
                             {{ __('Congenital disease') }}
                             <span class="text-success">{{ __($patient->congenital_disease) }}</span>
                         </li>
-
                         <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
                             {{ __('Preliminary symptoms') }}
                             <span class="text-success mr-5">{{ __($patient->preliminary_symptoms) }}</span>
                         </li>
-
                         <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
                             {{ __('Precautions') }} {{ __('Care instructions') }}
                             <span class="text-success mr-5">{{ __($patient->precautions) }}</span>
                         </li>
-
                         <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
                             {{ __('Treatment history') }}
                             <span class="text-success mr-5">{{ __($patient->treatment_history) }}</span>
                         </li>
                     </ul>
-
-
-                </div>
-            </div>
-
-
+                </div><!-- / card-body -->
+            </div><!-- / card -->
 
             <div class="card shadow-sm border-0 mb-3">
                 <div class="card-header">
@@ -240,8 +235,6 @@
                     </ul>
                 </div>
             </div>
-
-
         </div>
 
         <div class="col-md-4 col-12">
@@ -298,7 +291,12 @@
 
                                                         <div class="mb-3 w-50 mx-auto mt-3">
                                                             <label for="reason_not_staying" class="form-label">{{ __('Backoff reason') }} ({{ __('In case not use the service') }})</label>
-                                                            <textarea name="reason_not_staying" id="reason_not_staying" rows="2" class="form-control"></textarea>
+                                                            <textarea name="reason_not_staying" id="reason_not_staying" rows="2" class="form-control @error('room_type') is-invalid @enderror"></textarea>
+                                                            @error('reason_not_staying')
+                                                                <span class="invalid-feedback d-block" role="alert">
+                                                                    {{ $message }}
+                                                                </span>
+                                                            @enderror
                                                         </div>
 
                                                         <div class="mb-3 w-50 mx-auto mt-3">
@@ -329,7 +327,9 @@
                     </div>
                 </div>
                 <div class="card-body pt-4 px-4">
+                    @if($patient->end_service_at == null)
                     <div class="pb-4">{{ __('Current stage') }} <span class="text-success">{{ __('Step') }} {{ $patient->stage->step }} {{ $patient->stage->name }}</span></div>
+                    @endif
                     <ul class="timeline">
                         @foreach ($stages as $stage)
                             <li class="timeline-item mb-4
@@ -564,12 +564,11 @@
 
 @endsection
 
-@if($patient->images()->exists())
-    @section('javascript')
+@section('javascript')
+    @if($patient->images()->exists())
         <script src="{{ asset('js/fancybox/fancybox.umd.js') }}"></script>
         <script>
             Fancybox.bind("[data-fancybox]", {});
         </script>
-    @endsection
-
-@endif
+    @endif
+@endsection

@@ -180,7 +180,10 @@
     "Because you receive referral fees": "เนื่องด้วยคุณได้รับค่าแนะนำ",
     "it is an amount of": "เป็นจำนวนเงิน",
     "from the patient you referred named": "จากคนไข้ที่คุณได้ทำการแนะนำชื่อ",
+    "The patient you referred named": "คนไข้ที่คุณได้ทำการแนะนำชื่อ",
     "whose has completed of stay for": "ซึ่งได้ทำการเข้าพักกว่า",
+    "has decided not to stay": "ตัดสินใจไม่เข้าพัก",
+    "for reason": "ด้วยเหตุผล",
     "30 Days": "30 วัน",
     "60 Days": "60 วัน",
     "90 Days": "90 วัน",
@@ -232,5 +235,11 @@
     "Employee information": "ข้อมูลพนักงาน",
     "View a patient profile": "ดูโปรไฟล์คนไข้",
     "Update paitent stage": "อัพเดทขั้นตอนคนไข้",
-    "View a list of all referral patients": "ดูรายการทะเบียนคนไข้ที่ส่งมอบทั้งหมด"
+    "View a list of all referral patients": "ดูรายการทะเบียนคนไข้ที่ส่งมอบทั้งหมด",
+    "Informing patient of the decision not to stay" : "แจ้งการไม่เข้ารับบริการของคนไข้",
+    "would like to inform that": "ต้องการแจ้งให้ทราบว่า",
+    "Notification of end service": "แจ้งการสิ้นสุดบริการ",
+    "has changed the expected date and time of service": "ได้เปลี่ยนแปลงวันที่คาดว่าจะเข้าพัก",
+    "to be the date": "เป็นวันที่",
+    "If you have any questions or want to ask for more information. You can inquire through this chat": "หากมีข้อสงสัยหรือต้องการสอบถามข้อมูลเพิ่มเติม สามารถสอบถามได้ทางแชทนี้ค่ะ"
 }
