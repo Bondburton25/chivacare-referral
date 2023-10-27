@@ -28,6 +28,7 @@
     "Admin": "แอดมิน",
     "Doctor": "คุณหมอ",
     "Nurse": "พยาบาล",
+    "Created at": "สร้างเมื่อ",
     "nurse": "พยาบาล",
     "Expected arrival date/time": "วันเวลาที่คาดว่าจะมาเข้าพัก",
     "Decision": "ตัดสินใจ",
@@ -211,6 +212,7 @@
     "Verified at": "ยืนยันแล้วเมื่อ",
     "Register employee": "ลงทะเบียนพนักงาน",
     "Employee profile": "โปรไฟล์พนักงาน",
+    "All employees": "พนักงานทั้งหมด",
     "Role": "บทบาท",
     "Manage permission": "จัดการสิทธิ์",
     "You have verified the user account in the role": "คุณได้รับการยืนยันบัญชีผู้ใช้ในบทบาท",
@@ -225,5 +227,10 @@
     "Number of service days": "จำนวนวันที่เข้าบริการ",
     "Referral fee to be paid": "ค่าแนะนำที่ต้องจ่าย",
     "Patient": "คนไข้",
-    "Date/time of patient admission": "วันเวลาที่รับตัวคนไข้"
+    "Date/time of patient admission": "วันเวลาที่รับตัวคนไข้",
+    "is":"คือ",
+    "Employee information": "ข้อมูลพนักงาน",
+    "View a patient profile": "ดูโปรไฟล์คนไข้",
+    "Update paitent stage": "อัพเดทขั้นตอนคนไข้",
+    "View a list of all referral patients": "ดูรายการทะเบียนคนไข้ที่ส่งมอบทั้งหมด"
 }

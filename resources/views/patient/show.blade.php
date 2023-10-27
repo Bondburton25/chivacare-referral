@@ -2,7 +2,9 @@
 
 @section('pageTitle', __('Patient profile').' '.$patient->full_name)
 
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
 @section('stylesheet')
+
 
 @if($patient->images()->exists())
 <link href="{{ asset('css/fancybox/fancybox.css') }}" rel="stylesheet">
@@ -141,7 +143,25 @@
 
                         <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
                             {{ __('Health status') }}
-                            <span class="text-success">{{ $patient->health_status ? __($patient->health_status->name) : '' }}</span>
+                            <div><span class="text-success">{{ $patient->health_status ? __($patient->health_status->name) : '' }}</span>
+                                @if($patient->health_status)
+                                <br>
+                                <button type="button" class="text-muted small btn-sm btn p-0 text-end float-end" data-bs-toggle="modal" data-bs-target="#exampleModal">คลิกเพื่อดูคำอธิบาย <i class="bi bi-info-circle-fill"></i></button>
+                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header border-0">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">{{ $patient->health_status->name }}</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body text-star">
+                                            <span class="text-success">{{ $patient->health_status->name }}</span><span class="text-muted"> {{ __('is') }} {{ $patient->health_status->description }}</span>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                                @endif
+                            </div>
                         </li>
 
                         <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
@@ -164,12 +184,12 @@
                             <span class="text-success mr-5">{{ __($patient->treatment_history) }}</span>
                         </li>
                     </ul>
+
+
                 </div>
             </div>
 
-            @if($patient->health_status)
-                <small><i>{{ $patient->health_status->description }}</i></small>
-            @endif
+
 
             <div class="card shadow-sm border-0 mb-3">
                 <div class="card-header">
@@ -229,7 +249,7 @@
                 <div class="card-header">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="title-card">{{ __('Action steps') }}</div>
-                        @can('isAdmin')
+                        @canany(['isAdmin', 'isSuperAdmin'])
                         <div class="button-update">
                             @if($patient->staying_decision != 'backoff')
                                 @if($patient->stage->step < 5)
@@ -390,6 +410,7 @@
                                                     @endif
 
                                                     @if($patient->expected_arrive_date_time && $patient->stage->step == 4)
+                                                    @canany(['isAdmin', 'isSuperAdmin'])
                                                         <div class="d-block mt-3">
                                                             <button data-bs-toggle="modal" data-bs-target="#changeArriveDateModal" class="btn btn-outline-warning btn-sm">{{ __('Changing the expected date and time of service') }} <i class="bi bi-calendar-week-fill"></i>
                                                             </button>
@@ -418,12 +439,12 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        @endcan
                                                     @endif
                                                 </div>
                                                 @endif
                                             </div>
                                         @endif
-
 
                                         @if($stage->step === 5)
                                             {{ $patient->arrive_date_time ? __('Completed at') .' '. $patient->arrive_date_time : '' }}

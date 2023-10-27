@@ -28,5 +28,6 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('isNurse', fn($user) => $user->role === 'nurse');
         Gate::define('isPatient', fn($user) => $user->role === 'patient');
         Gate::define('isGeneralUser', fn($user) => $user->role === 'general_user');
+        Gate::define('isRefferr', fn($user) => $user->role === 'doctor' or $user->role === 'nurse' or $user->role === 'general_user');
     }
 }

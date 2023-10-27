@@ -37,7 +37,7 @@ class managePatient
     public function handle(Request $request, Closure $next): Response
     {
         $patient = Patient::findOrFail($request->segments()[1]);
-        if (auth()->user()->role != 'admin') {
+        if (auth()->user()->role != 'admin' and auth()->user()->role != 'super_admin' and auth()->user()->role != 'operator') {
             if ($patient->referred_by_id !== $this->auth->getUser()->id) {
                 abort(403, 'Unauthorized action.');
             }

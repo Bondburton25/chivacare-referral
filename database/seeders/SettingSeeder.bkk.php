@@ -11,23 +11,23 @@ class SettingSeeder extends Seeder
     protected $settings = [
         [
             'key' => 'channelAccessToken',
-            'value' => 'GtVt/MRkohh1NDhA0Acjwh4rkjHMu8dIXaNjA5F5eKrMkn9muvgkqhiR0vPXfVyFgFfMqU5UAX28VFUrdd6tSeNgTs9HaZe/RxGcM5uLVXKP+0VHvS951/Nnd73cFsYTBglR4mPCN42S1269jWuzFgdB04t89/1O/w1cDnyilFU=',
+            'value' => 'QoUKeR+rPCjaHolU2Cv0kYXvWHx4Xl366O2PqbctqC6zSUv0F9i+U0/iupxgi/WUwxQlcpqP9caAvQzeqbCMYZMXib3TRi9ocUi4iEUiqQKHPynBbUhFQZGV409mw5yBf1cU6zadgXuADifB0kLoMgdB04t89/1O/w1cDnyilFU=',
         ],
         [
             'key' => 'lineNotifyTokenUserRegister',
-            'value' => 'l7FZJMWefy8FGVRKMhvrauRDHukwtINeG1bnW0T4H5c',
+            'value' => 'O4Y2v1Zw49FL9A40IuLXu35XRKyK1710p6wEf6C07C9',
         ],
         [
             'key' => 'lineNotifyTokenPatientReferral',
-            'value' => 'l7FZJMWefy8FGVRKMhvrauRDHukwtINeG1bnW0T4H5c',
+            'value' => 'ZDJRAjRTvNjJ9sawi7wHx49D717BojlMZlg5XAoGosd',
         ],
         [
             'key' => 'liffIdUserRegister',
-            'value' => '2000588475-zveQ08Zq',
+            'value' => '2000626016-NL7a4wJ6',
         ],
         [
             'key' => 'liffIdEmployeesRegister',
-            'value' => '2000588475-9dGzkaw3',
+            'value' => '2000626016-3m0YB8zW',
         ]
     ];
 
