@@ -129,11 +129,17 @@
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
                             {{ __('Birth date') }}
-                            <span class="text-success">{{ $patient->birth_date }}</span>
+                            <span class="text-success">{{ $patient->birth_date ? $patient->birth_date : __('No data found') }}</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
                             {{ __('Age') }}
-                            <span class="text-success">{{ $patient->age() }} {{ __('Years') }}</span>
+                            <span class="text-success">
+                                @if($patient->birth_date)
+                                    {{ $patient->age().' '.__('Years') }}
+                                @else
+                                    {{ $patient->age ? $patient->age.' '.__('Years') : __('No data found') }}
+                                @endif
+                            </span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
                             {{ __('Weight') }}

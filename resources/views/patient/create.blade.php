@@ -48,14 +48,16 @@
                         </div>
 
                         <div class="row mb-2">
-                            <label for="birth_date" class="col-md-4 col-form-label text-md-end">{{ __('Birth date') }} <span class="text-danger">*</span></label>
+                            <label for="birth_date" class="col-md-4 col-form-label text-md-end">{{ __('Birth date') }}</label>
                             <div class="col-md-8">
-                                <input id="birth_date" type="date" class="form-control form-control-sm @error('birth_date') is-invalid @enderror" name="birth_date" value="{{ old('birth_date') }}" autocomplete="birth_date" autofocus>
-                                @error('birth_date')
-                                    <span class="invalid-feedback d-block" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
+                                <input id="birth_date" type="date" class="form-control form-control-sm" name="birth_date" value="{{ old('birth_date') }}" autocomplete="birth_date" autofocus onchange="submitBday()">
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <label for="age" class="col-md-4 col-form-label text-md-end">{{ __('Age') }}</label>
+                            <div class="col-md-8">
+                                <input id="age" type="number" class="form-control form-control-sm" name="age" value="{{ old('age') }}" autocomplete="age" autofocus>
                             </div>
                         </div>
 

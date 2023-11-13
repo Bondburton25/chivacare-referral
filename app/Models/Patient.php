@@ -44,7 +44,8 @@ class Patient extends Model
         'treatment_history',
         'created_at',
         'updated_at',
-        'decided_at'
+        'decided_at',
+        'age'
     ];
 
     protected $dates =[

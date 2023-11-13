@@ -43,7 +43,6 @@ class PatientController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'gender' => 'required',
-            'birth_date' => 'required',
             'preliminary_symptoms' => 'required',
             'precautions' => 'required',
             'contact_person' => 'required',
@@ -72,6 +71,7 @@ class PatientController extends Controller
             'precautions' => $request->precautions,
             'treatment_history' => $request->treatment_history,
             'health_status_id' => $request->health_status_id,
+            'age' => $request->age,
         ]);
 
         if ($request->hasFile('images')) {
@@ -99,6 +99,12 @@ class PatientController extends Controller
         $patient->expected_arrive ? $expectedArrive = $patient->expected_arrive : $expectedArrive = __('No data found');
         $patient->room_type ? $roomType = $patient->room_type : $roomType = __('Don\'t know yet');
         $patient->recommend_service ? $recommendService = $patient->recommend_service : $recommendService = __('No data found');
+
+        if($patient->birth_date) {
+            $age = $patient->age().' '.__('Years');
+        } else {
+            $patient->age ? $age = $patient->age.' '.__('Years') : $age = __('No data found');
+        }
 
         $flexMessageDataJson = '{
             "type": "flex",
@@ -243,7 +249,7 @@ class PatientController extends Controller
                                         },
                                         {
                                             "type": "text",
-                                            "text": "'.$patient->age().' '.__('Years').'",
+                                            "text": "'.$age.'",
                                             "color": "#666666",
                                             "size": "sm",
                                             "flex": 5,
