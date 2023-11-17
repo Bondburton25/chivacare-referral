@@ -785,11 +785,10 @@ class PatientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate(["reason_not_staying" => "required_if:staying_decision,backoff"]);
-
         $patient = Patient::findOrFail($id);
 
         $newStage = Stage::where('step', $patient->stage->step+1)->first();
+
         $patient->stage_id = $newStage->id;
 
         if($newStage->step == 2 ? $patient->contacted_relative_at = now() : '');
@@ -798,17 +797,16 @@ class PatientController extends Controller
 
         $patient->expected_arrive_date_time = $request->expected_arrive_date_time;
         $patient->arrive_date_time = $request->arrive_date_time;
-        $patient->staying_decision = $request->staying_decision;
+
+        if($request->staying_decision) {
+            $patient->staying_decision = $request->staying_decision;
+        }
+
         $patient->reason_not_staying = $request->reason_not_staying;
-
-        // if ($request->has('expected_arrive_date_time')){
-        //     $patient->expected_arrive_date_time = $request->expected_arrive_date_time;
-        // }
-
-        // if ($request->has('arrive_date_time')){
-        //     $patient->arrive_date_time = $request->arrive_date_time;
-        // }
-
+        $patient->symptom_assessment = $request->symptom_assessment;
+        $patient->underlying_disease = $request->underlying_disease;
+        $patient->first_checkup      = $request->first_checkup;
+        $patient->treatment_history  = $request->treatment_history;
         $patient->save();
 
         $flexMessageUpdateReferPatient = '{
@@ -923,7 +921,6 @@ class PatientController extends Controller
                 } else {
                     $reason = '';
                 }
-
                 $flexMessageNotStay = '{
                     "type": "flex",
                     "altText": "'.__('Informing patient of the decision not to stay') .' '."$patient->full_name".'",
@@ -988,6 +985,13 @@ class PatientController extends Controller
                 $this->pushFlexMessage($encodeJson);
             }
         }
+
+        // Send message to LINE Notify
+        if($newStage->step == 5) {
+            $messageToNotify = __('New patient').' '.$patient->arrive_date_time.' '.$patient->full_name.' '.__('Age').' '.$patient->age().' '.__('Years old').' '."NO U/D".' '."\r\n".' '."\r\n" .' '.$patient->underlying_disease.' '."\r\n".' '."\r\n".$patient->treatment_history.' '."\r\n".' '."\r\n".$patient->symptom_assessment.' '."\r\n".' '."\r\n".$patient->first_checkup;
+            $this->lineNotify($messageToNotify, config('settings.lineNotifyTokenReportFirstCaseSymptoms'));
+        }
+
 
         return back()->with('success', __('Successfully updated'));
     }

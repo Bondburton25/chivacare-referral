@@ -31,6 +31,7 @@
     "Created at": "สร้างเมื่อ",
     "nurse": "พยาบาล",
     "Expected arrival date/time": "วันเวลาที่คาดว่าจะมาเข้าพัก",
+    "Set date time to arrive": "กำหนดเวลาวันที่จะมาเข้าพัก",
     "Decision": "ตัดสินใจ",
     "Time": "เวลา",
     "General user": "ผู้ใช้ทั่วไป",
@@ -51,6 +52,7 @@
     "Total found": "ค้นพบทั้งหมด",
     "Item(s)": "รายการ",
     "No data found": "ไม่พบข้อมูล",
+    "At the time": "เมื่อ",
     "doctor": "คุณหมอ",
     "Name": "ชื่อ",
     "Last name": "นามสกุล",
@@ -121,6 +123,7 @@
     "Don't know yet": "ยังไม่ทราบ",
     "Unknown": "ไม่ทราบ",
     "normal_food" :"อาหารปกติ",
+    "No information yet": "ยังไม่มีข้อมูล",
     "very_stable" :"Very stable",
     "stable" :"Stable",
     "moderate_stable" :"Moderate stable",
@@ -241,5 +244,8 @@
     "Notification of end service": "แจ้งการสิ้นสุดบริการ",
     "has changed the expected date and time of service": "ได้เปลี่ยนแปลงวันที่คาดว่าจะเข้าพัก",
     "to be the date": "เป็นวันที่",
-    "If you have any questions or want to ask for more information. You can inquire through this chat": "หากมีข้อสงสัยหรือต้องการสอบถามข้อมูลเพิ่มเติม สามารถสอบถามได้ทางแชทนี้ค่ะ"
+    "Symptoms assessed after first seeing the patient": "อาการประเมินหลังเห็นคนไข้ครั้งแรก",
+    "If you have any questions or want to ask for more information. You can inquire through this chat": "หากมีข้อสงสัยหรือต้องการสอบถามข้อมูลเพิ่มเติม สามารถสอบถามได้ทางแชทนี้ค่ะ",
+    "First checkup":"ตรวจวัดค่าแรกรับเข้า",
+    "New patient": "รับใหม่"
 }

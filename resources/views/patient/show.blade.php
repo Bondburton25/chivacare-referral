@@ -129,17 +129,19 @@
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
                             {{ __('Birth date') }}
-                            <span class="text-success">{{ $patient->birth_date ? $patient->birth_date : __('No data found') }}</span>
+                            <span class="text-{{ $patient->birth_date ? 'success' : 'muted' }}">{{ $patient->birth_date ? $patient->birth_date : __('No data found') }}</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
                             {{ __('Age') }}
-                            <span class="text-success">
                                 @if($patient->birth_date)
-                                    {{ $patient->age().' '.__('Years') }}
+                                    <span class="text-success">
+                                        {{ $patient->age().' '.__('Years') }}
+                                    </span>
                                 @else
-                                    {{ $patient->age ? $patient->age.' '.__('Years') : __('No data found') }}
+                                    <span class="text-{{ $patient->age ? 'success' : 'muted' }}">
+                                        {{ $patient->age ? $patient->age.' '.__('Years') : __('No data found') }}
+                                    </span>
                                 @endif
-                            </span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
                             {{ __('Weight') }}
@@ -178,16 +180,25 @@
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
                             {{ __('Preliminary symptoms') }}
-                            <span class="text-success mr-5">{{ __($patient->preliminary_symptoms) }}</span>
+                            <span class="text-{{ $patient->preliminary_symptoms ? 'success' : 'muted' }} mr-5">{{ __($patient->preliminary_symptoms) }}</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
                             {{ __('Precautions') }} {{ __('Care instructions') }}
-                            <span class="text-success mr-5">{{ __($patient->precautions) }}</span>
+                            <span class="text-{{ $patient->precautions ? 'success' : 'muted' }} mr-5">{{ __($patient->precautions) }}</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
                             {{ __('Treatment history') }}
-                            <span class="text-success mr-5">{{ __($patient->treatment_history) }}</span>
+                            <span class="text-{{ $patient->treatment_history ? 'success' : 'muted' }} mr-5">{{ $patient->treatment_history ? __($patient->treatment_history) : __('No information yet') }}</span>
                         </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                            {{ __('Symptoms assessed after first seeing the patient') }}
+                            <span class="text-{{ $patient->symptom_assessment ? 'success' : 'muted' }} mr-5">{{ $patient->symptom_assessment ? __($patient->symptom_assessment) : __('No information yet') }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                            {{ __('First checkup') }}
+                            <span class="text-{{ $patient->first_checkup ? 'success' : 'muted' }} mr-5">{{ $patient->first_checkup ? __($patient->first_checkup) : __('No information yet') }}</span>
+                        </li>
+
                     </ul>
                 </div><!-- / card-body -->
             </div><!-- / card -->
@@ -265,11 +276,15 @@
                                                 <div class="modal-header border-0">
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
-                                                <div class="modal-body text-center">
-                                                    <h4>{{ __('Update on the patient referral process') }}</h4>
-                                                    @if($nextStage)
-                                                        <span>{{ __('Step') }}</span> <span class="text-success">{{ $nextStage->step }} {{ $nextStage->name }}</span>
-                                                    @endif
+                                                <div class="modal-body">
+
+                                                    <div class="text-center">
+                                                        <h4>{{ __('Update on the patient referral process') }}</h4>
+                                                        @if($nextStage)
+                                                            <span>{{ __('Step') }}</span> <span class="text-success">{{ $nextStage->step }} {{ $nextStage->name }}</span>
+                                                        @endif
+                                                    </div>
+
                                                     @if($patient->stage->step == 3)
                                                         <div class="py-2">
                                                             <p>{{ __('Patient\'s relatives decide to stay') }}/{{ __('Backoff') }}</p>
@@ -278,12 +293,6 @@
                                                                     <input type="radio" class="btn-check" name="staying_decision" value="stay" id="staying" autocomplete="off" checked>
                                                                     <label class="btn btn-outline-success mr-2" for="staying"><i class="bi bi-check-circle-fill"></i> {{ __('Staying') }}</label>
                                                                 </div>
-
-                                                                <div>
-                                                                    <input type="radio" class="btn-check" name="staying_decision" value="pending" id="pending" autocomplete="off">
-                                                                    <label class="btn btn-outline-warning mr-2" for="pending"><i class="bi bi-question-diamond-fill"></i> {{ __('Still undecided') }}</label>
-                                                                </div>
-
                                                                 <div><input type="radio" class="btn-check" name="staying_decision" value="backoff" id="backoff" autocomplete="off">
                                                                     <label class="btn btn-outline-danger" for="backoff"><i class="bi bi-x-circle-fill"></i> {{ __('Backoff') }}
                                                                     </label>
@@ -316,6 +325,28 @@
                                                             <label for="arrive_date_time" class="form-label">{{ __('Date/time of patient admission') }} <span class="text-danger">*</span></label>
                                                             <input type="datetime-local" id="arrive_date_time" name="arrive_date_time" class="form-control">
                                                         </div>
+
+                                                        <div class="mb-3 w-50 mx-auto mt-3">
+                                                            <label for="underlying_disease" class="form-label">U/D</label>
+                                                            <textarea name="underlying_disease" class="form-control" id="underlying_disease" rows="2">{{ $patient->underlying_disease }}</textarea>
+                                                        </div>
+
+                                                        <div class="mb-3 w-50 mx-auto mt-3">
+                                                            <label for="treatment_history" class="form-label">{{ __('History of treatment') }}</label>
+                                                            <textarea name="treatment_history" class="form-control" id="treatment_history" rows="2">{{ $patient->treatment_history }}</textarea>
+                                                        </div>
+
+                                                        <div class="mb-3 w-50 mx-auto mt-3">
+                                                            <label for="symptom_assessment" class="form-label">{{ __('Symptoms assessed after first seeing the patient') }}</label>
+                                                            <textarea name="symptom_assessment" class="form-control" id="symptom_assessment" rows="2"></textarea>
+                                                        </div>
+
+                                                        <div class="mb-3 w-50 mx-auto mt-3">
+                                                            <label for="first_checkup" class="form-label">{{ __('First checkup') }}</label>
+                                                            <textarea name="first_checkup" class="form-control" id="first_checkup" rows="2"></textarea>
+                                                        </div>
+
+
                                                     @endif
                                                 </div>
                                                 <div class="modal-footer border-0 d-flex justify-content-center mb-2">
@@ -355,9 +386,6 @@
                                                     {{ __($patient->referred_by->role) }} <span class="text-primary">{{ $patient->referred_by->fullname }}</span>
                                                     <div class="d-block created_at">
                                                         {{ __('Sent patient information at') }} {{ $patient->created_at }}
-                                                        {{-- <div class="d-block">
-                                                            ({{ $patient->created_at->diffForHumans() }})
-                                                        </div> --}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -372,30 +400,32 @@
                                         @endif
 
                                         @if($stage->step === 4)
-                                            {{ __('Decided made on') }} {{ $patient->decided_at }}
                                             <div class="d-block">
-                                                    @if($patient->staying_decision !== 'pending')
-
-                                                    <span class="text-{{ $patient->staying_decision == 'stay' ? 'success' : 'danger' }}"><i class="bi bi-{{ $patient->staying_decision == 'stay' ? 'check-circle text-success' : 'x-circle text-danger' }}-fill"></i>
-                                                         {{ __('Decision') }}: {{ __($patient->staying_decision) }}</span>
-                                                    @else
+                                                @if($patient->staying_decision === 'pending')
                                                         @if($patient->stage->step === 4)
-                                                            {{ __('Still undecided') }}
+                                                            <span class="text-warning">{{ __('Still undecided') }}</span>
                                                         @endif
-                                                    @endif
+                                                @else
+                                                    <span class="text-{{ $patient->staying_decision == 'stay' ? 'success' : 'danger' }}">
+                                                        <i class="bi bi-person-{{ $patient->staying_decision == 'stay' ? 'heart text-success' : 'fill-x text-danger' }}"></i>
+                                                        {{ __('Decision') }}: {{ __($patient->staying_decision) }}
+                                                    </span>
+                                                @endif
 
-                                                    @if($patient->reason_not_staying)
-                                                        <div class="d-block">
-                                                            {{ __('Reason') }}: {{ __($patient->reason_not_staying) }}
-                                                        </div>
-                                                    @endif
+                                                @if($patient->reason_not_staying)
+                                                    <div class="d-block">
+                                                        <i class="bi bi-chat-right-fill"></i> {{ __('Reason') }}: <span class="text-dark"><i>{{ __($patient->reason_not_staying) }}</i></span>
+                                                    </div>
+                                                @endif
 
-                                                    {{ $patient->physical_therapy_service ? __('Including physical therapy services') : ''  }}
+                                            <div class="d-block">{{ __('At the time') }} {{ $patient->decided_at }}</div>
 
                                                 @if($patient->staying_decision == 'stay')
                                                 <div class="d-block">
-                                                    {{ __('Expected arrival date/time') }} {{ $patient->expected_arrive_date_time ? date('d/m/Y', strtotime($patient->expected_arrive_date_time)) : '' }} {{ __('Time') }} {{ date('H:m', strtotime($patient->expected_arrive_date_time)) }}
-                                                    @if($patient->arrive_date_time == null)
+                                                    {{ __('Expected arrival date/time') }}
+                                                    {{ $patient->expected_arrive_date_time ? date('d/m/Y', strtotime($patient->expected_arrive_date_time)).' '.date('H:m', strtotime($patient->expected_arrive_date_time)) : 'ยังไม่ได้ระบุวันเวลา' }}
+
+                                                    @if($patient->arrive_date_time == null && $patient->expected_arrive_date_time != null)
                                                         <span class="small d-block text-muted" id="days-to-come">
                                                             @if(date('Y-m-d', strtotime($patient->expected_arrive_date_time)) > date('Y-m-d'))
                                                                 ({{ __('More') }} {{ Carbon\Carbon::parse($patient->expected_arrive_date_time)->diffInDays(date('Y-m-d')) }} {{ __('Day(s) to come') }})
@@ -408,17 +438,17 @@
                                                                     @endif
                                                                 </span>
                                                             @else
-                                                                <span class="text-success">
-                                                                    {{ __('Today') }} {{ __('Time') }} {{ date('H:m', strtotime($patient->expected_arrive_date_time)) }}
-                                                                </span>
+                                                            <span class="text-success">
+                                                                {{ __('Today') }} {{ __('Time') }} {{ date('H:m', strtotime($patient->expected_arrive_date_time)) }}
+                                                            </span>
                                                             @endif
                                                         </span>
                                                     @endif
 
-                                                    @if($patient->expected_arrive_date_time && $patient->stage->step == 4)
+                                                    @if($patient->expected_arrive_date_time or $patient->expected_arrive_date_time == null && $patient->stage->step == 4)
                                                     @canany(['isAdmin', 'isSuperAdmin'])
                                                         <div class="d-block mt-3">
-                                                            <button data-bs-toggle="modal" data-bs-target="#changeArriveDateModal" class="btn btn-outline-warning btn-sm">{{ __('Changing the expected date and time of service') }} <i class="bi bi-calendar-week-fill"></i>
+                                                            <button data-bs-toggle="modal" data-bs-target="#changeArriveDateModal" class="btn btn-outline-warning btn-sm">{{ __('Set date time to arrive') }} <i class="bi bi-calendar-week-fill"></i>
                                                             </button>
                                                             <div class="modal fade" id="changeArriveDateModal" tabindex="-1" aria-labelledby="changeArriveDateModalLabel" aria-hidden="true">
                                                                 <div class="modal-dialog">
@@ -427,7 +457,7 @@
                                                                     @csrf
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
-                                                                        <h1 class="modal-title fs-5" id="changeArriveDateModalLabel">{{ __('Changing the expected date and time of service') }}</h1>
+                                                                        <h1 class="modal-title fs-5" id="changeArriveDateModalLabel">{{ __('Set date time to arrive') }}</h1>
                                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                         </div>
                                                                         <div class="modal-body">

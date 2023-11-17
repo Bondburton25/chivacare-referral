@@ -45,7 +45,10 @@ class Patient extends Model
         'created_at',
         'updated_at',
         'decided_at',
-        'age'
+        'age',
+        'symptom_assessment',
+        'first_checkup',
+        'underlying_disease'
     ];
 
     protected $dates =[
@@ -61,7 +64,7 @@ class Patient extends Model
         'end_service_at',
         'relative_visited_at',
         'relative_decide_of_stay_at',
-        'admit_patient_at'
+        'admit_patient_at',
     ];
 
     // public function setArriveDateTimeAttribute($value)
