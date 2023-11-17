@@ -287,7 +287,7 @@
 
                                                     @if($patient->stage->step == 3)
                                                         <div class="py-2">
-                                                            <p>{{ __('Patient\'s relatives decide to stay') }}/{{ __('Backoff') }}</p>
+                                                            {{-- <p>{{ __('Patient\'s relatives decide to stay') }}/{{ __('Backoff') }}</p> --}}
                                                             <div class="d-flex justify-content-evenly">
                                                                 <div>
                                                                     <input type="radio" class="btn-check" name="staying_decision" value="stay" id="staying" autocomplete="off" checked>
