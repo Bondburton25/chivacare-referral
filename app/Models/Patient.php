@@ -4,10 +4,20 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+// use App\Enums\EvaluateEyeOpening;
 
 class Patient extends Model
 {
     protected $appends = ['fullname'];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    // protected $casts = [
+    //     'evaluate_eye_opening' => EvaluateEyeOpening::class
+    // ];
 
     protected $fillable = [
         'number',
@@ -48,7 +58,11 @@ class Patient extends Model
         'age',
         'symptom_assessment',
         'first_checkup',
-        'underlying_disease'
+        'underlying_disease',
+        'vital_signs_first_monitor',
+        'evaluate_eye_opening',
+        'verbal_response',
+        'motor_response'
     ];
 
     protected $dates =[

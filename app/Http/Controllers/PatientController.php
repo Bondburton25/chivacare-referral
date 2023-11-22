@@ -807,6 +807,11 @@ class PatientController extends Controller
         $patient->underlying_disease = $request->underlying_disease;
         $patient->first_checkup      = $request->first_checkup;
         $patient->treatment_history  = $request->treatment_history;
+
+        $patient->evaluate_eye_opening = $request->evaluate_eye_opening;
+        $patient->verbal_response = $request->verbal_response;
+        $patient->motor_response  = $request->motor_response;
+
         $patient->save();
 
         $flexMessageUpdateReferPatient = '{
@@ -989,7 +994,9 @@ class PatientController extends Controller
         // Send message to LINE Notify
         if($newStage->step == 5) {
             $messageToNotify = __('New patient').' '.$patient->arrive_date_time.' '.$patient->full_name.' '.__('Age').' '.$patient->age().' '.__('Years old').' '."NO U/D".' '."\r\n".' '."\r\n" .' '.$patient->underlying_disease.' '."\r\n".' '."\r\n".$patient->treatment_history.' '."\r\n".' '."\r\n".$patient->symptom_assessment.' '."\r\n".' '."\r\n".$patient->first_checkup;
-            $this->lineNotify($messageToNotify, config('settings.lineNotifyTokenReportFirstCaseSymptoms'));
+            // $this->lineNotify($messageToNotify, config('settings.lineNotifyTokenReportFirstCaseSymptoms'));
+
+            $this->lineNotify($messageToNotify, 'l7FZJMWefy8FGVRKMhvrauRDHukwtINeG1bnW0T4H5c');
         }
 
 

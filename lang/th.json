@@ -90,6 +90,7 @@
     "Precautions": "ข้อควรระวัง",
     "Treatment history": "ประวัติการรักษา",
     "Care instructions": "คำแนะนำการดูแล",
+    "Vital signs first monitor": "สัญญาณชีพแรกรับ",
     "Immediately": "ทันที",
     "immediately": "ทันที",
     "Within one week": "ภายใน 1 สัปดาห์",
@@ -247,5 +248,11 @@
     "Symptoms assessed after first seeing the patient": "อาการประเมินหลังเห็นคนไข้ครั้งแรก",
     "If you have any questions or want to ask for more information. You can inquire through this chat": "หากมีข้อสงสัยหรือต้องการสอบถามข้อมูลเพิ่มเติม สามารถสอบถามได้ทางแชทนี้ค่ะ",
     "First checkup":"ตรวจวัดค่าแรกรับเข้า",
-    "New patient": "รับใหม่"
+    "New patient": "รับใหม่",
+    "Years old": "ปี",
+    "Evaluate eye opening": "ประเมินการลืมตา",
+    "Verbal response": "ประเมินการสื่อสาร",
+    "Motor response": "ประเมินการเคลื่อนไหว",
+    "Level": "ระดับ",
+    "Assessment of consciousness": "การประเมินความรู้สึกตัว"
 }

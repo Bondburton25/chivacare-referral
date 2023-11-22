@@ -5,7 +5,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
 @section('stylesheet')
 
-
 @if($patient->images()->exists())
 <link href="{{ asset('css/fancybox/fancybox.css') }}" rel="stylesheet">
 @endif
@@ -119,19 +118,19 @@
                             {{ __('First Name') }}-{{ __('Last Name') }}
                             <span class="text-success">{{ $patient->full_name }}</span>
                         </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                        <li class="list-group-item d-flex justify-content-between align-items-top border-0 px-0">
                             {{ __('Refer number') }}
                             <span class="text-success">{{ __($patient->number) }}</span>
                         </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                        <li class="list-group-item d-flex justify-content-between align-items-top border-0 px-0">
                             {{ __('Gender') }}
                             <span class="text-success">{{ __($patient->gender) }}</span>
                         </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                        <li class="list-group-item d-flex justify-content-between align-items-top border-0 px-0">
                             {{ __('Birth date') }}
                             <span class="text-{{ $patient->birth_date ? 'success' : 'muted' }}">{{ $patient->birth_date ? $patient->birth_date : __('No data found') }}</span>
                         </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                        <li class="list-group-item d-flex justify-content-between align-items-top border-0 px-0">
                             {{ __('Age') }}
                                 @if($patient->birth_date)
                                     <span class="text-success">
@@ -143,16 +142,16 @@
                                     </span>
                                 @endif
                         </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                        <li class="list-group-item d-flex justify-content-between align-items-top border-0 px-0">
                             {{ __('Weight') }}
                             <span class="text-success">{{ $patient->weight }} {{ __('kg') }}.</span>
                         </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                        <li class="list-group-item d-flex justify-content-between align-items-top border-0 px-0">
                             {{ __('Height') }}
                             <span class="text-success">{{ $patient->height }} {{ __('cm') }}.</span>
                         </li>
 
-                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                        <li class="list-group-item d-flex justify-content-between align-items-top border-0 px-0">
                             {{ __('Health status') }}
                             <div><span class="text-success">{{ $patient->health_status ? __($patient->health_status->name) : '' }}</span>
                                 @if($patient->health_status)
@@ -174,31 +173,63 @@
                                 @endif
                             </div>
                         </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                        <li class="list-group-item d-flex justify-content-between align-items-top border-0 px-0">
                             {{ __('Congenital disease') }}
                             <span class="text-success">{{ __($patient->congenital_disease) }}</span>
                         </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
-                            {{ __('Preliminary symptoms') }}
-                            <span class="text-{{ $patient->preliminary_symptoms ? 'success' : 'muted' }} mr-5">{{ __($patient->preliminary_symptoms) }}</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
-                            {{ __('Precautions') }} {{ __('Care instructions') }}
-                            <span class="text-{{ $patient->precautions ? 'success' : 'muted' }} mr-5">{{ __($patient->precautions) }}</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
-                            {{ __('Treatment history') }}
-                            <span class="text-{{ $patient->treatment_history ? 'success' : 'muted' }} mr-5">{{ $patient->treatment_history ? __($patient->treatment_history) : __('No information yet') }}</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
-                            {{ __('Symptoms assessed after first seeing the patient') }}
-                            <span class="text-{{ $patient->symptom_assessment ? 'success' : 'muted' }} mr-5">{{ $patient->symptom_assessment ? __($patient->symptom_assessment) : __('No information yet') }}</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
-                            {{ __('First checkup') }}
-                            <span class="text-{{ $patient->first_checkup ? 'success' : 'muted' }} mr-5">{{ $patient->first_checkup ? __($patient->first_checkup) : __('No information yet') }}</span>
+
+                        <li class="list-group-item border-0 px-0 {{ $patient->preliminary_symptoms ? '' : 'd-flex justify-content-between align-items-top' }}">
+                            <div>{{ __('Preliminary symptoms') }}</div>
+                            <span class="text-{{ $patient->preliminary_symptoms ? 'success' : 'muted d-block' }} mr-5">{{ $patient->preliminary_symptoms ? $patient->preliminary_symptoms : __('No data found') }}</span>
                         </li>
 
+                        <li class="list-group-item border-0 px-0 {{ $patient->precautions ? '' : 'd-flex justify-content-between align-items-top' }}">
+                            <div>{{ __('Precautions') }}</div>
+                            <span class="text-{{ $patient->precautions ? 'success' : 'muted d-block' }} mr-5">{{ $patient->precautions ? $patient->precautions : __('No data found') }}</span>
+                        </li>
+
+                        <li class="list-group-item border-0 px-0 {{ $patient->treatment_history ? '' : 'd-flex justify-content-between align-items-top' }}">
+                            <div>{{ __('Treatment history') }}</div>
+                            <span class="text-{{ $patient->treatment_history ? 'success' : 'muted d-block' }} mr-5">{{ $patient->treatment_history ? $patient->treatment_history : __('No data found') }}</span>
+                        </li>
+
+                        <li class="list-group-item border-0 px-0 {{ $patient->symptom_assessment ? '' : 'd-flex justify-content-between align-items-top' }}">
+                            <div>{{ __('Symptoms assessed after first seeing the patient') }}</div>
+                            <span class="text-{{ $patient->symptom_assessment ? 'success' : 'muted d-block' }} mr-5">{{ $patient->symptom_assessment ? $patient->symptom_assessment : __('No data found') }}</span>
+                        </li>
+
+                        <li class="list-group-item border-0 px-0 d-flex justify-content-between align-items-top">
+                            <div>{{ __('Vital signs first monitor') }}</div>
+                            <span class="text-{{ $patient->vital_signs_first_monitor ? 'success' : 'muted d-block' }} mr-5">{{ $patient->vital_signs_first_monitor ? $patient->vital_signs_first_monitor : __('No data found') }}</span>
+                        </li>
+
+                        <li class="list-group-item border-0 px-0 {{ $patient->first_checkup ? '' : 'd-flex justify-content-between align-items-top' }}">
+                            <div class="w-50">{{ __('First checkup') }}</div>
+                            <span class="text-{{ $patient->first_checkup ? 'success' : 'muted d-block' }} mr-5">{{ $patient->first_checkup ? $patient->first_checkup : __('No data found') }}</span>
+                        </li>
+
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 fw-bold">
+                            {{ __('การประเมินความรู้สึกตัว') }}
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-top border-0 px-0">
+                            {{ __('Evaluate eye opening') }}
+                            <span class="text-{{ $patient->evaluate_eye_opening ? 'success' : 'muted' }} mr-5">
+                                {{ $patient->evaluate_eye_opening ? __('Level') .' '. 'E'.$patient->evaluate_eye_opening : __('No data found') }}
+                            </span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-top border-0 px-0">
+                            {{ __('Verbal response') }}
+                            <span class="text-{{ $patient->verbal_response ? 'success' : 'muted' }} mr-5">
+                                {{ $patient->verbal_response ? __('Level') .' '. 'V'.$patient->verbal_response : __('No data found') }}
+                            </span>
+                        </li>
+
+                        <li class="list-group-item d-flex justify-content-between align-items-top border-0 px-0">
+                            {{ __('Motor response') }}
+                            <span class="text-{{ $patient->motor_response ? 'success' : 'muted' }} mr-5">
+                                {{ $patient->motor_response ? __('Level') .' '. 'M'.$patient->motor_response : __('No data found') }}
+                            </span>
+                        </li>
                     </ul>
                 </div><!-- / card-body -->
             </div><!-- / card -->
@@ -221,7 +252,7 @@
                             {{ __('Phone number') }}:
                             <span class="text-success">{{ $patient->phone_number }}</span>
                         </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                        <li class="list-group-item d-flex justify-content-between align-items-top border-0 px-0">
                             {{ __('Relative Expectations') }}:
                             <span class="text-success">{{ $patient->expectations }}</span>
                         </li>
@@ -287,7 +318,6 @@
 
                                                     @if($patient->stage->step == 3)
                                                         <div class="py-2">
-                                                            {{-- <p>{{ __('Patient\'s relatives decide to stay') }}/{{ __('Backoff') }}</p> --}}
                                                             <div class="d-flex justify-content-evenly">
                                                                 <div>
                                                                     <input type="radio" class="btn-check" name="staying_decision" value="stay" id="staying" autocomplete="off" checked>
@@ -321,32 +351,122 @@
                                                     @endif
 
                                                     @if($patient->stage->step == 4)
-                                                        <div class="mb-3 w-50 mx-auto mt-3">
-                                                            <label for="arrive_date_time" class="form-label">{{ __('Date/time of patient admission') }} <span class="text-danger">*</span></label>
-                                                            <input type="datetime-local" id="arrive_date_time" name="arrive_date_time" class="form-control">
+                                                        <div class="row mt-3">
+                                                            <div class="col-sm-6 col-12">
+                                                                <div class="mb-3">
+                                                                    <label for="arrive_date_time" class="form-label">{{ __('Date/time of patient admission') }} <span class="text-danger">*</span></label>
+                                                                    <input type="datetime-local" id="arrive_date_time" name="arrive_date_time" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-6 col-12">
+                                                                <div class="mb-3">
+                                                                    <label for="underlying_disease" class="form-label">U/D</label>
+                                                                    <input type="text" class="form-control" id="underlying_disease" value="{{ $patient->underlying_disease }}">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-6 col-12">
+                                                                <div class="mb-3">
+                                                                    <label for="treatment_history" class="form-label">{{ __('History of treatment') }}</label>
+                                                                    <textarea name="treatment_history" class="form-control" id="treatment_history" rows="2">{{ $patient->treatment_history }}</textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-6 col-12">
+                                                                <div class="mb-3">
+                                                                    <label for="symptom_assessment" class="form-label">{{ __('Symptoms assessed after first seeing the patient') }}</label>
+                                                                    <textarea name="symptom_assessment" class="form-control" id="symptom_assessment" rows="2"></textarea>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="mb-3 col-sm-6 col-12">
+                                                                <label for="first_checkup" class="form-label">{{ __('First checkup') }}</label>
+                                                                <textarea name="first_checkup" class="form-control" id="first_checkup" rows="2"></textarea>
+                                                            </div>
+
+                                                            <div class="mb-3 col-sm-6 col-12">
+                                                                <label for="vital_signs_first_monitor" class="form-label">{{ __('Vital signs first monitor') }}</label>
+                                                                <textarea name="vital_signs_first_monitor" class="form-control" id="vital_signs_first_monitor" rows="2"></textarea>
+                                                            </div>
+
+
                                                         </div>
 
-                                                        <div class="mb-3 w-50 mx-auto mt-3">
-                                                            <label for="underlying_disease" class="form-label">U/D</label>
-                                                            <textarea name="underlying_disease" class="form-control" id="underlying_disease" rows="2">{{ $patient->underlying_disease }}</textarea>
+                                                        <div class="table-responsive">
+                                                            <table class="table table-sm align-middle small bg-primary-subtle">
+                                                                <tr>
+                                                                    <td colspan="7">{{ __('Assessment of consciousness') }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><label for="evaluate_eye_opening" class="form-label">{{ __('Evaluate eye opening') }} <i class="fa-solid fa-eye"></i></label></td>
+                                                                    <td>
+                                                                        <input type="radio" class="btn-check" name="evaluate_eye_opening" id="evaluate_eye_opening_1" autocomplete="off" checked value="1">
+                                                                        <label class="btn" for="evaluate_eye_opening_1">E1</label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="radio" class="btn-check" name="evaluate_eye_opening" id="evaluate_eye_opening_2" autocomplete="off" value="2">
+                                                                        <label class="btn" for="evaluate_eye_opening_2">E2</label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="radio" class="btn-check" name="evaluate_eye_opening" id="evaluate_eye_opening_3" autocomplete="off" value="3">
+                                                                        <label class="btn" for="evaluate_eye_opening_3">E3</label>
+                                                                    </td>
+                                                                    <td colspan="3">
+                                                                        <input type="radio" class="btn-check" name="evaluate_eye_opening" id="evaluate_eye_opening_4" autocomplete="off" value="4">
+                                                                        <label class="btn" for="evaluate_eye_opening_4">E4</label>
+                                                                    </td>
+
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><label for="verbal_response" class="form-label">ประเมินการสื่อสาร<i class="fa-solid fa-ear-listen"></i></label></td>
+                                                                    <td><input type="radio" class="btn-check" name="verbal_response" id="verbal_response_1" autocomplete="off" value="1" checked><label class="btn" for="verbal_response_1">V1</label></td>
+                                                                    <td>
+                                                                        <input type="radio" class="btn-check" name="verbal_response" id="verbal_response_2" autocomplete="off" value="2">
+                                                                        <label class="btn" for="verbal_response_2">V2</label>
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <input type="radio" class="btn-check" name="verbal_response" id="verbal_response_3" autocomplete="off" value="3">
+                                                                        <label class="btn" for="verbal_response_3">V3</label>
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <input type="radio" class="btn-check" name="verbal_response" id="verbal_response_4" autocomplete="off" value="4">
+                                                                        <label class="btn" for="verbal_response_4">V4</label>
+                                                                    </td>
+                                                                    <td colspan="2">
+                                                                        <input type="radio" class="btn-check" name="verbal_response" id="verbal_response_5" autocomplete="off" value="5">
+                                                                        <label class="btn" for="verbal_response_5">V5</label>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><label for="motor_response" class="form-label">ประเมินความรู้สึก <i class="fa-solid fa-child-reaching"></i></label></td>
+                                                                    <td><input type="radio" class="btn-check" name="motor_response" id="motor_response_1" autocomplete="off" checked value="1">
+                                                                        <label class="btn" for="motor_response_1">M1</label></td>
+                                                                    <td>
+                                                                        <input type="radio" class="btn-check" name="motor_response" id="motor_response_2" autocomplete="off" value="2">
+                                                                        <label class="btn" for="motor_response_2">M2</label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="radio" class="btn-check" name="motor_response" id="motor_response_3" autocomplete="off" value="3">
+                                                                        <label class="btn" for="motor_response_3">M3</label>
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <input type="radio" class="btn-check" name="motor_response" id="motor_response_4" autocomplete="off" value="4">
+                                                                        <label class="btn" for="motor_response_4">M4</label>
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <input type="radio" class="btn-check" name="motor_response" id="motor_response_5" autocomplete="off" value="5">
+                                                                        <label class="btn" for="motor_response_5">M5</label>
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <input type="radio" class="btn-check" name="motor_response" id="motor_response_6" autocomplete="off" value="6">
+                                                                        <label class="btn" for="motor_response_6">M6</label>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
                                                         </div>
-
-                                                        <div class="mb-3 w-50 mx-auto mt-3">
-                                                            <label for="treatment_history" class="form-label">{{ __('History of treatment') }}</label>
-                                                            <textarea name="treatment_history" class="form-control" id="treatment_history" rows="2">{{ $patient->treatment_history }}</textarea>
-                                                        </div>
-
-                                                        <div class="mb-3 w-50 mx-auto mt-3">
-                                                            <label for="symptom_assessment" class="form-label">{{ __('Symptoms assessed after first seeing the patient') }}</label>
-                                                            <textarea name="symptom_assessment" class="form-control" id="symptom_assessment" rows="2"></textarea>
-                                                        </div>
-
-                                                        <div class="mb-3 w-50 mx-auto mt-3">
-                                                            <label for="first_checkup" class="form-label">{{ __('First checkup') }}</label>
-                                                            <textarea name="first_checkup" class="form-control" id="first_checkup" rows="2"></textarea>
-                                                        </div>
-
-
                                                     @endif
                                                 </div>
                                                 <div class="modal-footer border-0 d-flex justify-content-center mb-2">
@@ -461,6 +581,7 @@
                                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                         </div>
                                                                         <div class="modal-body">
+
                                                                             <div class="mb-3 w-50 mx-auto mt-3">
                                                                                 <label for="expected_arrive_date_time" class="form-label">{{ __('Expected arrival date/time') }}</label>
                                                                                 <input type="datetime-local" id="expected_arrive_date_time" name="expected_arrive_date_time" class="form-control">

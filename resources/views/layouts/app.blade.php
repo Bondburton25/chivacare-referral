@@ -44,6 +44,7 @@
         }
     </style>
     @yield('stylesheet')
+    <script src="https://kit.fontawesome.com/c952db6fa5.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div id="app">
