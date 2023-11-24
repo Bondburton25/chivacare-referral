@@ -111,9 +111,9 @@
             <a href="{{ route('patients.show', $patient->id) }}" class="card shadow-sm mb-2 link-offset-2 link-underline link-underline-opacity-0 border-light-subtle">
                 <div class="card-body d-flex align-items-top">
                     <div class="info text-muted">
-                        @can('isAdmin')
-                        <img src="{{ $patient->referred_by->avatar }}" class="img-profile rounded-circle me-1">{{ __($patient->referred_by->role) }}
-                        <span class="text-primary">{{ $patient->referred_by->fullname }}</span>
+                        @canany(['isAdmin','isSuperAdmin','isOperator'])
+                            <img src="{{ $patient->referred_by->avatar }}" class="img-profile rounded-circle me-1">{{ __($patient->referred_by->role) }}
+                            <span class="text-primary">{{ $patient->referred_by->fullname }}</span>
                             {{ __('has sent patient information named') }}
                         @else
                             {{ __('You have sent patient information named') }}
