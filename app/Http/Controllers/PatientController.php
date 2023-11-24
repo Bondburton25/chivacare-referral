@@ -788,8 +788,9 @@ class PatientController extends Controller
         $patient = Patient::findOrFail($id);
 
         $newStage = Stage::where('step', $patient->stage->step+1)->first();
+        $lastStage = Stage::where('step', $patient->stage->step-1)->first();
 
-        $patient->stage_id = $newStage->id;
+        // $patient->stage_id = $newStage->id;
 
         if($newStage->step == 2 ? $patient->contacted_relative_at = now() : '');
         if($newStage->step == 3 ? $patient->relative_visited_at = now() : '');
@@ -811,6 +812,17 @@ class PatientController extends Controller
         $patient->evaluate_eye_opening = $request->evaluate_eye_opening;
         $patient->verbal_response = $request->verbal_response;
         $patient->motor_response  = $request->motor_response;
+
+        if($request->rollback == 'yes') {
+            $patient->stage_id = $lastStage->id;
+        }
+
+        if ($request->has('change_decision')) {
+            $patient->stage_id = $patient->stage_id;
+            $patient->staying_decision = 'stay';
+        } else {
+            $patient->stage_id = $newStage->id;
+        }
 
         $patient->save();
 
@@ -995,9 +1007,8 @@ class PatientController extends Controller
         if($newStage->step == 5) {
             $messageToNotify = __('New patient').' '.$patient->arrive_date_time.' '.$patient->full_name.' '.__('Age').' '.$patient->age().' '.__('Years old').' '."NO U/D".' '."\r\n".' '."\r\n" .' '.$patient->underlying_disease.' '."\r\n".' '."\r\n".$patient->treatment_history.' '."\r\n".' '."\r\n".$patient->symptom_assessment.' '."\r\n".' '."\r\n".$patient->first_checkup;
             $this->lineNotify($messageToNotify, config('settings.lineNotifyTokenReportFirstCaseSymptoms'));
+            // $this->lineNotify($messageToNotify, 'l7FZJMWefy8FGVRKMhvrauRDHukwtINeG1bnW0T4H5c');
         }
-
-
         return back()->with('success', __('Successfully updated'));
     }
 

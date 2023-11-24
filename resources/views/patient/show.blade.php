@@ -478,12 +478,70 @@
                                     </div>
                                 </div>
                                 @endif
+                            @else
+                                <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#decidedStayModal">
+                                    {{ __('Decided to stay') }} <i class="bi bi-arrow-repeat"></i>
+                                </button>
+                                <!-- Modal -->
+                                <div class="modal fade" id="decidedStayModal" tabindex="-1" aria-labelledby="decidedStayModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <form action="{{ route('patients.update',[$patient->id]) }}" method="POST" enctype="multipart/form-data">
+                                                {{ method_field('PUT') }}
+                                                @csrf
+                                                <input type="hidden" value="stay" name="change_decision">
+                                                <div class="modal-header border-0">
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="text-center">
+                                                        <h4>ตัดสินใจเข้าพัก</h4>
+                                                        <div class="mb-3 w-50 mx-auto mt-3">
+                                                            <label for="expected_arrive_date_time" class="form-label">{{ __('Expected arrival date/time') }}</label>
+                                                            <input type="datetime-local" id="expected_arrive_date_time" name="expected_arrive_date_time" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </div><!-- modal-body -->
+                                                <div class="modal-footer border-0 d-flex justify-content-center mb-2">
+                                                    <button type="submit" class="btn btn-success">{{ __('Confirm') }}</button>
+                                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             @endif
                         </div>
                         @endcan
                     </div>
                 </div>
                 <div class="card-body pt-4 px-4">
+
+                    @if($patient->stage->step > 1 && $patient->stage->step < 5 && $patient->staying_decision == null)
+                        <button type="button" class="btn btn-sm btn-outline-warning mb-3" data-bs-toggle="modal" data-bs-target="#rollbackStageModal">
+                            {{ __('Return to the previous stage') }} <i class="bi bi-arrow-counterclockwise"></i>
+                        </button>
+                        <div class="modal fade" id="rollbackStageModal" tabindex="-1" aria-labelledby="rollbackStageModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form action="{{ route('patients.update',[$patient->id]) }}" method="POST" enctype="multipart/form-data">
+                                        {{ method_field('PUT') }}
+                                        @csrf
+                                        <input type="hidden" name="rollback" value="yes">
+                                        <div class="modal-body text-center">
+                                            <h4>{{ __('Do you want to reverse the previous steps?') }}</h4>
+                                            <div class="pb-4">{{ __('Current stage') }} <span class="text-success">{{ __('Step') }} {{ $patient->stage->step }} {{ $patient->stage->name }}</span></div>
+                                        </div>
+                                        <div class="modal-footer border-0 d-flex justify-content-center">
+                                            <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> {{ __('Cancel') }}</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
                     @if($patient->end_service_at == null)
                     <div class="pb-4">{{ __('Current stage') }} <span class="text-success">{{ __('Step') }} {{ $patient->stage->step }} {{ $patient->stage->name }}</span></div>
                     @endif

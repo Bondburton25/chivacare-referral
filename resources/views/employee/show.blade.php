@@ -48,7 +48,7 @@
                                         <i class="bi bi-person-fill-check h3 d-block"></i>
                                         Admin
                                     </label>
-                                    <input type="radio" class="btn-check" name="role" id="operator" autocomplete="off">
+                                    <input type="radio" class="btn-check" name="role" value="operator" id="operator" autocomplete="off">
                                     <label class="btn btn-outline-warning" for="operator">
                                         <i class="bi bi-person-fill h3 d-block"></i>
                                         Operator

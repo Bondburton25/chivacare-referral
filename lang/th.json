@@ -254,5 +254,8 @@
     "Verbal response": "ประเมินการสื่อสาร",
     "Motor response": "ประเมินการเคลื่อนไหว",
     "Level": "ระดับ",
-    "Assessment of consciousness": "การประเมินความรู้สึกตัว"
+    "Assessment of consciousness": "การประเมินความรู้สึกตัว",
+    "Return to the previous stage": "ย้อนกลับไปขั้นตอนก่อนหน้า",
+    "Do you want to reverse the previous steps?": "คุณต้องการย้อนกลับขั้นตอนก่อนหน้าหรือไม่?",
+    "Decided to stay": "ตัดสินใจเข้าพัก"
 }
