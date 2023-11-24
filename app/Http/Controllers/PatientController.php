@@ -813,15 +813,16 @@ class PatientController extends Controller
         $patient->verbal_response = $request->verbal_response;
         $patient->motor_response  = $request->motor_response;
 
-        if($request->rollback == 'yes') {
-            $patient->stage_id = $lastStage->id;
-        }
 
         if ($request->has('change_decision')) {
             $patient->stage_id = $patient->stage_id;
             $patient->staying_decision = 'stay';
         } else {
             $patient->stage_id = $newStage->id;
+        }
+
+        if($request->rollback == 'yes') {
+            $patient->stage_id = $lastStage->id;
         }
 
         $patient->save();

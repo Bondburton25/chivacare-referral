@@ -128,7 +128,7 @@
                     </div>
                 </div>
                 <div class="card-footer bg-transparent border-0 pt-0 d-flex justify-content-between">
-                    <span class="badge rounded-pill p-2 fw-normal bg-success-subtle text-success">
+                    <span class="badge rounded-pill p-2 fw-normal bg-success-subtle text-success overflow-x-scroll">
                         <i class="bi bi-check2-circle"></i>
                         {{ __('Current stage') }} {{ __('In stage') }} {{ $patient->stage->step }} {{ $patient->stage->name }}
                     </span>
