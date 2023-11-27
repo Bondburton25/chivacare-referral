@@ -28,10 +28,7 @@ class PatientController extends Controller
      */
     public function create()
     {
-        // $health_statuses = HealthStatus::all();
-        return view('patient.create', [
-            'health_statuses' => HealthStatus::all()
-        ]);
+        return view('patient.create', ['health_statuses' => HealthStatus::all()]);
     }
 
     /**
@@ -787,10 +784,8 @@ class PatientController extends Controller
     {
         $patient = Patient::findOrFail($id);
 
-        $newStage = Stage::where('step', $patient->stage->step+1)->first();
+        $newStage  = Stage::where('step', $patient->stage->step+1)->first();
         $lastStage = Stage::where('step', $patient->stage->step-1)->first();
-
-        // $patient->stage_id = $newStage->id;
 
         if($newStage->step == 2 ? $patient->contacted_relative_at = now() : '');
         if($newStage->step == 3 ? $patient->relative_visited_at = now() : '');
@@ -808,7 +803,6 @@ class PatientController extends Controller
         $patient->underlying_disease = $request->underlying_disease;
         $patient->first_checkup      = $request->first_checkup;
         $patient->treatment_history  = $request->treatment_history;
-
         $patient->evaluate_eye_opening = $request->evaluate_eye_opening;
         $patient->verbal_response = $request->verbal_response;
         $patient->motor_response  = $request->motor_response;
@@ -926,19 +920,20 @@ class PatientController extends Controller
             }
         }';
 
-        $flexDataJsonDeCode = json_decode($flexMessageUpdateReferPatient, true);
-        $messages['to'] = $patient->referred_by->auth_provider->provider_id;
-        $messages['messages'][] = $flexDataJsonDeCode;
-        $encodeJson = json_encode($messages);
-        $this->pushFlexMessage($encodeJson);
+        // If it does not rollback stage will send a flex message to inform the referred person for a new stage of the patient
+        if($request->rollback == null) {
+            $flexDataJsonDeCode = json_decode($flexMessageUpdateReferPatient, true);
+            $messages['to'] = $patient->referred_by->auth_provider->provider_id;
+            $messages['messages'][] = $flexDataJsonDeCode;
+            $encodeJson = json_encode($messages);
+            $this->pushFlexMessage($encodeJson);
+        }
 
+        // If patient decision's back-off will send a flex message to inform the referred person that patient will not come to service
         if ($request->has('staying_decision')) {
             if($patient->staying_decision == 'backoff') {
-                if($patient->reason_not_staying) {
-                    $reason = __('for reason') .' '.$patient->reason_not_staying.'';
-                } else {
-                    $reason = '';
-                }
+                // Set reason not staying
+                $patient->reason_not_staying ? $reason = __('for reason') .' '.$patient->reason_not_staying : $reason = '';
                 $flexMessageNotStay = '{
                     "type": "flex",
                     "altText": "'.__('Informing patient of the decision not to stay') .' '."$patient->full_name".'",
