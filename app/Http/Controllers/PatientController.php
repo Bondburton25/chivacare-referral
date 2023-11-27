@@ -811,6 +811,68 @@ class PatientController extends Controller
         if ($request->has('change_decision')) {
             $patient->stage_id = $patient->stage_id;
             $patient->staying_decision = 'stay';
+            $flexMessageChangeDecision = '{
+                "type": "flex",
+                "altText": "'.__('Informing patient change decision to stay') .' '."$patient->full_name".'",
+                "contents": {
+                    "type": "bubble",
+                    "body": {
+                      "type": "box",
+                      "layout": "vertical",
+                      "contents": [
+                        {
+                          "type": "text",
+                          "text": "'.__('Informing patient change decision to stay').'",
+                          "weight": "bold",
+                          "color": "#1DB446",
+                          "size": "sm",
+                          "wrap": true
+                        },
+                        {
+                          "type": "text",
+                          "text": "'.__('Dear Khun') .' '.$patient->referred_by->full_name.'",
+                          "size": "xs",
+                          "color": "#aaaaaa",
+                          "wrap": true
+                        },
+                        {
+                          "type": "text",
+                          "text": "'.__('Chivacare') .' '.__('would like to inform that') .' '.__('The patient you referred named') .' '.$patient->full_name .' '.__('has change decided to stay').'",
+                          "size": "xs",
+                          "color": "#aaaaaa",
+                          "wrap": true,
+                          "margin": "lg"
+                        },
+                        {
+                          "type": "text",
+                          "text": "'.__('Forwarded for your information').'",
+                          "size": "xs",
+                          "color": "#aaaaaa",
+                          "wrap": true,
+                          "margin": "lg"
+                        },
+                        {
+                            "type": "text",
+                            "text": "'.__('If you have any questions or want to ask for more information. You can inquire through this chat').'",
+                            "size": "xxs",
+                            "color": "#aaaaaa",
+                            "wrap": true,
+                            "margin": "lg"
+                        }
+                      ]
+                    },
+                    "styles": {
+                      "footer": {
+                        "separator": true
+                      }
+                    }
+                }
+            }';
+            $flexMessageChangeDecision = json_decode($flexMessageNotStay, true);
+            $messages['to']            = $patient->referred_by->auth_provider->provider_id;
+            $messages['messages'][]    = $flexMessageChangeDecision;
+            $encodeJson                = json_encode($messages);
+            $this->pushFlexMessage($encodeJson);
         } else {
             $patient->stage_id = $newStage->id;
         }

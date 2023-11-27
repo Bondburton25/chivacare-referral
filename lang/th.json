@@ -241,6 +241,8 @@
     "Update paitent stage": "อัพเดทขั้นตอนคนไข้",
     "View a list of all referral patients": "ดูรายการทะเบียนคนไข้ที่ส่งมอบทั้งหมด",
     "Informing patient of the decision not to stay" : "แจ้งการไม่เข้ารับบริการของคนไข้",
+    "Informing patient change decision to stay" : "แจ้งการเปลี่ยนตัดสินใจเข้าพักของคนไข้",
+    "has change decided to stay": "ได้เปลี่ยนการตัดสินใจจะเข้าพัก",
     "would like to inform that": "ต้องการแจ้งให้ทราบว่า",
     "Notification of end service": "แจ้งการสิ้นสุดบริการ",
     "has changed the expected date and time of service": "ได้เปลี่ยนแปลงวันที่คาดว่าจะเข้าพัก",
