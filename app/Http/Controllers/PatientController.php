@@ -811,6 +811,10 @@ class PatientController extends Controller
         if ($request->has('change_decision')) {
             $patient->stage_id = $patient->stage_id;
             $patient->staying_decision = 'stay';
+            $patient->expected_arrive_date_time = $request->expected_arrive_date_time;
+
+            if($request->expected_arrive_date_time ? $expectedArriveDateTime = __('Expected arrival date/time').' '.$request->expected_arrive_date_time : $expectedArriveDateTime = '');
+
             $flexMessageChangeDecision = '{
                 "type": "flex",
                 "altText": "'.__('Informing patient change decision to stay') .' '."$patient->full_name".'",
@@ -837,7 +841,7 @@ class PatientController extends Controller
                         },
                         {
                           "type": "text",
-                          "text": "'.__('Chivacare') .' '.__('would like to inform that') .' '.__('The patient you referred named') .' '.$patient->full_name .' '.__('has change decided to stay').'",
+                          "text": "'.__('Chivacare') .' '.__('would like to inform that') .' '.__('The patient you referred named') .' '.$patient->full_name .' '.__('has change decided to stay') .' '.$expectedArriveDateTime.'",
                           "size": "xs",
                           "color": "#aaaaaa",
                           "wrap": true,
