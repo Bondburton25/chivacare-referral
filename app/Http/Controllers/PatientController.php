@@ -868,10 +868,10 @@ class PatientController extends Controller
                     }
                 }
             }';
-            $flexMessageChangeDecision = json_decode($flexMessageNotStay, true);
-            $messages['to']            = $patient->referred_by->auth_provider->provider_id;
-            $messages['messages'][]    = $flexMessageChangeDecision;
-            $encodeJson                = json_encode($messages);
+            $flexMessageChangeDecisionJson = json_decode($flexMessageChangeDecision, true);
+            $messages['to']                = $patient->referred_by->auth_provider->provider_id;
+            $messages['messages'][]        = $flexMessageChangeDecisionJson;
+            $encodeJson                    = json_encode($messages);
             $this->pushFlexMessage($encodeJson);
         } else {
             $patient->stage_id = $newStage->id;
